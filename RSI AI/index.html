@@ -7,7 +7,8 @@
 <meta name="description" content="RSI X AI delivers ultra-low latency AI voice interpretation and live captioning in one lightweight tool. Max 3-second latency, 70+ languages, works with any meeting platform.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -56,10 +57,7 @@
 <!-- ============ HEADER ============ -->
 <header class="hdr" id="hdr">
   <a href="#top" class="logo" aria-label="RSI X AI home">
-    <svg class="logo__mark" viewBox="0 0 40 28" aria-hidden="true">
-      <path d="M0 28V14h8v6h6V6h8v22H0z" fill="currentColor"/>
-      <path d="M24 28 34 0h6L30 28h-6z" fill="currentColor"/>
-    </svg>
+    <span class="logo__mark" aria-hidden="true"><i></i><i></i><i></i></span>
     <span class="logo__text">RSI<i>X</i>AI</span>
   </a>
   <a href="#contact" class="hdr__contact">Contact us <span aria-hidden="true">→</span></a>
@@ -91,48 +89,22 @@
     </div>
   </div>
 
-  <!-- Hero art: cantilevered glass pavilion -->
-  <div class="hero__art" aria-hidden="true">
-    <svg viewBox="0 0 600 760" preserveAspectRatio="xMidYMax slice">
-      <rect width="600" height="760" fill="url(#sky)"/>
-      <!-- upper box -->
-      <g class="float-a">
-        <polygon points="40,0 420,0 470,40 470,300 40,300" fill="url(#glass)"/>
-        <polygon points="420,0 600,0 600,300 470,300 470,40" fill="url(#glassSide)" opacity=".85"/>
-        <g stroke="#1c2448" stroke-width="2.4" fill="none">
-          <path d="M40 0v300M150 0v300M260 0v300M370 0v300M470 40v260M540 0v300"/>
-          <path d="M40 300h560"/>
-        </g>
-        <polygon points="20,300 600,300 600,350 470,420 110,420" fill="url(#slab)"/>
-        <path d="M110 420h360l130-70" stroke="#0b0f2a" stroke-width="3" fill="none"/>
-      </g>
-      <!-- middle box -->
-      <g class="float-b">
-        <polygon points="160,420 600,420 600,600 160,600" fill="url(#glass)"/>
-        <g stroke="#1c2448" stroke-width="2.4" fill="none">
-          <path d="M160 420v180M270 420v180M380 420v180M490 420v180"/>
-        </g>
-        <polygon points="150,600 600,600 600,628 180,628" fill="url(#slab)"/>
-        <rect x="380" y="608" width="220" height="10" fill="#f0a36a" opacity=".85"/>
-      </g>
-      <!-- base -->
-      <g>
-        <polygon points="0,628 600,628 600,760 0,760" fill="url(#glass)"/>
-        <g stroke="#1c2448" stroke-width="2.4" fill="none">
-          <path d="M0 628h600M20 628v132M140 628v132M260 628v132M380 628v132M500 628v132"/>
-        </g>
-      </g>
-    </svg>
+  <!-- Hero art -->
+  <div class="hero__art">
+    <img src="img/rsi-hero.webp" alt="A glass interpretation booth floating above a pastel coastline at dawn" fetchpriority="high">
+    <span class="hero__index">RSI X AI / 01</span>
+    <span class="hero__vnote">Fast, clear, human-aware</span>
+    <div class="hero__float"><strong>70+</strong><span>languages<br>supported</span></div>
   </div>
 </section>
 
 <!-- ============ PITFALLS ============ -->
 <section class="sec" id="pitfalls">
-  <h2 class="sec__title">Problem &amp; Solution</h2>
+  <h2 class="sec__title">Problem &amp; Solution<span>01</span></h2>
   <div class="split">
     <div></div>
     <div>
-      <p class="lede"><b>Built to avoid the usual</b> AI translation pitfalls</p>
+      <p class="lede"><b>Built to avoid the usual</b> <em>AI translation pitfalls</em></p>
       <p class="hang">Most AI interpretation tools force a trade-off: painfully slow output, or fast output that doesn't actually make sense. <b>RSI X AI is built for both</b> — ultra-low latency and coherent, accurate translation, in a lightweight tool that doesn't get in your way.</p>
       <ol class="rows">
         <li>
@@ -154,27 +126,14 @@
 
 <!-- ============ VOICE + CAPTIONS ============ -->
 <section class="sec" id="captions">
-  <h2 class="sec__title">Voice &amp; captions</h2>
+  <h2 class="sec__title">Voice &amp; captions<span>02</span></h2>
   <div class="split">
-    <figure class="art art--sq" aria-hidden="true">
-      <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
-        <rect width="400" height="400" fill="url(#skyWarm)"/>
-        <rect y="330" width="400" height="70" fill="#4a5bbf"/>
-        <g class="float-a">
-          <ellipse cx="200" cy="120" rx="128" ry="36" fill="#1f2766"/>
-          <ellipse cx="200" cy="108" rx="128" ry="36" fill="url(#ring)"/>
-          <ellipse cx="200" cy="110" rx="88" ry="20" fill="#e3c4e8"/>
-          <ellipse cx="200" cy="116" rx="88" ry="20" fill="#e9bfd6" opacity=".6"/>
-        </g>
-        <!-- figure -->
-        <g fill="#141838">
-          <circle cx="200" cy="302" r="6"/>
-          <path d="M191 310h18l3 34h-24z"/>
-        </g>
-      </svg>
+    <figure class="art art--sq art--photo">
+      <img src="img/rsi-human-signal.webp" alt="A warm signal passing through three translucent glass panels" loading="lazy">
+      <figcaption>The right signal<br>travels further.</figcaption>
     </figure>
     <div>
-      <p class="lede"><b>Voice interpretation and live captions,</b> in one tool</p>
+      <p class="lede"><b>Voice interpretation and live captions,</b> <em>in one tool</em></p>
       <p class="hang">Get spoken AI interpretation and <b>synchronized live captions together</b> — not two separate products bolted together. Pick your language from a simple dropdown; captions show one language at a time, by design, so the screen stays clean instead of cluttered with every language at once.</p>
 
       <!-- mini product mock -->
@@ -206,11 +165,11 @@
 
 <!-- ============ SPEED ============ -->
 <section class="sec" id="speed">
-  <h2 class="sec__title">Performance</h2>
+  <h2 class="sec__title">Performance<span>03</span></h2>
   <div class="split">
     <div></div>
     <div>
-      <p class="lede"><b>Speed you can measure,</b> accuracy you can trust</p>
+      <p class="lede"><b>Speed you can measure,</b> <em>accuracy you can trust</em></p>
       <p class="hang">RSI X AI runs at a <b>maximum latency of 3 seconds</b> — comparable to human interpretation, and built on a model that processes speech in 100-millisecond chunks to keep translation as close to real time as possible.</p>
     </div>
   </div>
@@ -247,49 +206,14 @@
 </section>
 
 <!-- ============ BAND ============ -->
-<figure class="band" aria-hidden="true">
-  <svg viewBox="0 0 1440 560" preserveAspectRatio="xMidYMid slice">
-    <defs>
-      <linearGradient id="bandSky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#cfd3ee"/>
-        <stop offset=".35" stop-color="#e2b9d4"/>
-        <stop offset=".5" stop-color="#f3a98b"/>
-        <stop offset=".62" stop-color="#b58fcf"/>
-        <stop offset="1" stop-color="#6d74c8"/>
-      </linearGradient>
-      <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#8e8fd9"/>
-        <stop offset="1" stop-color="#3d4aa6"/>
-      </linearGradient>
-    </defs>
-    <rect width="1440" height="560" fill="url(#bandSky)"/>
-    <!-- glass pavilion -->
-    <rect x="360" y="120" width="720" height="150" fill="#2a2f6e" opacity=".55"/>
-    <rect x="360" y="120" width="720" height="150" fill="url(#glass)" opacity=".35"/>
-    <g stroke="#141838" stroke-width="3"><path d="M360 120h720M360 120v150M480 120v150M600 120v150M720 120v150M840 120v150M960 120v150M1080 120v150"/></g>
-    <rect x="360" y="190" width="720" height="6" fill="#141838"/>
-    <!-- tiny people -->
-    <g fill="#141838">
-      <circle cx="430" cy="172" r="5"/><rect x="424" y="178" width="12" height="12"/>
-      <circle cx="560" cy="172" r="5"/><rect x="554" y="178" width="12" height="12"/>
-      <circle cx="880" cy="172" r="5"/><rect x="874" y="178" width="12" height="12"/>
-      <circle cx="1010" cy="172" r="5"/><rect x="1004" y="178" width="12" height="12"/>
-    </g>
-    <polygon points="360,270 1080,270 1040,300 400,300" fill="#141838"/>
-    <!-- bridge in perspective -->
-    <polygon points="680,300 760,300 1180,560 260,560" fill="url(#floor)"/>
-    <polygon points="690,300 704,300 520,560 440,560" fill="#f5c451" opacity=".9"/>
-    <polygon points="736,300 750,300 1000,560 920,560" fill="#f5c451" opacity=".9"/>
-    <g stroke="#141838" stroke-width="10" fill="none" stroke-linecap="square">
-      <path d="M676 300 250 560M764 300l426 260"/>
-    </g>
-    <path d="M720 300v260" stroke="#141838" stroke-width="4"/>
-  </svg>
+<figure class="band">
+  <img src="img/rsi-global-event.webp" alt="A glass interpretation hub on a bridge, connected to remote participants around the world" loading="lazy">
+  <figcaption class="band__label"><span>The RSI X AI signal</span><span>One clear conversation, in 70+ languages</span></figcaption>
 </figure>
 
 <!-- ============ PLATFORMS / FEATURES ============ -->
 <section class="sec" id="platforms">
-  <h2 class="sec__title">How it fits in</h2>
+  <h2 class="sec__title">How it fits in<span>04</span></h2>
   <div class="split split--offer">
     <div class="cards">
       <article class="card">
@@ -359,7 +283,7 @@
     </div>
 
     <aside class="offer">
-      <p class="lede"><b>Built for corporate</b> and international organizations</p>
+      <p class="lede"><b>Built for corporate</b> <em>and international organizations</em></p>
       <p class="hang"><i>The same kind of institutional users as RSI Exchange —</i> <b>corporate teams and international organizations</b> that need fast, accurate translation for meetings and events, without the scale or ceremony of a fully staffed interpretation booth.</p>
       <div class="offer__box">
         <p><b>Pricing is tailored to your events.</b> Like RSI Exchange, RSI X AI is offered on request — tell us about your meetings, languages and audience, and we'll put together the right setup.</p>
@@ -372,11 +296,15 @@
 
 <!-- ============ HONEST ============ -->
 <section class="sec" id="honest">
-  <h2 class="sec__title">An honest AI tool</h2>
+  <h2 class="sec__title">An honest AI tool<span>05</span></h2>
   <div class="split">
-    <div></div>
+    <div class="note">
+      <span class="label-sm">Where it fits</span>
+      <strong>AI where it helps.<br>Humans where it matters.</strong>
+      <p>Built by the same team behind RSI Exchange.</p>
+    </div>
     <div>
-      <p class="lede"><b>An honest AI tool,</b> not an overpromise</p>
+      <p class="lede"><b>An honest AI tool,</b> <em>not an overpromise</em></p>
       <p class="hang">No AI can fully replace a top-tier professional interpreter — <b>nuance, tone, and high-stakes judgment are still a human skill.</b> RSI X AI isn't trying to. It's built by the same interpreters who know exactly where AI translation succeeds, and where it doesn't.</p>
     </div>
   </div>
@@ -434,11 +362,11 @@
 
 <!-- ============ TEAM / PEDIGREE ============ -->
 <section class="sec" id="team">
-  <h2 class="sec__title">Who's behind it</h2>
+  <h2 class="sec__title">Who's behind it<span>06</span></h2>
   <div class="split">
     <div></div>
     <div>
-      <p class="lede"><b>Built by interpreters,</b> not just engineers</p>
+      <p class="lede"><b>Built by interpreters,</b> <em>not just engineers</em></p>
       <p class="hang">RSI X AI comes from the team behind <b>RSI Exchange</b> — professional interpreters who have worked the world's most demanding stages, and know where AI helps and where it doesn't.</p>
     </div>
   </div>
@@ -466,11 +394,11 @@
 
 <!-- ============ FAQ ============ -->
 <section class="sec" id="faq">
-  <h2 class="sec__title">FAQ</h2>
+  <h2 class="sec__title">FAQ<span>07</span></h2>
   <div class="split">
     <div></div>
     <div>
-      <p class="lede"><b>Straight answers</b> before you get in touch</p>
+      <p class="lede"><b>Straight answers</b> <em>before you get in touch</em></p>
       <div class="faq">
         <details>
           <summary>What's the difference between this and RSI Exchange / human interpretation?</summary>
@@ -500,7 +428,7 @@
 <!-- ============ CTA ============ -->
 <section class="cta">
   <div class="cta__copy">
-    <h2>Let's make your next event multilingual.</h2>
+    <h2>Let's make your next event <em>multilingual.</em></h2>
     <p>Tell us about your meeting — we'll show you RSI X AI live.</p>
     <a href="#contact" class="btn"><span>Contact us</span><i aria-hidden="true">→</i></a>
   </div>
@@ -523,7 +451,7 @@
   <div class="ftr__grid">
     <div class="ftr__left">
       <a href="#top" class="logo logo--light">
-        <svg class="logo__mark" viewBox="0 0 40 28" aria-hidden="true"><path d="M0 28V14h8v6h6V6h8v22H0z" fill="currentColor"/><path d="M24 28 34 0h6L30 28h-6z" fill="currentColor"/></svg>
+        <span class="logo__mark" aria-hidden="true"><i></i><i></i><i></i></span>
         <span class="logo__text">RSI<i>X</i>AI</span>
       </a>
 
