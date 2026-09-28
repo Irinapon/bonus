@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI X AI — Live AI Interpretation &amp; Captioning</title>
+<meta name="description" content="RSI X AI delivers ultra-low latency AI voice interpretation and live captioning in one lightweight tool. Max 3-second latency, 70+ languages, works with any meeting platform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Shared SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfc9f7"/>
+      <stop offset=".45" stop-color="#d9d2f2"/>
+      <stop offset=".78" stop-color="#efc6da"/>
+      <stop offset="1" stop-color="#f6d3bf"/>
+    </linearGradient>
+    <linearGradient id="skyWarm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e7c8ee"/>
+      <stop offset=".55" stop-color="#efb9cf"/>
+      <stop offset=".8" stop-color="#9da6e6"/>
+      <stop offset="1" stop-color="#6f7fd3"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d7defc" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#b8c1f0" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#f3cdb9" stop-opacity=".9"/>
+    </linearGradient>
+    <linearGradient id="glassSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9aa6e6"/>
+      <stop offset="1" stop-color="#c6cdf5"/>
+    </linearGradient>
+    <linearGradient id="slab" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2150"/>
+      <stop offset=".6" stop-color="#2b3285"/>
+      <stop offset="1" stop-color="#141838"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2d3a8c"/>
+      <stop offset=".5" stop-color="#5566c4"/>
+      <stop offset="1" stop-color="#26307a"/>
+    </linearGradient>
+    <linearGradient id="warmWall" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f3b9d2"/>
+      <stop offset="1" stop-color="#fbd7b4"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr" id="hdr">
+  <a href="#top" class="logo" aria-label="RSI X AI home">
+    <svg class="logo__mark" viewBox="0 0 40 28" aria-hidden="true">
+      <path d="M0 28V14h8v6h6V6h8v22H0z" fill="currentColor"/>
+      <path d="M24 28 34 0h6L30 28h-6z" fill="currentColor"/>
+    </svg>
+    <span class="logo__text">RSI<i>X</i>AI</span>
+  </a>
+  <a href="#contact" class="hdr__contact">Contact us <span aria-hidden="true">→</span></a>
+  <nav class="hdr__nav" aria-label="Main">
+    <a href="#pitfalls">Product</a>
+    <a href="#speed">Performance</a>
+    <a href="#platforms">Platforms</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero__copy">
+    <p class="eyebrow">AI Live Interpretation &amp; Captioning</p>
+    <!-- Headline option A is live. Option B: open the page with ?h=b -->
+    <h1 class="hero__title" data-headline>
+      Speed and accuracy, without the <span class="box">guesswork.</span>
+    </h1>
+    <div class="hero__cta">
+      <a href="#contact" class="btn"><span>Contact us</span><i aria-hidden="true">→</i></a>
+      <span class="badge"><b>≤ 3 s</b> max latency — comparable to human interpretation</span>
+    </div>
+    <div class="hero__notes">
+      <p>RSI X AI delivers <b>ultra-low latency AI voice interpretation and live captioning</b> in one lightweight tool — built for the moments when human interpreters aren't an option, or need an extra set of ears.</p>
+      <p>Built by the team behind <b>RSI Exchange</b> — the same professional interpreters trusted at G8/G20 summits, the Olympic and Paralympic Games, the UN, WEF, NATO, FIFA, FIBA, and UEFA.</p>
+    </div>
+  </div>
+
+  <!-- Hero art: cantilevered glass pavilion -->
+  <div class="hero__art" aria-hidden="true">
+    <svg viewBox="0 0 600 760" preserveAspectRatio="xMidYMax slice">
+      <rect width="600" height="760" fill="url(#sky)"/>
+      <!-- upper box -->
+      <g class="float-a">
+        <polygon points="40,0 420,0 470,40 470,300 40,300" fill="url(#glass)"/>
+        <polygon points="420,0 600,0 600,300 470,300 470,40" fill="url(#glassSide)" opacity=".85"/>
+        <g stroke="#1c2448" stroke-width="2.4" fill="none">
+          <path d="M40 0v300M150 0v300M260 0v300M370 0v300M470 40v260M540 0v300"/>
+          <path d="M40 300h560"/>
+        </g>
+        <polygon points="20,300 600,300 600,350 470,420 110,420" fill="url(#slab)"/>
+        <path d="M110 420h360l130-70" stroke="#0b0f2a" stroke-width="3" fill="none"/>
+      </g>
+      <!-- middle box -->
+      <g class="float-b">
+        <polygon points="160,420 600,420 600,600 160,600" fill="url(#glass)"/>
+        <g stroke="#1c2448" stroke-width="2.4" fill="none">
+          <path d="M160 420v180M270 420v180M380 420v180M490 420v180"/>
+        </g>
+        <polygon points="150,600 600,600 600,628 180,628" fill="url(#slab)"/>
+        <rect x="380" y="608" width="220" height="10" fill="#f0a36a" opacity=".85"/>
+      </g>
+      <!-- base -->
+      <g>
+        <polygon points="0,628 600,628 600,760 0,760" fill="url(#glass)"/>
+        <g stroke="#1c2448" stroke-width="2.4" fill="none">
+          <path d="M0 628h600M20 628v132M140 628v132M260 628v132M380 628v132M500 628v132"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ PITFALLS ============ -->
+<section class="sec" id="pitfalls">
+  <h2 class="sec__title">Problem &amp; Solution</h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>Built to avoid the usual</b> AI translation pitfalls</p>
+      <p class="hang">Most AI interpretation tools force a trade-off: painfully slow output, or fast output that doesn't actually make sense. <b>RSI X AI is built for both</b> — ultra-low latency and coherent, accurate translation, in a lightweight tool that doesn't get in your way.</p>
+      <ol class="rows">
+        <li>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 13h7v7h-7z"/><path d="M13 4h3v3h-3z"/></svg>
+          <div><b>Waiting up to 30 seconds for a translation.</b><span>By then the speaker has moved on. RSI X AI keeps latency at 3 seconds or less, so listeners stay in the conversation.</span></div>
+        </li>
+        <li>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v16H4z"/><path d="M12 9h8v6h-8z"/></svg>
+          <div><b>Fast output that's garbled — or worse.</b><span>Speed means nothing if the meaning breaks. RSI X AI is tuned for coherent, accurate translation, not word-by-word guessing.</span></div>
+        </li>
+        <li>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h5v5H4zM4 11h5v9H4zM11 4h9v5h-9z"/></svg>
+          <div><b>Heavy tools that get in the way.</b><span>No bots in your meeting, no bloated installs. One light tool that runs on a weak connection and barely touches the battery.</span></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOICE + CAPTIONS ============ -->
+<section class="sec" id="captions">
+  <h2 class="sec__title">Voice &amp; captions</h2>
+  <div class="split">
+    <figure class="art art--sq" aria-hidden="true">
+      <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="400" fill="url(#skyWarm)"/>
+        <rect y="330" width="400" height="70" fill="#4a5bbf"/>
+        <g class="float-a">
+          <ellipse cx="200" cy="120" rx="128" ry="36" fill="#1f2766"/>
+          <ellipse cx="200" cy="108" rx="128" ry="36" fill="url(#ring)"/>
+          <ellipse cx="200" cy="110" rx="88" ry="20" fill="#e3c4e8"/>
+          <ellipse cx="200" cy="116" rx="88" ry="20" fill="#e9bfd6" opacity=".6"/>
+        </g>
+        <!-- figure -->
+        <g fill="#141838">
+          <circle cx="200" cy="302" r="6"/>
+          <path d="M191 310h18l3 34h-24z"/>
+        </g>
+      </svg>
+    </figure>
+    <div>
+      <p class="lede"><b>Voice interpretation and live captions,</b> in one tool</p>
+      <p class="hang">Get spoken AI interpretation and <b>synchronized live captions together</b> — not two separate products bolted together. Pick your language from a simple dropdown; captions show one language at a time, by design, so the screen stays clean instead of cluttered with every language at once.</p>
+
+      <!-- mini product mock -->
+      <div class="mock" aria-label="Example of the RSI X AI listener view">
+        <div class="mock__bar">
+          <span class="mock__live">Live</span>
+          <label class="mock__select">
+            <span class="sr">Listening language</span>
+            <select id="lang">
+              <option value="en">English</option>
+              <option value="fr">Français</option>
+              <option value="es">Español</option>
+              <option value="de">Deutsch</option>
+              <option value="ar">العربية</option>
+              <option value="ja">日本語</option>
+            </select>
+          </label>
+          <span class="mock__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </div>
+        <p class="mock__cap" id="cap">Thank you all for joining. Let's begin with the regional outlook for the next quarter.</p>
+      </div>
+
+      <div class="chips">
+        <span>Spoken interpretation</span><span>Synchronized captions</span><span>One language on screen</span><span>Simple dropdown</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPEED ============ -->
+<section class="sec" id="speed">
+  <h2 class="sec__title">Performance</h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>Speed you can measure,</b> accuracy you can trust</p>
+      <p class="hang">RSI X AI runs at a <b>maximum latency of 3 seconds</b> — comparable to human interpretation, and built on a model that processes speech in 100-millisecond chunks to keep translation as close to real time as possible.</p>
+    </div>
+  </div>
+  <div class="stats" tabindex="0" aria-label="Key numbers">
+    <article class="stat">
+      <p class="stat__n">1:</p>
+      <div class="stat__card">
+        <header><b>Latency</b><span>Measured in our own timing tests, end to end — from speech to translated voice.</span></header>
+        <p class="stat__big"><b>≤ 3 sec</b> <span>max latency, comparable to</span> <b>human interpretation</b></p>
+      </div>
+    </article>
+    <article class="stat">
+      <p class="stat__n">2:</p>
+      <div class="stat__card">
+        <header><b>Processing</b><span>Speech is handled in small slices instead of waiting for whole sentences.</span></header>
+        <p class="stat__big"><b>100 ms</b> <span>speech chunks keep translation</span> <b>near real time</b></p>
+      </div>
+    </article>
+    <article class="stat">
+      <p class="stat__n">3:</p>
+      <div class="stat__card">
+        <header><b>Languages</b><span>Voice interpretation and captions across the same language set.</span></header>
+        <p class="stat__big"><b>70+</b> <span>languages supported</span> <b>out of the box</b></p>
+      </div>
+    </article>
+    <article class="stat">
+      <p class="stat__n">4:</p>
+      <div class="stat__card">
+        <header><b>Bandwidth</b><span>Same lightweight architecture as RSI Exchange, field-proven on 3G.</span></header>
+        <p class="stat__big"><b>160 Kbps</b> <span>is enough for</span> <b>HD-quality audio</b></p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ BAND ============ -->
+<figure class="band" aria-hidden="true">
+  <svg viewBox="0 0 1440 560" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="bandSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#cfd3ee"/>
+        <stop offset=".35" stop-color="#e2b9d4"/>
+        <stop offset=".5" stop-color="#f3a98b"/>
+        <stop offset=".62" stop-color="#b58fcf"/>
+        <stop offset="1" stop-color="#6d74c8"/>
+      </linearGradient>
+      <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#8e8fd9"/>
+        <stop offset="1" stop-color="#3d4aa6"/>
+      </linearGradient>
+    </defs>
+    <rect width="1440" height="560" fill="url(#bandSky)"/>
+    <!-- glass pavilion -->
+    <rect x="360" y="120" width="720" height="150" fill="#2a2f6e" opacity=".55"/>
+    <rect x="360" y="120" width="720" height="150" fill="url(#glass)" opacity=".35"/>
+    <g stroke="#141838" stroke-width="3"><path d="M360 120h720M360 120v150M480 120v150M600 120v150M720 120v150M840 120v150M960 120v150M1080 120v150"/></g>
+    <rect x="360" y="190" width="720" height="6" fill="#141838"/>
+    <!-- tiny people -->
+    <g fill="#141838">
+      <circle cx="430" cy="172" r="5"/><rect x="424" y="178" width="12" height="12"/>
+      <circle cx="560" cy="172" r="5"/><rect x="554" y="178" width="12" height="12"/>
+      <circle cx="880" cy="172" r="5"/><rect x="874" y="178" width="12" height="12"/>
+      <circle cx="1010" cy="172" r="5"/><rect x="1004" y="178" width="12" height="12"/>
+    </g>
+    <polygon points="360,270 1080,270 1040,300 400,300" fill="#141838"/>
+    <!-- bridge in perspective -->
+    <polygon points="680,300 760,300 1180,560 260,560" fill="url(#floor)"/>
+    <polygon points="690,300 704,300 520,560 440,560" fill="#f5c451" opacity=".9"/>
+    <polygon points="736,300 750,300 1000,560 920,560" fill="#f5c451" opacity=".9"/>
+    <g stroke="#141838" stroke-width="10" fill="none" stroke-linecap="square">
+      <path d="M676 300 250 560M764 300l426 260"/>
+    </g>
+    <path d="M720 300v260" stroke="#141838" stroke-width="4"/>
+  </svg>
+</figure>
+
+<!-- ============ PLATFORMS / FEATURES ============ -->
+<section class="sec" id="platforms">
+  <h2 class="sec__title">How it fits in</h2>
+  <div class="split split--offer">
+    <div class="cards">
+      <article class="card">
+        <h3><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 13h7v7h-7z"/><path d="M13 4h3v3h-3z"/></svg>Any platform</h3>
+        <p class="card__sub">Works with any platform, because it doesn't plug into any of them</p>
+        <figure class="art art--card">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="200" fill="#a9b2f0"/>
+            <rect width="400" height="60" fill="#8f9be8"/>
+            <polygon points="160,30 370,20 370,190 160,190" fill="url(#warmWall)"/>
+            <polygon points="250,26 370,20 370,190 250,190" fill="#fde1c2" opacity=".6"/>
+            <rect y="190" width="400" height="10" fill="#6e6bb5"/>
+            <g fill="#141838">
+              <circle cx="244" cy="120" r="6"/>
+              <path d="M238 128h12l2 30h-8l-2 10h14v22h-4v-18h-14l-4 18h-4l4-22z"/>
+              <path d="M226 158h30v4h-30zM228 162h3v28h-3zM251 162h3v28h-3z"/>
+            </g>
+          </svg>
+        </figure>
+        <p class="card__txt">RSI X AI listens to audio and video from any online meeting or event platform — <b>Zoom, Teams, Google Meet, or anything else</b> — with no plugin or native integration on the source side. Listeners get the translation through the dedicated RSI X AI app or a web page, so the experience is the same no matter what the event runs on.</p>
+      </article>
+
+      <article class="card">
+        <h3><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v16H4z"/><path d="M12 9h8v6h-8z"/></svg>Ultra-light</h3>
+        <p class="card__sub">Built to run on almost nothing</p>
+        <figure class="art art--card">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="200" fill="url(#skyWarm)"/>
+            <path d="M0 160c60-14 120-18 200-12s140 2 200-8v60H0z" fill="#a592d3"/>
+            <rect x="130" y="112" width="140" height="56" fill="#d6d9f6"/>
+            <rect x="146" y="126" width="108" height="42" fill="#f8c7c8"/>
+            <rect x="146" y="126" width="108" height="42" fill="#fde2c6" opacity=".6"/>
+            <rect x="198" y="146" width="5" height="18" fill="#141838"/><circle cx="200.5" cy="143" r="3" fill="#141838"/>
+            <g stroke="#5b4a86" stroke-width="2" fill="none">
+              <path d="M60 170v-40M60 140l-12-14M60 146l12-16M60 132l-6-14"/>
+              <path d="M330 170v-48M330 140l-16-18M330 150l14-20M330 132l10-14M330 128l-8-16"/>
+            </g>
+          </svg>
+        </figure>
+        <p class="card__txt">HD-quality audio on as little as <b>160 Kbps</b>, and extremely light on battery — built on the same architecture as RSI Exchange, proven at conferences across <b>remote parts of Africa and Asia running on nothing more than 3G.</b></p>
+      </article>
+
+      <article class="card">
+        <h3><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h5v5H4zM4 11h5v9H4zM11 4h9v5h-9z"/></svg>Data handling</h3>
+        <p class="card__sub">Your audio stays your audio</p>
+        <figure class="art art--card">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="hall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7b58d"/><stop offset=".5" stop-color="#f3b8d4"/><stop offset="1" stop-color="#d9d6f5"/></linearGradient>
+            </defs>
+            <rect width="400" height="200" fill="url(#hall)"/>
+            <polygon points="0,40 150,70 150,200 0,200" fill="#f0c7e0"/>
+            <polygon points="250,70 400,50 400,200 250,200" fill="#a8b1ee"/>
+            <rect x="192" y="40" width="16" height="140" fill="#fb8f4e" opacity=".8"/>
+            <g fill="#141838">
+              <g transform="translate(90 150)"><circle r="4"/><rect x="-4" y="5" width="8" height="18"/></g>
+              <g transform="translate(130 158)"><circle r="4"/><rect x="-4" y="5" width="8" height="18"/></g>
+              <g transform="translate(165 148)"><circle r="4"/><rect x="-4" y="5" width="8" height="18"/></g>
+              <g transform="translate(235 152)"><circle r="4"/><rect x="-4" y="5" width="8" height="18"/></g>
+              <g transform="translate(275 160)"><circle r="4"/><rect x="-4" y="5" width="8" height="18"/></g>
+              <g transform="translate(318 150)"><circle r="4"/><rect x="-4" y="5" width="8" height="18"/></g>
+            </g>
+          </svg>
+        </figure>
+        <p class="card__txt">Audio processed by RSI X AI is <b>never used to train AI models</b> and is not retained long-term.</p>
+      </article>
+    </div>
+
+    <aside class="offer">
+      <p class="lede"><b>Built for corporate</b> and international organizations</p>
+      <p class="hang"><i>The same kind of institutional users as RSI Exchange —</i> <b>corporate teams and international organizations</b> that need fast, accurate translation for meetings and events, without the scale or ceremony of a fully staffed interpretation booth.</p>
+      <div class="offer__box">
+        <p><b>Pricing is tailored to your events.</b> Like RSI Exchange, RSI X AI is offered on request — tell us about your meetings, languages and audience, and we'll put together the right setup.</p>
+        <p>No plugins to install on your platform, no bots joining your calls.</p>
+      </div>
+      <a href="#contact" class="btn btn--line"><span>Contact us</span><i aria-hidden="true">→</i></a>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ HONEST ============ -->
+<section class="sec" id="honest">
+  <h2 class="sec__title">An honest AI tool</h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>An honest AI tool,</b> not an overpromise</p>
+      <p class="hang">No AI can fully replace a top-tier professional interpreter — <b>nuance, tone, and high-stakes judgment are still a human skill.</b> RSI X AI isn't trying to. It's built by the same interpreters who know exactly where AI translation succeeds, and where it doesn't.</p>
+    </div>
+  </div>
+  <div class="modes">
+    <article class="mode">
+      <figure class="art art--mode" aria-hidden="true">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="220" fill="url(#skyWarm)"/>
+          <rect x="120" width="60" height="220" fill="#8f96e0" opacity=".45"/>
+          <path d="M150 0v220M20 110h260" stroke="#3a4380" stroke-width="2"/>
+          <circle cx="150" cy="60" r="16" fill="#8a5fc0"/>
+          <circle cx="150" cy="110" r="6" fill="#3a4380"/>
+          <circle cx="150" cy="160" r="18" fill="#1b2150"/>
+        </svg>
+      </figure>
+      <h3><b>On its own:</b> less-sensitive meetings and conferences</h3>
+      <p>Fast, accurate, and honest about what it is — for internal briefings, team meetings and events where a full booth would be overkill.</p>
+      <span class="mode__n">01</span>
+    </article>
+    <article class="mode">
+      <figure class="art art--mode" aria-hidden="true">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
+          <defs><radialGradient id="halo"><stop offset="0" stop-color="#6c6fd1" stop-opacity=".5"/><stop offset="1" stop-color="#6c6fd1" stop-opacity="0"/></radialGradient></defs>
+          <rect width="300" height="220" fill="url(#skyWarm)"/>
+          <circle cx="150" cy="110" r="70" fill="url(#halo)"/>
+          <circle cx="150" cy="110" r="44" fill="none" stroke="#6c6fd1" stroke-opacity=".5"/>
+          <path d="M0 110h300M150 20v180" stroke="#3a4380" stroke-width="1.5"/>
+          <circle cx="150" cy="110" r="14" fill="#141838"/>
+        </svg>
+      </figure>
+      <h3><b>Alongside interpreters:</b> a real-time aid</h3>
+      <p>An extra set of ears in the booth — terminology, numbers and names on screen while the professional stays in control.</p>
+      <span class="mode__n">02</span>
+    </article>
+    <article class="mode">
+      <figure class="art art--mode" aria-hidden="true">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="220" fill="url(#skyWarm)"/>
+          <rect y="130" width="300" height="90" fill="#9aa6ec" opacity=".7"/>
+          <rect x="110" y="60" width="80" height="80" fill="#6d5bb8" opacity=".55"/>
+          <path d="M150 20v180M40 100h220" stroke="#3a4380" stroke-width="1.5"/>
+          <g fill="#141838"><circle cx="150" cy="20" r="3"/><circle cx="150" cy="200" r="3"/><circle cx="40" cy="100" r="3"/><circle cx="260" cy="100" r="3"/><circle cx="150" cy="100" r="4"/></g>
+        </svg>
+      </figure>
+      <h3><b>High-stakes event?</b> Bring in the humans</h3>
+      <p>Need full nuance and human judgment for a summit or a negotiation? That's what RSI Exchange and its professional interpreters are for.</p>
+      <span class="mode__n">03</span>
+    </article>
+    <a class="modes__more" href="#" data-rsi-exchange>
+      <span class="circle" aria-hidden="true">→</span>
+      See RSI Exchange
+    </a>
+  </div>
+</section>
+
+<!-- ============ TEAM / PEDIGREE ============ -->
+<section class="sec" id="team">
+  <h2 class="sec__title">Who's behind it</h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>Built by interpreters,</b> not just engineers</p>
+      <p class="hang">RSI X AI comes from the team behind <b>RSI Exchange</b> — professional interpreters who have worked the world's most demanding stages, and know where AI helps and where it doesn't.</p>
+    </div>
+  </div>
+  <div class="table">
+    <figure class="table__img art" aria-hidden="true">
+      <svg viewBox="0 0 200 240" preserveAspectRatio="xMidYMid slice">
+        <rect width="200" height="240" fill="url(#sky)"/>
+        <polygon points="40,70 100,50 160,70 160,170 100,190 40,170" fill="url(#glass)"/>
+        <polygon points="100,50 160,70 100,90 40,70" fill="#e4e8fd"/>
+        <polygon points="100,90 160,70 160,170 100,190" fill="url(#glassSide)" opacity=".85"/>
+        <g stroke="#1c2448" stroke-width="1.6" fill="none"><path d="M40 70l60 20 60-20M100 90v100M40 70v100l60 20 60-20V70L100 50z"/><path d="M70 80v100M130 80v100"/></g>
+        <rect y="200" width="200" height="40" fill="#6f7fd3"/>
+      </svg>
+    </figure>
+    <div class="table__body" role="table" aria-label="Where the RSI Exchange team has interpreted">
+      <div class="tr th" role="row"><span role="columnheader"></span><span role="columnheader">Event</span><span role="columnheader">Setting</span><span role="columnheader">Scale</span><span role="columnheader"></span></div>
+      <div class="tr" role="row"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 13h7v7h-7z"/></svg><span role="cell">G8 / G20 summits</span><span role="cell">Heads of state</span><span role="cell">Global diplomacy</span><span class="plus" aria-hidden="true">+</span></div>
+      <div class="tr" role="row"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h6v16H4zM12 9h8v6h-8z"/></svg><span role="cell">Olympic &amp; Paralympic Games</span><span role="cell">International sport</span><span role="cell">Multi-venue</span><span class="plus" aria-hidden="true">+</span></div>
+      <div class="tr" role="row"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h5v5H4zM4 11h5v9H4zM11 4h9v5h-9z"/></svg><span role="cell">UN · NATO</span><span role="cell">International organizations</span><span role="cell">Multilateral</span><span class="plus" aria-hidden="true">+</span></div>
+      <div class="tr" role="row"><svg class="ico" viewBox="0 0 24 24"><path d="M4 12h16M12 4v16"/></svg><span role="cell">World Economic Forum</span><span role="cell">Business &amp; policy</span><span role="cell">Annual meetings</span><span class="plus" aria-hidden="true">+</span></div>
+      <div class="tr" role="row"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h7v6H4z"/></svg><span role="cell">FIFA · FIBA · UEFA</span><span role="cell">Sport federations</span><span role="cell">Tournaments &amp; congresses</span><span class="plus" aria-hidden="true">+</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec" id="faq">
+  <h2 class="sec__title">FAQ</h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>Straight answers</b> before you get in touch</p>
+      <div class="faq">
+        <details>
+          <summary>What's the difference between this and RSI Exchange / human interpretation?</summary>
+          <p>RSI Exchange connects your event with professional human interpreters — the right choice when nuance, tone and high-stakes judgment matter. RSI X AI is an AI tool from the same team: it supports interpreters as a real-time aid, or handles less-sensitive meetings and conferences on its own.</p>
+        </details>
+        <details>
+          <summary>How many languages are supported?</summary>
+          <p>70+ languages, for both voice interpretation and live captions.</p>
+        </details>
+        <details>
+          <summary>What platforms does it work with?</summary>
+          <p>Any of them. RSI X AI listens to audio and video from any online platform — Zoom, Teams, Google Meet or anything else — with no plugin needed. Listeners get the output through the RSI X AI app or a web page.</p>
+        </details>
+        <details>
+          <summary>How is my data handled?</summary>
+          <p>Audio processed by RSI X AI is never used to train AI models and is not retained long-term.</p>
+        </details>
+        <details>
+          <summary>Is this really as fast as it claims?</summary>
+          <p>Yes. In our own timing tests, RSI X AI runs at a maximum latency of 3 seconds — comparable to human interpretation. The underlying model processes speech in 100-millisecond chunks to stay as close to real time as possible.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="cta__copy">
+    <h2>Let's make your next event multilingual.</h2>
+    <p>Tell us about your meeting — we'll show you RSI X AI live.</p>
+    <a href="#contact" class="btn"><span>Contact us</span><i aria-hidden="true">→</i></a>
+  </div>
+  <div class="cta__art" aria-hidden="true">
+    <svg viewBox="0 0 600 420" preserveAspectRatio="xMaxYMax slice">
+      <polygon points="120,420 260,200 420,120 600,120 600,420" fill="#b8bef2" opacity=".5"/>
+      <polygon points="240,160 400,60 400,420 240,420" fill="url(#glass)"/>
+      <polygon points="400,60 420,60 420,420 400,420" fill="#141838"/>
+      <polygon points="420,0 600,0 600,420 420,420" fill="#8f99e3"/>
+      <polygon points="300,120 400,60 400,250 300,250" fill="#1b2150" opacity=".85"/>
+      <g stroke="#141838" stroke-width="4" fill="none"><path d="M240 160 400 60M240 160v260M240 250h160M300 120v300"/></g>
+    </svg>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="ftr" id="contact">
+  <div class="ftr__grid">
+    <div class="ftr__left">
+      <a href="#top" class="logo logo--light">
+        <svg class="logo__mark" viewBox="0 0 40 28" aria-hidden="true"><path d="M0 28V14h8v6h6V6h8v22H0z" fill="currentColor"/><path d="M24 28 34 0h6L30 28h-6z" fill="currentColor"/></svg>
+        <span class="logo__text">RSI<i>X</i>AI</span>
+      </a>
+
+      <form class="form" id="form">
+        <p class="label">Tell us about your event</p>
+        <div class="form__row">
+          <label><span>Name</span><input name="name" autocomplete="name" required></label>
+          <label><span>Work email</span><input name="email" type="email" autocomplete="email" required></label>
+        </div>
+        <div class="form__row">
+          <label><span>Organization</span><input name="org" autocomplete="organization"></label>
+          <label><span>Languages needed</span><input name="langs" placeholder="e.g. EN → FR, ES, AR"></label>
+        </div>
+        <label class="form__full"><span>Message</span><textarea name="msg" rows="2"></textarea></label>
+        <div class="form__submit">
+          <button type="submit" class="btn btn--light"><span>Send</span><i aria-hidden="true">→</i></button>
+          <p class="form__ok" id="formOk" hidden>Thank you — we'll be in touch shortly.</p>
+        </div>
+      </form>
+    </div>
+
+    <div class="ftr__cols">
+      <div>
+        <p class="label">Navigation</p>
+        <a href="#pitfalls">Product</a>
+        <a href="#captions">Voice &amp; captions</a>
+        <a href="#speed">Performance</a>
+        <a href="#platforms">Platforms</a>
+        <a href="#honest">Honest AI</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <p class="label">Human interpretation</p>
+        <a href="#" data-rsi-exchange>RSI Exchange →</a>
+        <p class="ftr__note">Professional interpreters for high-stakes events. RSI X AI is built by the same team.</p>
+      </div>
+    </div>
+
+    <div class="ftr__art">
+      <p class="label">AI interpretation · captions</p>
+      <figure class="art" aria-hidden="true">
+        <svg viewBox="0 0 300 360" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="360" fill="url(#sky)"/>
+          <polygon points="60,60 150,30 150,160 60,190" fill="url(#glass)"/>
+          <polygon points="150,30 240,60 240,190 150,160" fill="url(#glassSide)"/>
+          <g stroke="#1c2448" stroke-width="2" fill="none"><path d="M60 60l90-30 90 30v130l-90-30-90 30zM150 30v130M105 45v130M195 45v130"/></g>
+          <rect x="140" y="160" width="20" height="120" fill="#1c2448"/>
+          <polygon points="80,280 220,280 220,340 80,340" fill="url(#glass)" opacity=".8"/>
+          <path d="M80 280h140v60H80zM126 280v60M173 280v60" stroke="#1c2448" stroke-width="2" fill="none"/>
+        </svg>
+      </figure>
+    </div>
+  </div>
+  <div class="ftr__bottom">
+    <span>© RSI X AI</span>
+    <span>Built by the team behind RSI Exchange</span>
+    <span>All rights reserved</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
