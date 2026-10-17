@@ -177,6 +177,92 @@
   img.complete && img.naturalWidth ? init() : img.addEventListener('load', init, { once: true });
 })();
 
+// Band (global event render): signals run along arcs between participants and the hub; the hub's light ring breathes.
+// Coordinates are in image pixels (1774×887); the canvas maps them through object-fit: cover, centred.
+(() => {
+  const img = document.querySelector('.band img');
+  const cvs = document.querySelector('.band__fx');
+  if (!img || !cvs) return;
+  const ctx = cvs.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const IW = 1774, IH = 887;
+  const HUB_L = [425, 300], HUB_R = [1360, 300];
+  const CARDS = [
+    [95, 312], [232, 294], [335, 365], [198, 390], [259, 475], [105, 533], [371, 505],
+    [1568, 320], [1688, 338], [1454, 408], [1462, 506], [1589, 510],
+  ];
+  // each route: card → nearest hub side, arched upward; every 3rd runs outward (translated output)
+  const routes = CARDS.map(([x, y], i) => {
+    const [hx, hy] = x < IW / 2 ? HUB_L : HUB_R;
+    const out = i % 3 === 2;
+    const a = out ? [hx, hy] : [x, y], b = out ? [x, y] : [hx, hy];
+    return { a, b, c: [(x + hx) / 2, Math.min(y, hy) - 110 - (i % 4) * 25], out, dur: 2600 + (i * 370) % 1700, off: (i * 811) % 3000 };
+  });
+  const RING = { x: 887, y: 246, rx: 210, ry: 18 }, REFL = { x: 887, y: 689, rx: 130, ry: 24 };
+
+  let W = 0, H = 0, dpr = 1, s = 1, ox = 0, oy = 0;
+  const place = () => {
+    const r = cvs.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    W = r.width; H = r.height;
+    cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+    s = Math.max(W / IW, H / IH); ox = (W - IW * s) / 2; oy = (H - IH * s) / 2;
+  };
+  const P = (x, y) => [ox + x * s, oy + y * s];
+  const bez = (r, t) => {
+    const u = 1 - t;
+    return [u * u * r.a[0] + 2 * u * t * r.c[0] + t * t * r.b[0], u * u * r.a[1] + 2 * u * t * r.c[1] + t * t * r.b[1]];
+  };
+  const glowEllipse = (e, alpha) => {
+    const [cx, cy] = P(e.x, e.y);
+    ctx.save();
+    ctx.translate(cx, cy); ctx.scale(1, e.ry / e.rx);
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, e.rx * s * 1.25);
+    g.addColorStop(0, `rgba(255,236,220,${alpha})`);
+    g.addColorStop(0.6, `rgba(255,214,235,${alpha * 0.55})`);
+    g.addColorStop(1, 'rgba(255,214,235,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(0, 0, e.rx * s * 1.25, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  };
+
+  const draw = (t) => {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+    // 3 · breathing light ring in the hub ceiling and its reflection on the bridge
+    const breath = 0.5 + 0.5 * Math.sin(t / 900);
+    glowEllipse(RING, 0.12 + 0.28 * breath);
+    glowEllipse(REFL, 0.06 + 0.16 * breath);
+    // 1 · signals: a bright head with a fading tail along each arc
+    routes.forEach((r) => {
+      const p = ((t + r.off) % r.dur) / r.dur;
+      const fade = Math.min(1, p * 6, (1 - p) * 6);
+      for (let k = 0; k < 9; k++) {
+        const tt = p - k * 0.018;
+        if (tt < 0) break;
+        const [x, y] = P(...bez(r, tt));
+        const a = fade * (1 - k / 9) * (k ? 0.45 : 1);
+        ctx.fillStyle = r.out ? `rgba(255,150,205,${a})` : `rgba(255,255,255,${a})`;
+        ctx.beginPath(); ctx.arc(x, y, Math.max(1.5, s * (k ? 2.6 : 4.2)), 0, Math.PI * 2); ctx.fill();
+      }
+    });
+    ctx.globalCompositeOperation = 'source-over';
+  };
+
+  let running = false, raf = 0;
+  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
+  const stop = () => { running = false; cancelAnimationFrame(raf); };
+  const init = () => {
+    place(); draw(1200);
+    window.addEventListener('resize', () => { place(); draw(performance.now()); });
+    new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+  };
+  img.complete && img.naturalWidth ? init() : img.addEventListener('load', init, { once: true });
+})();
+
 // TEMP guides: content line (menu start) and 2nd menu item (press G to toggle)
 (() => {
   const mk = () => { const d = document.createElement('div'); d.className = 'guide'; document.body.appendChild(d); return d; };
