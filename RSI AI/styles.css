@@ -699,3 +699,4 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .sec__title span, .mode__n, .mock__live, .band__label, .ftr__bottom { font-size: 14px; }
 .logo--light .logo__text { font-size: 14.4px; line-height: 21.6px; }
 .logo--light .logo__mark { width: 26px; height: 20px; gap: 2.4px; }
+.faq .qa:first-child summary { padding-top: 3px; } /* first question lines up with the "Straight answers" lede */
