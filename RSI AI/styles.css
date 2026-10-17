@@ -512,3 +512,41 @@ body.no-guides .guide { display: none; }
 /* Band animation layer: signals travelling from participants to the hub + breathing light ring */
 .band__fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 .band__label { z-index: 2; }
+
+/* How it fits in: three-step flow, signal travelling along the connector */
+.flow { position: relative; list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.flow::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 58px; height: 1px; z-index: 0;
+  background: linear-gradient(90deg, transparent, var(--line) 8%, var(--line) 92%, transparent);
+}
+.flow::after {
+  content: ""; position: absolute; top: 55px; left: 0; width: 7px; height: 7px; border-radius: 50%; z-index: 0;
+  background: var(--accent); box-shadow: 0 0 0 4px rgba(214,51,95,.18);
+  animation: flow-signal 4.5s cubic-bezier(.45,0,.55,1) infinite;
+}
+@keyframes flow-signal { 0% { left: 4%; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { left: 96%; opacity: 0; } }
+.flow__step { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 18px; padding: 22px 24px 26px; background: var(--lav-2); border: 1px solid var(--line-soft); }
+.flow__step--core { background: var(--navy); color: #e8ebff; border-color: var(--navy); }
+.flow .flow__step--core .ico--brand { fill: #fff; }
+.flow .flow__step--core p { color: #c9cfe6; }
+.flow__n { font-size: 14px; letter-spacing: -.01em; text-transform: uppercase; color: var(--muted); }
+.flow__step--core .flow__n { color: var(--pink); }
+.flow__step .ico--brand { width: 28px; height: 28px; }
+.flow__step p { color: var(--ink-2); max-width: 32ch; }
+.flow__note { margin-top: 28px; padding-left: var(--content-x); font-size: 14px; letter-spacing: -.01em; text-transform: uppercase; color: var(--ink); }
+
+/* Built for real-world use: two columns (left on the page gutter, right on the content line) */
+.split--cols { margin-top: 40px; align-items: stretch; }
+.col { border-top: 1px solid var(--line); padding-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+.split--cols > .col:first-child { margin-right: clamp(24px, 4vw, 64px); }
+.col__title { font-size: clamp(20px, 1.95vw, 28px); font-weight: 600; letter-spacing: -.025em; line-height: 1.12; }
+.col p { color: var(--ink-2); max-width: 46ch; }
+.col .text-link { align-self: flex-start; margin-top: 8px; }
+
+@media (max-width: 960px) {
+  .flow { grid-template-columns: 1fr; }
+  .flow::before, .flow::after { display: none; }
+  .flow__note { padding-left: 0; }
+  .split--cols > .col:first-child { margin-right: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .flow::after { display: none; } }
