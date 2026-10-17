@@ -300,7 +300,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 
 /* ---------- Modes (blog-like) ---------- */
 .modes {
-  display: grid; grid-template-columns: repeat(3, 1fr) .7fr;
+  display: grid; grid-template-columns: repeat(4, 1fr); /* four equal columns */
   margin-top: 40px; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft);
   padding: 14px 0;
 }
@@ -591,3 +591,6 @@ body.no-guides .guide { display: none; }
 /* Dark panel CTA: on hover the white pill turns into a white outline */
 .rw__cta span, .rw__cta i { border: 1px solid #fff; }
 .rw__cta:hover span, .rw__cta:hover i { background: transparent; color: #fff; border-color: #fff; }
+
+.modes__more .circle { width: 44px; height: 44px; color: var(--accent); border-color: var(--accent); font-size: 18px; }
+.modes__more:hover .circle { background: var(--accent); color: #fff; border-color: var(--accent); }
