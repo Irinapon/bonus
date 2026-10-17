@@ -141,7 +141,7 @@
         ctx.fillRect(ox + (r.x - pad) * s, oy + (r.y - pad) * s, (r.w + pad * 2) * s, (r.h + pad * 2) * s);
       }
     };
-    soft(BOOTH, 0.35, 30);
+    // booth glass itself is a separate image layered above the wave (img/rsi-hero-booth.webp)
     soft(PERSON, 0.95, 30);
     ctx.globalCompositeOperation = 'source-over';
   };
