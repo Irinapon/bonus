@@ -653,3 +653,16 @@ body.no-guides .guide { display: none; }
 .mode:hover .art--mode { transform: translateY(-6px); box-shadow: 0 22px 36px -24px rgba(13,20,48,.5); }
 @media (prefers-reduced-motion: reduce) { .mode svg * { animation: none !important; } }
 .cta__fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* Legal pages */
+.legal-page .hdr__nav { left: auto; right: 30px; }
+.legal { padding: 140px var(--gut) 100px; }
+.legal__meta p { font-size: 14px; color: var(--muted); }
+.legal__meta { padding-right: clamp(24px, 4vw, 64px); }
+.legal__body { max-width: 68ch; }
+.legal__body h2 { font-size: clamp(20px, 1.95vw, 26px); font-weight: 600; letter-spacing: -.02em; margin: 36px 0 12px; }
+.legal__body p { color: var(--ink-2); margin-bottom: 14px; }
+.legal__body a, .ftr__legal a, .ftr--legal a { text-decoration: underline; text-underline-offset: 3px; }
+.legal__body a:hover { color: var(--accent); }
+.ftr--legal { padding-top: 0; }
+.ftr--legal .ftr__bottom { margin-top: 0; padding-top: 18px; border-top: 0; }
