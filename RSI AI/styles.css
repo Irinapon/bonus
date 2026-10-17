@@ -669,3 +669,5 @@ body.no-guides .guide { display: none; }
 .legal__body ul { margin: 0 0 14px; padding-left: 20px; color: var(--ink-2); }
 .legal__body li { margin-bottom: 10px; }
 .legal__body li b { color: var(--ink); }
+.ftr__credit a { text-decoration: underline; text-underline-offset: 3px; }
+.ftr__credit a:hover, .ftr__legal a:hover { color: #fff; }
