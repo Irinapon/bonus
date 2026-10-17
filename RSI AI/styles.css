@@ -127,7 +127,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding-top: 26px; }
 .btn--hero span, .btn--hero i { height: 40px; background: #f8fdfe; }
 .btn--hero { gap: 0; }
-.btn--hero span { width: 185px; padding: 0 22px; font-size: 14px; font-weight: 600; color: #2b3b56; text-transform: lowercase; }
+.btn--hero span { min-width: 185px; padding: 0 22px; font-size: 14px; font-weight: 600; color: #2b3b56; text-transform: lowercase; }
 .btn--hero i { width: 40px; color: #2b3b56; }
 .btn--hero:hover i { transform: translateX(3px); }
 .badge {
@@ -271,6 +271,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .offer .hang i { font-style: italic; }
 .offer__box { border: 1px solid var(--line-soft); padding: 18px 20px; margin: 30px 0 22px; font-size: 16px; color: var(--ink-2); background: #fff; }
 .offer__box p + p { margin-top: 10px; }
+.offer__title { font-family: var(--head); font-weight: 600; font-size: 18px; color: var(--ink); letter-spacing: -.02em; }
 .offer__box b { color: var(--ink); }
 
 .note {
@@ -304,7 +305,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .table { display: grid; grid-template-columns: 1fr 5fr; gap: 20px; margin-top: 40px; align-items: center; }
 .table__img { aspect-ratio: 5 / 6; max-width: 150px; }
 .tr {
-  display: grid; grid-template-columns: 40px 1.1fr 1.1fr 1.1fr 30px; align-items: center;
+  display: grid; grid-template-columns: 40px 1.3fr 1fr 30px; align-items: center;
   padding: 11px 0; border-top: 1px solid var(--line-soft); font-size: 16px; color: var(--ink-2);
   transition: background .25s;
 }
@@ -363,6 +364,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .ftr__cols a { display: block; line-height: 1.7; transition: color .2s; }
 .ftr__cols a:hover { color: #fff; }
 .ftr__note { font-size: 10.5px; color: #8189a8; margin-top: 10px; max-width: 22ch; }
+.ftr__about { margin-top: 18px; max-width: 36ch; font-size: 14px; color: #aeb4cc; }
 .ftr__art .art { aspect-ratio: 5 / 6; }
 .ftr__bottom {
   display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
@@ -389,7 +391,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   .hero { min-height: 0; padding-top: 110px; padding-bottom: 300px; align-items: flex-start; }
   .hero__bg { height: 100%; object-position: 78% bottom; }
   .hero::after { display: none; }
-  .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(207,215,251,.85) 0%, rgba(220,214,246,.55) 55%, rgba(220,214,246,0) 75%); }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(207,215,251,.85) 0%, rgba(220,214,246,.7) 60%, rgba(220,214,246,0) 92%); }
   .hero__copy { z-index: 2; }
   .note { min-height: 0; }
   .hero__copy { padding-top: 36px; }
@@ -420,7 +422,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   .modes { grid-template-columns: 1fr; }
   .mode { border-right: 0; border-bottom: 1px solid var(--line-soft); padding-bottom: 40px; margin-bottom: 16px; }
   .tr { grid-template-columns: 30px 1.2fr 1fr 24px; }
-  .tr span:nth-of-type(3) { display: none; }
+  .tr { grid-template-columns: 30px 1.3fr 1fr 24px; }
   .form__row { grid-template-columns: 1fr; gap: 0; }
   .faq details p { padding-left: 0; padding-right: 0; }
   .ftr__cols { grid-template-columns: 1fr; }
@@ -435,3 +437,14 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 /* TEMP guides: vertical lines at the menu's right edge and the contact link's left edge (press G to toggle) */
 .guide { position: fixed; top: 0; bottom: 0; width: 0; border-left: 1px solid rgba(214,51,95,.85); z-index: 100; pointer-events: none; }
 body.no-guides .guide { display: none; }
+
+/* Copy v2 additions */
+.hero__cred { max-width: 560px; padding-top: 28px; font-size: 13px; line-height: 1.3; color: var(--ink-2); }
+.hero__cred b { color: var(--ink); }
+.hang + .hang { margin-top: 12px; }
+.card__txt + .card__txt { margin-top: 10px; }
+.text-link { display: inline-block; margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--ink); border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: color .2s; }
+.text-link:hover { color: var(--accent); }
+.modes__more { text-align: center; line-height: 1.3; }
+.badge { height: auto; min-height: 39px; max-width: 360px; line-height: 1.25; }
+.badge svg { flex: none; }
