@@ -80,7 +80,14 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   font-size: 14px; line-height: 16.5px;
   transition: background .35s, padding .35s, box-shadow .35s;
 }
-.hdr.is-scrolled { background: rgba(247,251,253,.8); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line-soft); padding-block: 10px; }
+/* Full-width translucent plate behind logo + menu */
+.hdr::before {
+  content: ""; position: absolute; inset: 8px 10px; z-index: -1; border-radius: 999px;
+  background: rgba(247,251,253,.22); border: 1px solid rgba(255,255,255,.45);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: background .35s;
+}
+.hdr.is-scrolled::before { background: rgba(247,251,253,.72); }
 .logo { display: inline-flex; align-items: center; gap: 8px; }
 .logo__mark { display: flex; align-items: flex-end; gap: 2px; width: 22px; height: 17px; color: var(--ink); }
 .logo__mark i { display: block; flex: 1; background: currentColor; }
@@ -94,9 +101,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hdr__nav {
   position: absolute; left: var(--content-x); right: 20px; top: 50%; transform: translateY(-50%); /* from the content line to 20px off the right edge */
   display: flex; align-items: center; justify-content: space-between; gap: 28px; white-space: nowrap;
-  padding: 10px 12px 10px 22px; border-radius: 999px;
-  background: rgba(247,251,253,.6); border: 1px solid rgba(255,255,255,.7);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  padding: 10px 12px 10px 0;
 }
 .hdr__nav a { font-size: 14px; font-weight: 500; color: var(--ink); transition: color .2s; }
 .hdr__nav a:hover { color: var(--accent); }
@@ -392,6 +397,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 /* ---------- Tablet ---------- */
 @media (max-width: 960px) {
   .hdr__nav { left: auto; right: 16px; padding: 8px 10px 8px 16px; }
+  .hdr::before { inset: 8px; }
   .hdr__nav a:not(.hdr__contact) { display: none; }
   .hero { min-height: 0; padding-top: 110px; padding-bottom: 300px; align-items: flex-start; }
   .hero__bg { top: 0; left: 0; right: auto; transform: none; width: 100%; height: 100%; object-fit: cover; object-position: 78% bottom; }
