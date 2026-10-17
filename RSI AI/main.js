@@ -15,6 +15,25 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  // Keep the header menu 20px left of the roof in the hero render.
+  // Must match .hero__bg in styles.css: height 132%, object-position 56% top.
+  // Roof's leftmost point sits at x=864 in the 1942×809 image.
+  const hero = document.querySelector('.hero');
+  const IMG_W = 1942, IMG_H = 809, ROOF_X = 864, POS_X = 0.56, BOX_H = 1.32, GAP = 20;
+  const placeNav = () => {
+    if (window.innerWidth <= 960) { hdr.style.removeProperty('--nav-right'); return; }
+    const boxW = hero.clientWidth, boxH = hero.clientHeight * BOX_H;
+    const scale = Math.max(boxW / IMG_W, boxH / IMG_H);
+    const roof = ROOF_X * scale - (IMG_W * scale - boxW) * POS_X;
+    // On narrower screens the roof comes too close to "Contact us": keep the menu clear of it instead
+    const contactRight = document.querySelector('.hdr__contact').getBoundingClientRect().right;
+    const navW = document.querySelector('.hdr__nav').offsetWidth;
+    const navRightEdge = Math.max(roof - GAP, contactRight + 12 + navW);
+    hdr.style.setProperty('--nav-right', `${Math.round(boxW - navRightEdge)}px`);
+  };
+  placeNav();
+  window.addEventListener('resize', placeNav);
+
   // Reveal on scroll
   const targets = document.querySelectorAll('.sec__title, .lede, .hang, .rows li, .art, .stat, .card, .mode, .tr, .faq, .mock');
   targets.forEach((el) => el.classList.add('reveal'));
