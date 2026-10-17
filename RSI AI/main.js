@@ -87,7 +87,7 @@
 
   const place = () => {
     const r = cvs.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     W = r.width; H = r.height;
     cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
     const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => parseFloat(v) / 100);
@@ -101,8 +101,6 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
     ctx.globalCompositeOperation = 'source-over';
-    ctx.shadowColor = 'rgba(255,255,255,.9)'; ctx.shadowBlur = 4 * s; // soft glow like the original strands
-    ctx.lineWidth = Math.max(0.7, s * 1);
     const x0 = PATH[0][0], x1 = PATH[PATH.length - 1][0];
     const grad = ctx.createLinearGradient(ox + x0 * s, 0, ox + x1 * s, 0);
     grad.addColorStop(0, 'rgba(255,255,255,0)');
@@ -111,21 +109,28 @@
     grad.addColorStop(0.85, 'rgba(255,160,215,.85)');
     grad.addColorStop(1, 'rgba(240,140,205,.6)');
     ctx.strokeStyle = grad;
+    ctx.lineJoin = 'round';
+    // Every strand goes into ONE path, stroked twice (soft halo + crisp line).
+    // No shadowBlur and one stroke call per pass keeps the animation at a steady frame rate.
+    ctx.beginPath();
     for (let k = 0; k < STRANDS; k++) {
       const u = k / (STRANDS - 1) - 0.5; // -0.5 … 0.5 across the bundle
-      ctx.beginPath();
-      for (let x = x0; x <= x1; x += 6) {
+      let px = 0, py = 0;
+      for (let x = x0; x <= x1; x += 12) {
         const p = (x - x0) / (x1 - x0);
-        const spread = 70 + 150 * Math.sin(Math.PI * Math.min(1, p * 1.05)) ** 2; // a wide ribbon, fullest mid-way      // bundle opens in the middle
-        const twist = Math.sin(x / 260 - ph * 0.9 + u * 2.2);                       // strands cross over each other
-        const swell = 34 * Math.sin(x / 240 - ph * 1.4) + 12 * Math.sin(x / 110 - ph * 2.1 + u * 3); // travelling wave
+        const spread = 70 + 150 * Math.sin(Math.PI * Math.min(1, p * 1.05)) ** 2; // wide ribbon, fullest mid-way
+        const twist = Math.sin(x / 260 - ph * 0.55 + u * 2.2);                     // strands cross over each other
+        const swell = 34 * Math.sin(x / 240 - ph * 0.85) + 10 * Math.sin(x / 110 - ph * 1.3 + u * 3); // travelling wave
         const y = centre(x) + u * spread * (0.6 + 0.4 * twist) + swell * (0.4 + 0.6 * p);
         const sx = ox + x * s, sy = oy + y * s;
-        x === x0 ? ctx.moveTo(sx, sy) : ctx.lineTo(sx, sy);
+        if (x === x0) ctx.moveTo(sx, sy);
+        else ctx.quadraticCurveTo(px, py, (px + sx) / 2, (py + sy) / 2); // smooth curve through the samples
+        px = sx; py = sy;
       }
-      ctx.stroke();
+      ctx.lineTo(px, py);
     }
-    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 0.18; ctx.lineWidth = Math.max(2, s * 3); ctx.stroke();      // halo
+    ctx.globalAlpha = 1;    ctx.lineWidth = Math.max(0.7, s * 0.9); ctx.stroke();  // strands
     // pass "through" the booth: fade the strands behind the glass, and almost fully behind the interpreter
     ctx.globalCompositeOperation = 'destination-out';
     const soft = (r, a, f) => {
@@ -147,7 +152,12 @@
 
   const init = () => {
     place(); draw(0);
-    window.addEventListener('resize', () => { place(); draw(performance.now()); });
+    let lastW = 0, lastH = 0;
+    window.addEventListener('resize', () => { // ignore no-op resizes (e.g. mobile URL bar) that would reset the canvas
+      const r = cvs.getBoundingClientRect();
+      if (Math.abs(r.width - lastW) < 1 && Math.abs(r.height - lastH) < 1) return;
+      lastW = r.width; lastH = r.height; place(); draw(performance.now());
+    });
     new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   };
