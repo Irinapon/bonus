@@ -77,3 +77,23 @@
     form.reset();
   });
 })();
+
+// TEMP guides: vertical lines at the menu's right edge and the contact link's left edge (press G to toggle)
+(() => {
+  const mk = () => { const d = document.createElement('div'); d.className = 'guide'; document.body.appendChild(d); return d; };
+  const gMenu = mk(), gContact = mk();
+  const place = () => {
+    const nav = document.querySelector('.hdr__nav'), contact = document.querySelector('.hdr__contact');
+    const navR = nav.getBoundingClientRect();
+    gMenu.style.display = navR.width ? '' : 'none';
+    gMenu.style.left = `${navR.right}px`;
+    gContact.style.left = `${contact.getBoundingClientRect().left}px`;
+  };
+  window.addEventListener('load', place);
+  window.addEventListener('resize', () => requestAnimationFrame(place));
+  document.fonts && document.fonts.ready.then(place);
+  place();
+  document.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 'g' && !/input|textarea|select/i.test(e.target.tagName)) document.body.classList.toggle('no-guides');
+  });
+})();

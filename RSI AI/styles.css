@@ -427,3 +427,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hdr .logo__mark { width: 26px; height: 20px; gap: 2.4px; }
 .hdr .logo__text { font-size: 14.4px; line-height: 21.6px; }
 .hdr .logo__text small { font-size: 7.2px; line-height: 9.6px; }
+
+/* TEMP guides: vertical lines at the menu's right edge and the contact link's left edge (press G to toggle) */
+.guide { position: fixed; top: 0; bottom: 0; width: 0; border-left: 1px solid rgba(214,51,95,.85); z-index: 100; pointer-events: none; }
+body.no-guides .guide { display: none; }
