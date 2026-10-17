@@ -96,7 +96,8 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hdr__contact:hover .hdr__contact-ico { background: var(--ink); color: #fff; }
 .hdr__contact:hover { color: var(--ink); }
 .hdr__nav { position: absolute; top: 22px; left: var(--content-x); display: flex; gap: 32px; white-space: nowrap; } /* starts on the content line */
-.hdr__nav a { transition: color .2s; }
+.hdr__nav a { color: #fff; font-weight: 600; transition: color .2s; }
+.hdr.is-scrolled .hdr__nav a { color: var(--ink); } /* white is unreadable on the light scrolled header */
 .hdr__nav a:hover { color: var(--accent); }
 
 /* ---------- Hero (Figma 111:12) ---------- */
