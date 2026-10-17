@@ -228,7 +228,11 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .mock__cap.is-fading { opacity: 0; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chips span { font-size: 10.5px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+.chips span { font-size: 14px; font-weight: 500; letter-spacing: -.01em; text-transform: uppercase; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; }
+/* two rows; the first two tags start on the 2nd guide (--indent), the next two on the content line */
+.chips { gap: 8px; }
+.chips__br { flex-basis: 100%; height: 0; content: ""; display: block; }
+.chips span:nth-child(1) { margin-left: var(--indent); }
 
 /* ---------- Stats ---------- */
 .stats {
@@ -430,6 +434,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   .hero__lead { font-size: 16px; }
   .btn--hero span { width: auto; }
   .hang { padding-left: 0; text-indent: 0; }
+  .chips span:nth-child(1) { margin-left: 0; }
   .rows li { grid-template-columns: 36px 1fr; }
   .modes { grid-template-columns: 1fr; }
   .mode { border-right: 0; border-bottom: 1px solid var(--line-soft); padding-bottom: 40px; margin-bottom: 16px; }
