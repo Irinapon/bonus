@@ -1,8 +1,8 @@
 (() => {
-  // Headline option B: open the page with ?h=b
-  if (new URLSearchParams(location.search).get('h') === 'b') {
+  // Headline option A: open the page with ?h=a
+  if (new URLSearchParams(location.search).get('h') === 'a') {
     document.querySelector('[data-headline]').innerHTML =
-      'Real-time translation that actually <span class="box">keeps up.</span>';
+      'Speed and accuracy, <em>without the guesswork</em>';
   }
 
   // RSI Exchange cross-link — set the real URL here once the domain is confirmed
