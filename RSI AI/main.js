@@ -165,15 +165,20 @@
   img.complete && img.naturalWidth ? init() : img.addEventListener('load', init, { once: true });
 })();
 
-// TEMP guide: vertical line on the content line (menu start) (press G to toggle)
+// TEMP guides: content line (menu start) and 2nd menu item (press G to toggle)
 (() => {
   const mk = () => { const d = document.createElement('div'); d.className = 'guide'; document.body.appendChild(d); return d; };
-  const gMenu = mk();
+  const gMenu = mk(), gItem2 = mk();
   const place = () => {
     const nav = document.querySelector('.hdr__nav');
     const navR = nav.getBoundingClientRect();
     gMenu.style.display = navR.width ? '' : 'none';
     gMenu.style.left = `${navR.left}px`;
+    // second guide: left edge of the 2nd menu item ("Why RSI X AI")
+    const item2 = nav.querySelectorAll('a')[1];
+    const r2 = item2 && item2.getBoundingClientRect();
+    gItem2.style.display = r2 && r2.width ? '' : 'none';
+    if (r2) gItem2.style.left = `${r2.left}px`;
   };
   window.addEventListener('load', place);
   window.addEventListener('resize', () => requestAnimationFrame(place));
