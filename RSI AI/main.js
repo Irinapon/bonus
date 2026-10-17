@@ -15,25 +15,6 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Put the menu in one row, centred above the booth in the hero render.
-  // Must match .hero__bg in styles.css: height 132%, object-position 56% top.
-  // In the 1942×809 image the booth's front face spans x=1067…1542.
-  const hero = document.querySelector('.hero');
-  const IMG_W = 1942, IMG_H = 809, BOOTH_L = 1067, BOOTH_R = 1542, POS_X = 0.56, BOX_H = 1.32;
-  const placeNav = () => {
-    if (window.innerWidth <= 960) { hdr.style.removeProperty('--nav-left'); return; }
-    const boxW = hero.clientWidth, boxH = hero.clientHeight * BOX_H;
-    const scale = Math.max(boxW / IMG_W, boxH / IMG_H);
-    const shift = (IMG_W * scale - boxW) * POS_X;
-    const center = ((BOOTH_L + BOOTH_R) / 2) * scale - shift;
-    const navW = document.querySelector('.hdr__nav').offsetWidth;
-    const left = Math.min(Math.max(center - navW / 2, 20), boxW - navW - 20);
-    hdr.style.setProperty('--nav-left', `${Math.round(left)}px`);
-  };
-  placeNav();
-  window.addEventListener('resize', placeNav);
-  document.fonts && document.fonts.ready.then(placeNav);
-
   // Line up the latency badge with the left edge of the header "contact us" link (desktop)
   const badge = document.querySelector('.hero .badge');
   const alignBadge = () => {
@@ -91,7 +72,7 @@
   });
 })();
 
-// TEMP guides: vertical lines at the menu's right edge and the contact link's left edge (press G to toggle)
+// TEMP guides: vertical lines on the content line (menu start) and the contact link's left edge (press G to toggle)
 (() => {
   const mk = () => { const d = document.createElement('div'); d.className = 'guide'; document.body.appendChild(d); return d; };
   const gMenu = mk(), gContact = mk();
@@ -99,7 +80,7 @@
     const nav = document.querySelector('.hdr__nav'), contact = document.querySelector('.hdr__contact');
     const navR = nav.getBoundingClientRect();
     gMenu.style.display = navR.width ? '' : 'none';
-    gMenu.style.left = `${navR.right}px`;
+    gMenu.style.left = `${navR.left}px`;
     gContact.style.left = `${contact.getBoundingClientRect().left}px`;
   };
   window.addEventListener('load', place);
