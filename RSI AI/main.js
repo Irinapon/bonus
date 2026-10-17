@@ -72,6 +72,89 @@
   });
 })();
 
+// Hero sound wave: re-draw the photo's own wave strands with a slow travelling ripple.
+// Works in image pixels (1942×809), so it lines up with the photo at any size or crop.
+(() => {
+  const img = document.querySelector('.hero__bg');
+  const cvs = document.querySelector('.hero__wave');
+  if (!img || !cvs || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // Band of the photo that holds the wave (image px), and the booth to leave untouched
+  const BAND = { x: 400, y: 170, w: 1542, h: 330 };
+  const BOOTH = { x: 1050, y: 110, w: 580, h: 440 };
+  // Wave centreline, image px (left wisp → booth → right edge)
+  const LINE = [[400, 440], [560, 430], [720, 400], [860, 345], [980, 300], [1080, 320], [1250, 360], [1400, 360], [1550, 335], [1700, 295], [1850, 260], [1942, 245]];
+
+  const ctx = cvs.getContext('2d');
+  cvs.width = BAND.w; cvs.height = BAND.h;
+  const band = document.createElement('canvas'); band.width = BAND.w; band.height = BAND.h;
+  const bctx = band.getContext('2d');
+  const mask = document.createElement('canvas'); mask.width = BAND.w; mask.height = BAND.h;
+
+  // Soft mask: wide feathered stroke along the centreline, minus a feathered booth
+  const m = mask.getContext('2d');
+  m.lineCap = m.lineJoin = 'round';
+  m.strokeStyle = '#fff';
+  for (let wdt = 200; wdt >= 50; wdt -= 15) {
+    m.globalAlpha = 0.12;
+    m.lineWidth = wdt;
+    m.beginPath();
+    LINE.forEach(([x, y], i) => (i ? m.lineTo : m.moveTo).call(m, x - BAND.x, y - BAND.y));
+    m.stroke();
+  }
+  m.globalCompositeOperation = 'destination-out';
+  for (let pad = 0; pad <= 40; pad += 8) {
+    m.globalAlpha = 0.25;
+    m.fillRect(BOOTH.x - BAND.x + pad, BOOTH.y - BAND.y + pad, BOOTH.w - pad * 2, BOOTH.h - pad * 2);
+  }
+  // fade out the far-left tip
+  const g = m.createLinearGradient(0, 0, 160, 0);
+  g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  m.globalAlpha = 1; m.fillStyle = g; m.fillRect(0, 0, 160, BAND.h);
+
+  // Place the canvas exactly over the band, using the image's object-fit: cover + object-position
+  const place = () => {
+    const box = img.getBoundingClientRect(), host = img.offsetParent.getBoundingClientRect();
+    const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => parseFloat(v) / 100);
+    const scale = Math.max(box.width / img.naturalWidth, box.height / img.naturalHeight);
+    const ox = (box.width - img.naturalWidth * scale) * px + (box.left - host.left);
+    const oy = (box.height - img.naturalHeight * scale) * py + (box.top - host.top);
+    Object.assign(cvs.style, {
+      left: `${ox + BAND.x * scale}px`, top: `${oy + BAND.y * scale}px`,
+      width: `${BAND.w * scale}px`, height: `${BAND.h * scale}px`,
+    });
+  };
+
+  const COL = 2, AMP = 5, WAVELEN = 360, SPEED = 0.9; // px, px, px, rad/s
+  let running = false, raf = 0;
+  const frame = (t) => {
+    const ph = (t / 1000) * SPEED;
+    bctx.clearRect(0, 0, BAND.w, BAND.h);
+    for (let x = 0; x < BAND.w; x += COL) {
+      const dy = AMP * Math.sin(((x + BAND.x) / WAVELEN) * Math.PI * 2 - ph)
+               + AMP * 0.4 * Math.sin(((x + BAND.x) / (WAVELEN * 0.47)) * Math.PI * 2 - ph * 1.7);
+      bctx.drawImage(img, BAND.x + x, BAND.y, COL, BAND.h, x, dy, COL, BAND.h);
+    }
+    bctx.globalCompositeOperation = 'destination-in';
+    bctx.drawImage(mask, 0, 0);
+    bctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, BAND.w, BAND.h);
+    ctx.drawImage(band, 0, 0);
+    if (running) raf = requestAnimationFrame(frame);
+  };
+  const start = () => { if (!running) { running = true; raf = requestAnimationFrame(frame); } };
+  const stop = () => { running = false; cancelAnimationFrame(raf); };
+
+  const init = () => {
+    place();
+    window.addEventListener('resize', place);
+    // only animate while the hero is on screen and the tab is visible
+    new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(img);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+  };
+  img.complete && img.naturalWidth ? init() : img.addEventListener('load', init, { once: true });
+})();
+
 // TEMP guides: vertical lines on the content line (menu start) and the contact link's left edge (press G to toggle)
 (() => {
   const mk = () => { const d = document.createElement('div'); d.className = 'guide'; document.body.appendChild(d); return d; };
