@@ -615,15 +615,15 @@ body.no-guides .guide { display: none; }
 .qa[open] .qa__a { animation: none; }
 
 /* Final CTA in the hero's style: full-bleed booth render, copy on the open sky */
-.cta { display: flex; align-items: center; min-height: min(80vh, 760px); background: #cfd7fb; }
-.cta__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 75% center; }
-.cta::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(214,218,250,.55) 0%, rgba(214,218,250,.2) 40%, rgba(214,218,250,0) 60%); }
+.cta { display: flex; align-items: center; aspect-ratio: 1942 / 809; min-height: 520px; background: #cfd7fb; } /* full render visible on desktop, booths to the right of the copy */
+.cta__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; }
+.cta::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(200,206,248,.7) 0%, rgba(200,206,248,.45) 30%, rgba(200,206,248,0) 48%); }
 .cta__copy { padding: 80px 20px; max-width: 760px; }
 .cta__copy h2 em { color: var(--accent); }
 .cta__copy p { color: var(--ink); max-width: 46ch; }
 @media (max-width: 960px) {
-  .cta { min-height: 640px; align-items: flex-start; }
-  .cta__bg { object-position: 80% bottom; }
+  .cta { aspect-ratio: auto; min-height: 640px; align-items: flex-start; }
+  .cta__bg { object-position: 70% bottom; }
   .cta::before { background: linear-gradient(180deg, rgba(214,218,250,.85) 0%, rgba(214,218,250,.5) 55%, rgba(214,218,250,0) 80%); }
 }
 
