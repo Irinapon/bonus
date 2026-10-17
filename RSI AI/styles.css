@@ -733,3 +733,4 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   .hdr.is-open .hdr__burger i { background: var(--ink); }
   .hdr.is-open::before { opacity: 0; }
 }
+.art--photo figcaption { color: #fff; text-transform: uppercase; letter-spacing: -.01em; } /* white caption, like the band photo label */
