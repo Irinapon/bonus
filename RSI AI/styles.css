@@ -763,3 +763,9 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .rw__bars i { background: var(--navy); opacity: 1; } /* same dark as the corporate panel */
 .rw__bars i:nth-child(5n) { background: var(--accent); } /* pink accents stay */
 .faq__card { background: var(--lav-2); border: 1px solid var(--line-soft); } /* same surface as the flow cards and the Ultra-light panel */
+
+/* Vertical rhythm between blocks: 200px desktop, 150px mobile */
+:root { --sec-gap: 200px; }
+@media (max-width: 960px) { :root { --sec-gap: 150px; } }
+.sec { padding-top: var(--sec-gap); }
+.band, .cta { margin-top: var(--sec-gap); }
