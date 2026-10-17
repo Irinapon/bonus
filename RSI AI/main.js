@@ -15,6 +15,18 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  // Mobile burger menu
+  const burger = document.querySelector('.hdr__burger');
+  const setMenu = (open) => {
+    hdr.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  burger.addEventListener('click', () => setMenu(!hdr.classList.contains('is-open')));
+  document.querySelectorAll('.hdr__nav a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+
   // Hanging indents and row offsets line up with the 2nd header menu item ("Why RSI X AI"):
   // --indent = distance from the content line (menu start) to that item
   const setIndent = () => {

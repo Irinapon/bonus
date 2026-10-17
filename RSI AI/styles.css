@@ -427,7 +427,6 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   .hdr { padding-inline: 28px; }
   .hdr__nav { left: auto; right: 28px; padding: 10px 0; }
   .hdr::before { inset: 8px; }
-  .hdr__nav a:not(.hdr__contact) { display: none; }
   .hero { min-height: 0; padding-top: 110px; padding-bottom: 300px; align-items: flex-start; }
   .hero__bg { top: 0; left: 0; right: auto; transform: none; width: 100%; height: 100%; object-fit: cover; object-position: 78% bottom; }
   .hero::after { display: none; }
@@ -700,3 +699,37 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .logo--light .logo__text { font-size: 14.4px; line-height: 21.6px; }
 .logo--light .logo__mark { width: 26px; height: 20px; gap: 2.4px; }
 .faq .qa:first-child summary { padding-top: 3px; } /* first question lines up with the "Straight answers" lede */
+
+/* ---------- Mobile menu (burger) ---------- */
+.hdr__burger { display: none; }
+@media (max-width: 960px) {
+  .hdr__burger {
+    display: grid; place-content: center; gap: 6px; margin-left: auto; position: relative; z-index: 3;
+    width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--ink); cursor: pointer;
+  }
+  .hdr__burger i { display: block; width: 16px; height: 1.5px; background: #fff; transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+  .hdr.is-open .hdr__burger i:first-child { transform: translateY(3.75px) rotate(45deg); }
+  .hdr.is-open .hdr__burger i:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+  .hdr .hdr__nav {
+    position: fixed; inset: 0; left: 0; right: 0; top: 0; transform: none; z-index: 2;
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 22px;
+    padding: 100px 28px 40px; background: var(--navy);
+    opacity: 0; visibility: hidden; transition: opacity .35s, visibility .35s;
+  }
+  .hdr.is-open .hdr__nav { opacity: 1; visibility: visible; }
+  .hdr.is-open .logo { position: relative; z-index: 3; color: #fff; }
+  .hdr.is-open .logo__mark { color: #fff; }
+  .hdr .hdr__nav a { font-size: 28px; font-weight: 500; letter-spacing: -.02em; color: #fff; text-transform: none; }
+  .hdr .hdr__nav .hdr__contact { margin: 24px 0 0; }
+  body.menu-open { overflow: hidden; }
+}
+/* CTA buttons with long labels: let the pill grow to two lines instead of squashing */
+.btn span { text-align: center; }
+@media (max-width: 560px) {
+  .btn--hero span { height: auto; min-height: 40px; padding: 10px 20px; line-height: 1.25; }
+}
+@media (max-width: 960px) {
+  .hdr.is-open .hdr__burger { background: #fff; }
+  .hdr.is-open .hdr__burger i { background: var(--ink); }
+  .hdr.is-open::before { opacity: 0; }
+}
