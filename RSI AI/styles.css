@@ -24,7 +24,7 @@
 
   --sans: "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
   --head: "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
-  --accent: #d6335f;
+  --accent: #db62b2;
   --content-x: 50%; /* main content line: right column of every .split; the header menu starts on it */
   --pink: #f3bddb;
   --gut: clamp(16px, 2.2vw, 36px);
@@ -467,7 +467,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hdr .logo__text small { font-size: 7.2px; line-height: 9.6px; }
 
 /* TEMP guides: vertical lines at the menu's right edge and the contact link's left edge (press G to toggle) */
-.guide { position: fixed; top: 0; bottom: 0; width: 0; border-left: 1px solid rgba(214,51,95,.85); z-index: 100; pointer-events: none; }
+.guide { position: fixed; top: 0; bottom: 0; width: 0; border-left: 1px solid rgba(219,98,178,.85); z-index: 100; pointer-events: none; }
 body.no-guides .guide { display: none; }
 
 /* Copy v2 additions */
@@ -536,7 +536,7 @@ body.no-guides .guide { display: none; }
 }
 .flow::after {
   content: ""; position: absolute; top: 55px; left: 0; width: 7px; height: 7px; border-radius: 50%; z-index: 0;
-  background: var(--accent); box-shadow: 0 0 0 4px rgba(214,51,95,.18);
+  background: var(--accent); box-shadow: 0 0 0 4px rgba(219,98,178,.18);
   animation: flow-signal 4.5s cubic-bezier(.45,0,.55,1) infinite;
 }
 @keyframes flow-signal { 0% { left: 4%; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { left: 96%; opacity: 0; } }
@@ -646,7 +646,7 @@ body.no-guides .guide { display: none; }
 .m3-dot { animation: m3-dot 4s ease-in-out infinite; }
 .m3-dot:nth-child(2) { animation-delay: 1s; } .m3-dot:nth-child(3) { animation-delay: 2s; } .m3-dot:nth-child(4) { animation-delay: 3s; }
 .m3-sq { animation: m3-sq 4s ease-in-out infinite; }
-@keyframes m3-dot { 0%, 30%, 100% { transform: none; fill: #141838; } 12% { transform: scale(2.6); fill: #d6335f; } }
+@keyframes m3-dot { 0%, 30%, 100% { transform: none; fill: #141838; } 12% { transform: scale(2.6); fill: #db62b2; } }
 @keyframes m3-sq { 50% { transform: scale(1.12) rotate(4deg); } }
 /* hover: the card lifts a little */
 .mode .art--mode { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }

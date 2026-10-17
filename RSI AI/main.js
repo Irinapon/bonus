@@ -147,8 +147,8 @@
     grad.addColorStop(0, 'rgba(255,255,255,0)');
     grad.addColorStop(0.15, 'rgba(255,255,255,.7)');
     grad.addColorStop(0.5, 'rgba(240,228,255,.75)');
-    grad.addColorStop(0.85, 'rgba(255,160,215,.85)');
-    grad.addColorStop(1, 'rgba(240,140,205,.6)');
+    grad.addColorStop(0.85, 'rgba(219,98,178,.85)');
+    grad.addColorStop(1, 'rgba(219,98,178,.6)');
     ctx.strokeStyle = grad;
     ctx.lineJoin = 'round';
     // Every strand goes into ONE path, stroked twice (soft halo + crisp line).
@@ -271,7 +271,7 @@
         if (tt < 0) break;
         const [x, y] = P(...bez(r, tt));
         const a = fade * (1 - k / 9) * (k ? 0.45 : 1);
-        ctx.fillStyle = r.out ? `rgba(255,150,205,${a})` : `rgba(255,255,255,${a})`;
+        ctx.fillStyle = r.out ? `rgba(219,98,178,${a})` : `rgba(255,255,255,${a})`;
         ctx.beginPath(); ctx.arc(x, y, Math.max(1.5, s * (k ? 2.6 : 4.2)), 0, Math.PI * 2); ctx.fill();
       }
     });
@@ -332,7 +332,7 @@
   const pulse = (p, dir) => {
     const x = dir > 0 ? LINK.x0 + (LINK.x1 - LINK.x0) * p : LINK.x1 - (LINK.x1 - LINK.x0) * p;
     const g = ctx.createRadialGradient(X(x), Y(LINK.y), 0, X(x), Y(LINK.y), 34 * s);
-    g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.35, 'rgba(255,190,225,.55)'); g.addColorStop(1, 'rgba(255,190,225,0)');
+    g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.35, 'rgba(219,98,178,.5)'); g.addColorStop(1, 'rgba(219,98,178,0)');
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X(x), Y(LINK.y), 34 * s, 0, Math.PI * 2); ctx.fill();
   };
   const draw = (t) => {
