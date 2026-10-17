@@ -79,7 +79,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   font-size: 14px; line-height: 16.5px;
   transition: background .35s, padding .35s, box-shadow .35s;
 }
-.hdr.is-scrolled .hdr__nav { top: 16px; }
+.hdr.is-scrolled .hdr__nav { top: 6px; }
 .hdr.is-scrolled { background: rgba(247,251,253,.8); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line-soft); padding-block: 10px; }
 .logo { display: inline-flex; align-items: center; gap: 8px; }
 .logo__mark { display: flex; align-items: flex-end; gap: 2px; width: 22px; height: 17px; color: var(--ink); }
@@ -90,12 +90,13 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .logo__text i { font-style: normal; color: var(--accent); }
 .logo__text small { display: block; font-size: 6px; font-weight: 500; letter-spacing: .02em; line-height: 8px; text-transform: uppercase; }
 .logo--light .logo__mark, .logo--light { color: #fff; }
-.hdr__contact { grid-column: 2; grid-row: 1; justify-self: start; display: inline-flex; align-items: center; gap: 4px; margin: 6px 0 0 17px; }
-.hdr__contact svg { width: 13px; height: 13px; }
-.hdr__contact:hover { opacity: 1; color: var(--blue); }
-.hdr__nav { grid-column: 2 / 4; grid-row: 1; justify-self: end; white-space: nowrap; display: flex; flex-direction: column; align-items: flex-end; gap: 3.5px; margin: 6px 18vw 0 0; }
+.hdr__contact { grid-column: 2; grid-row: 1; justify-self: start; display: inline-flex; align-items: center; gap: 12px; margin: -4px 0 0 17px; color: #2b3b56; text-transform: lowercase; }
+.hdr__contact-ico { display: grid; place-items: center; width: 13px; height: 13px; border-radius: 2px; background: #d6c6ee; color: #1f2a4d; transition: background .2s, color .2s; }
+.hdr__contact:hover .hdr__contact-ico { background: var(--ink); color: #fff; }
+.hdr__contact:hover { color: var(--ink); }
+.hdr__nav { grid-column: 2 / 4; grid-row: 1; justify-self: end; white-space: nowrap; display: flex; flex-direction: column; align-items: flex-end; gap: 3.5px; margin: -4px 18vw 0 0; }
 /* main.js sets --nav-right so the menu ends 20px before the roof in the hero render */
-.hdr[style*="--nav-right"] .hdr__nav { grid-column: auto; grid-row: auto; position: absolute; top: 22px; right: var(--nav-right); margin: 0; }
+.hdr[style*="--nav-right"] .hdr__nav { grid-column: auto; grid-row: auto; position: absolute; top: 12px; right: var(--nav-right); margin: 0; }
 .hdr__nav a { transition: color .2s; }
 .hdr__nav a:hover { color: var(--accent); }
 
