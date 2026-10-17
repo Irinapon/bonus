@@ -92,8 +92,8 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .logo--light .logo__mark, .logo--light { color: #fff; }
 /* Menu plate: all items in one frosted pill, vertically centred on the logo, same size and colour */
 .hdr__nav {
-  position: absolute; left: var(--content-x); top: 50%; transform: translateY(-50%);
-  display: flex; align-items: center; gap: 28px; white-space: nowrap;
+  position: absolute; left: var(--content-x); right: 20px; top: 50%; transform: translateY(-50%); /* from the content line to 20px off the right edge */
+  display: flex; align-items: center; justify-content: space-between; gap: 28px; white-space: nowrap;
   padding: 10px 12px 10px 22px; border-radius: 999px;
   background: rgba(247,251,253,.6); border: 1px solid rgba(255,255,255,.7);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
