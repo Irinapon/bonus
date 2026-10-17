@@ -154,13 +154,14 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 0; align-items: start; }
 .split > :first-child:not(figure) { padding-right: clamp(24px, 4vw, 64px); }
 .lede {
-  font-size: clamp(17px, 1.45vw, 22px);
+  font-size: clamp(20px, 1.95vw, 28px);
   font-weight: 400; line-height: 1.12; letter-spacing: -.025em;
   max-width: 25ch;
   margin-bottom: 22px;
 }
 .lede b { font-weight: 600; }
 .lede em, .cta__copy h2 em { font-style: italic; font-weight: 400; }
+.lede em { color: var(--accent); }
 .hang {
   font-size: 16px; line-height: 1.3; color: var(--ink-2);
   padding-left: var(--indent); text-indent: calc(var(--indent) * -1);
