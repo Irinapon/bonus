@@ -473,3 +473,5 @@ body.no-guides .guide { display: none; }
   .hero { flex-direction: column; }
 }
 .hero__fg { pointer-events: none; }
+.ico--brand { width: 24px; height: 24px; fill: var(--ink); }
+.card h3 .ico--brand { width: 20px; height: 20px; }
