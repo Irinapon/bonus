@@ -760,3 +760,4 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   .cta__copy { padding-top: 110px; }
 }
 .rw__panel--light { background: var(--lav-2); border: 1px solid var(--line-soft); } /* same surface as the flow cards in 04 */
+.rw__bars i, .rw__bars i:nth-child(5n) { background: var(--navy); opacity: 1; } /* same dark as the corporate panel */
