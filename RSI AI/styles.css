@@ -76,7 +76,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hdr {
   position: fixed; inset: 0 0 auto 0; z-index: 40;
   display: flex; align-items: center;
-  padding: 16px 20px;
+  padding: 16px 30px; /* logo 20px inside the plate (plate is inset 10px) */
   font-size: 14px; line-height: 16.5px;
   transition: background .35s, padding .35s, box-shadow .35s;
 }
@@ -99,13 +99,13 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .logo--light .logo__mark, .logo--light { color: #fff; }
 /* Menu plate: all items in one frosted pill, vertically centred on the logo, same size and colour */
 .hdr__nav {
-  position: absolute; left: var(--content-x); right: 20px; top: 50%; transform: translateY(-50%); /* from the content line to 20px off the right edge */
-  display: flex; align-items: center; justify-content: space-between; gap: 28px; white-space: nowrap;
-  padding: 10px 12px 10px 0;
+  position: absolute; left: var(--content-x); right: 30px; top: 50%; transform: translateY(-50%); /* from the content line; Contact us 20px inside the plate's right edge */
+  display: flex; align-items: center; gap: 30px; white-space: nowrap;
+  padding: 10px 0;
 }
-.hdr__nav a { font-size: 13px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); transition: color .2s; }
+.hdr__nav a { font-size: 14px; font-weight: 500; letter-spacing: -.01em; text-transform: uppercase; color: var(--ink); transition: color .2s; }
 .hdr__nav a:hover { color: var(--accent); }
-.hdr__contact { display: inline-flex; align-items: center; gap: 8px; }
+.hdr__contact { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; } /* pushed to the right end of the plate */
 .hdr__contact-ico { display: grid; place-items: center; width: 13px; height: 13px; border-radius: 2px; background: #d6c6ee; color: #1f2a4d; transition: background .2s, color .2s; }
 .hdr__contact:hover .hdr__contact-ico { background: var(--ink); color: #fff; }
 
@@ -396,7 +396,8 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 
 /* ---------- Tablet ---------- */
 @media (max-width: 960px) {
-  .hdr__nav { left: auto; right: 16px; padding: 8px 10px 8px 16px; }
+  .hdr { padding-inline: 28px; }
+  .hdr__nav { left: auto; right: 28px; padding: 10px 0; }
   .hdr::before { inset: 8px; }
   .hdr__nav a:not(.hdr__contact) { display: none; }
   .hero { min-height: 0; padding-top: 110px; padding-bottom: 300px; align-items: flex-start; }
