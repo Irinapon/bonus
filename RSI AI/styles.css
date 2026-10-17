@@ -113,7 +113,9 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   background: #cfd7fb;
   overflow: hidden;
 }
-.hero__bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% top; }
+/* Desktop: scale the render so the booth's left edge (x=1215 of 1840) lands on the content line (50%)
+   and its right edge on the screen edge: width = 100% × 1840 / (2 × 625) = 147.2%. */
+.hero__bg { position: absolute; top: 0; right: 0; width: max(147.2%, calc(100svh * 1840 / 854)); height: auto; min-height: 100%; object-fit: cover; object-position: right top; }
 .hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(214,218,250,.45) 0%, rgba(214,218,250,.2) 38%, rgba(214,218,250,0) 55%); }
 .hero__copy { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 10px; max-width: 837px; padding: 35px 0 20px; }
 .eyebrow { font-size: 14px; line-height: 15px; font-weight: 600; text-transform: uppercase; color: var(--ink); }
@@ -393,7 +395,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   .hdr__nav { left: auto; right: 16px; padding: 8px 10px 8px 16px; }
   .hdr__nav a:not(.hdr__contact) { display: none; }
   .hero { min-height: 0; padding-top: 110px; padding-bottom: 300px; align-items: flex-start; }
-  .hero__bg { height: 100%; object-position: 78% bottom; }
+  .hero__bg { left: 0; right: auto; width: 100%; height: 100%; min-height: 0; object-position: 78% bottom; }
   .hero::after { display: none; }
   .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(207,215,251,.85) 0%, rgba(220,214,246,.7) 60%, rgba(220,214,246,0) 92%); }
   .hero__copy { z-index: 2; }

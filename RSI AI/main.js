@@ -86,13 +86,14 @@
   };
 
   const place = () => {
-    const r = cvs.getBoundingClientRect();
+    const r = cvs.getBoundingClientRect(), b = img.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     W = r.width; H = r.height;
     cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
-    const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => parseFloat(v) / 100);
-    const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
-    map = { s, ox: (W - img.naturalWidth * s) * px, oy: (H - img.naturalHeight * s) * py };
+    // image box may be larger than the hero (desktop zoom); account for its offset and object-fit: cover
+    const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => (v === 'right' || v === 'bottom' ? 1 : v === 'left' || v === 'top' ? 0 : parseFloat(v) / 100));
+    const s = Math.max(b.width / img.naturalWidth, b.height / img.naturalHeight);
+    map = { s, ox: b.left - r.left + (b.width - img.naturalWidth * s) * px, oy: b.top - r.top + (b.height - img.naturalHeight * s) * py };
   };
 
   const draw = (t) => {
