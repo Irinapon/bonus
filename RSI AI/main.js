@@ -291,6 +291,79 @@
   img.complete && img.naturalWidth ? init() : img.addEventListener('load', init, { once: true });
 })();
 
+// Final CTA render: one speaker's caption lines light up, the signal crosses the glass column,
+// then the other screen fills in — alternating direction each cycle. Image px: 1942×809.
+(() => {
+  const img = document.querySelector('.cta__bg');
+  const cvs = document.querySelector('.cta__fx');
+  if (!img || !cvs) return;
+  const ctx = cvs.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const IW = 1942, IH = 809;
+  const ROWS = [339, 351, 365, 378, 392];
+  const SCREENS = [{ x0: 1117, x1: 1218, box: [1099, 317, 142, 95] }, { x0: 1484, x1: 1582, box: [1460, 317, 140, 95] }];
+  const LINK = { y: 385, x0: 1240, x1: 1460 };
+  const T_FILL = 2200, T_CROSS = 900, T_HOLD = 700, CYCLE = (T_FILL + T_CROSS) * 2 + T_HOLD;
+  let W = 0, H = 0, dpr = 1, s = 1, ox = 0, oy = 0;
+  const place = () => {
+    const r = cvs.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    W = r.width; H = r.height;
+    cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+    const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => (v === 'right' || v === 'bottom' ? 1 : v === 'left' || v === 'top' ? 0 : parseFloat(v) / 100));
+    s = Math.max(W / IW, H / IH); ox = (W - IW * s) * px; oy = (H - IH * s) * py;
+  };
+  const X = (x) => ox + x * s, Y = (y) => oy + y * s;
+  const fillLines = (scr, p) => { // p: 0…1 progress of "typing" across the 5 lines
+    ROWS.forEach((y, i) => {
+      const lp = Math.min(1, Math.max(0, p * ROWS.length - i));
+      if (!lp) return;
+      ctx.fillStyle = 'rgba(255,255,255,.95)';
+      ctx.shadowColor = 'rgba(255,255,255,.9)'; ctx.shadowBlur = 6 * s;
+      ctx.fillRect(X(scr.x0), Y(y - 2.2), (scr.x1 - scr.x0) * lp * s, 4.4 * s);
+    });
+    ctx.shadowBlur = 0;
+  };
+  const glowBox = (scr, a) => {
+    const [x, y, w, h] = scr.box;
+    ctx.strokeStyle = `rgba(255,255,255,${a})`; ctx.lineWidth = Math.max(1, 1.5 * s);
+    ctx.strokeRect(X(x), Y(y), w * s, h * s);
+  };
+  const pulse = (p, dir) => {
+    const x = dir > 0 ? LINK.x0 + (LINK.x1 - LINK.x0) * p : LINK.x1 - (LINK.x1 - LINK.x0) * p;
+    const g = ctx.createRadialGradient(X(x), Y(LINK.y), 0, X(x), Y(LINK.y), 34 * s);
+    g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.35, 'rgba(255,190,225,.55)'); g.addColorStop(1, 'rgba(255,190,225,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X(x), Y(LINK.y), 34 * s, 0, Math.PI * 2); ctx.fill();
+  };
+  const draw = (t) => {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+    const c = t % CYCLE;
+    // two legs per cycle: left→right, then right→left
+    const leg = c < T_FILL + T_CROSS ? 0 : 1;
+    const lc = leg ? c - (T_FILL + T_CROSS) : c;
+    const from = SCREENS[leg], to = SCREENS[1 - leg];
+    if (lc < T_FILL) { glowBox(from, .5); fillLines(from, lc / T_FILL); }
+    else if (lc < T_FILL + T_CROSS) {
+      const p = (lc - T_FILL) / T_CROSS;
+      fillLines(from, 1 - p); pulse(p, leg ? -1 : 1); fillLines(to, p * 0.25); glowBox(to, .5 * p);
+    } else { glowBox(to, .5); fillLines(to, 1); }
+    ctx.globalCompositeOperation = 'source-over';
+  };
+  let running = false, raf = 0;
+  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
+  const stop = () => { running = false; cancelAnimationFrame(raf); };
+  const init = () => {
+    place();
+    window.addEventListener('resize', place);
+    new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+  };
+  img.complete && img.naturalWidth ? init() : img.addEventListener('load', init, { once: true });
+})();
+
 // TEMP guides: content line (menu start) and 2nd menu item (press G to toggle)
 (() => {
   const mk = () => { const d = document.createElement('div'); d.className = 'guide'; document.body.appendChild(d); return d; };

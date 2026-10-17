@@ -652,3 +652,4 @@ body.no-guides .guide { display: none; }
 .mode .art--mode { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
 .mode:hover .art--mode { transform: translateY(-6px); box-shadow: 0 22px 36px -24px rgba(13,20,48,.5); }
 @media (prefers-reduced-motion: reduce) { .mode svg * { animation: none !important; } }
+.cta__fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
