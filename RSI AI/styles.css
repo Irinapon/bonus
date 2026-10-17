@@ -734,3 +734,28 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   .hdr.is-open::before { opacity: 0; }
 }
 .art--photo figcaption { color: #fff; text-transform: uppercase; letter-spacing: -.01em; } /* white caption, like the band photo label */
+
+/* Mobile renders: portrait images, no desktop overlays (wave, booth layer, caption animation) */
+@media (max-width: 960px) {
+  .hero__wave, .hero__fg, .cta__fx { display: none; }
+  .hero { min-height: 100svh; padding-bottom: 60px; }
+  .hero__bg { object-position: center bottom; }
+  .hero::before { background: linear-gradient(180deg, rgba(200,206,248,.55) 0%, rgba(200,206,248,.25) 45%, rgba(200,206,248,0) 65%); }
+  .cta { min-height: 100svh; }
+  .cta__bg { object-position: center bottom; }
+  .cta::before { background: linear-gradient(180deg, rgba(200,206,248,.6) 0%, rgba(200,206,248,.25) 35%, rgba(200,206,248,0) 50%); }
+}
+/* Phones: stack copy over the open sky, image anchored at the bottom at its natural ratio so the booths sit below the text */
+@media (max-width: 960px) {
+  .hero, .cta { min-height: 0; display: block; }
+  .hero__bg, .cta__bg { top: auto; bottom: 0; height: auto; object-fit: fill; }
+  .hero { background: #8f9df0; padding-bottom: calc(177.7vw - 300px); }
+  .cta { background: #8a98ee; padding-bottom: calc(177.9vw - 220px); }
+  .cta__copy { padding-top: 90px; padding-bottom: 0; }
+  .hero::before, .cta::before { background: linear-gradient(180deg, rgba(200,206,248,.5) 0%, rgba(200,206,248,.2) 40%, rgba(200,206,248,0) 60%); }
+}
+@media (max-width: 960px) {
+  .hero__bg, .cta__bg { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22%); mask-image: linear-gradient(180deg, transparent 0, #000 22%); }
+  .cta { padding-bottom: calc(177.9vw - 110px); }
+  .cta__copy { padding-top: 110px; }
+}
