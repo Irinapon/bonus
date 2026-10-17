@@ -476,9 +476,6 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hdr .logo__text { font-size: 14.4px; line-height: 21.6px; }
 .hdr .logo__text small { font-size: 7.2px; line-height: 9.6px; }
 
-/* TEMP guides: vertical lines at the menu's right edge and the contact link's left edge (press G to toggle) */
-.guide { position: fixed; top: 0; bottom: 0; width: 0; border-left: 1px solid rgba(219,98,178,.85); z-index: 100; pointer-events: none; }
-body.no-guides .guide { display: none; }
 
 /* Copy v2 additions */
 .hang + .hang { margin-top: 12px; }
@@ -688,3 +685,17 @@ body.no-guides .guide { display: none; }
 .form .btn--hero:hover span, .form .btn--hero:hover i { background: transparent; color: #fff; }
 .form__submit { justify-content: flex-start; }
 .form label { margin-top: 20px; }
+
+/* ---------- Type scale (single source): 100 · 80 · 44 · 28 · 22 · 16 · 14 ---------- */
+.hero__title em { font-size: 1em; }
+.rw__fig { font-size: clamp(48px, 5.56vw, 80px); }
+.rw__fig small, .perf__num small { font-size: 28px; }
+.hero__stat strong small { font-size: 22px; }
+.rw__uses li { font-size: clamp(22px, 1.95vw, 28px); }
+.rw__uses li i, .modes__more .circle { font-size: 16px; }
+.faq__card-t { font-size: 22px; }
+.mock__cap { font-size: 16px; }
+.art--photo figcaption, .modes__more, .mock__bar,
+.sec__title span, .mode__n, .mock__live, .band__label, .ftr__bottom { font-size: 14px; }
+.logo--light .logo__text { font-size: 14.4px; line-height: 21.6px; }
+.logo--light .logo__mark { width: 26px; height: 20px; gap: 2.4px; }
