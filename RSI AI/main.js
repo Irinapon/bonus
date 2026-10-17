@@ -72,87 +72,79 @@
   });
 })();
 
-// Hero sound wave: re-draw the photo's own wave strands with a slow travelling ripple.
-// Works in image pixels (1942×809), so it lines up with the photo at any size or crop.
+// Hero sound wave: a bundle of thin glowing strands drawn over the clean photo and animated.
+// The path is set in image pixels (1840×854) so it stays attached to the booth at any crop.
 (() => {
   const img = document.querySelector('.hero__bg');
   const cvs = document.querySelector('.hero__wave');
-  if (!img || !cvs || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  // Band of the photo that holds the wave (image px), and the booth to leave untouched
-  const BAND = { x: 400, y: 170, w: 1542, h: 330 };
-  const BOOTH = { x: 1050, y: 110, w: 580, h: 440 };
-  // Wave centreline, image px (left wisp → booth → right edge)
-  const LINE = [[400, 440], [560, 430], [720, 400], [860, 345], [980, 300], [1080, 320], [1250, 360], [1400, 360], [1550, 335], [1700, 295], [1850, 260], [1942, 245]];
-
+  if (!img || !cvs) return;
   const ctx = cvs.getContext('2d');
-  cvs.width = BAND.w; cvs.height = BAND.h;
-  const band = document.createElement('canvas'); band.width = BAND.w; band.height = BAND.h;
-  const bctx = band.getContext('2d');
-  const mask = document.createElement('canvas'); mask.width = BAND.w; mask.height = BAND.h;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Soft mask: wide feathered stroke along the centreline, minus a feathered booth
-  const m = mask.getContext('2d');
-  m.lineCap = m.lineJoin = 'round';
-  m.strokeStyle = '#fff';
-  for (let wdt = 240; wdt >= 60; wdt -= 15) {
-    m.globalAlpha = 0.22;
-    m.lineWidth = wdt;
-    m.beginPath();
-    LINE.forEach(([x, y], i) => (i ? m.lineTo : m.moveTo).call(m, x - BAND.x, y - BAND.y));
-    m.stroke();
-  }
-  m.globalCompositeOperation = 'destination-out';
-  // booth fully excluded (no ghosting of the interpreter or desk), soft edge outside it
-  m.globalAlpha = 1;
-  m.fillRect(BOOTH.x - BAND.x, BOOTH.y - BAND.y, BOOTH.w, BOOTH.h);
-  for (let pad = 6; pad <= 36; pad += 6) {
-    m.globalAlpha = 0.2;
-    m.fillRect(BOOTH.x - BAND.x - pad, BOOTH.y - BAND.y - pad, BOOTH.w + pad * 2, BOOTH.h + pad * 2);
-  }
-  // fade out the far-left tip
-  const g = m.createLinearGradient(0, 0, 160, 0);
-  g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-  m.globalAlpha = 1; m.fillStyle = g; m.fillRect(0, 0, 160, BAND.h);
+  // Centreline of the wave in image px: enters from the sky on the left, swells through the booth, exits right
+  const PATH = [[860, 540], [1040, 480], [1220, 405], [1440, 370], [1650, 380], [1840, 320]]; // starts right of the headline, passes above the interpreter
+  const STRANDS = 34;
+  let map = { s: 1, ox: 0, oy: 0 }, W = 0, H = 0, dpr = 1;
 
-  // Place the canvas exactly over the band, using the image's object-fit: cover + object-position
-  const place = () => {
-    const box = img.getBoundingClientRect(), host = img.offsetParent.getBoundingClientRect();
-    const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => parseFloat(v) / 100);
-    const scale = Math.max(box.width / img.naturalWidth, box.height / img.naturalHeight);
-    const ox = (box.width - img.naturalWidth * scale) * px + (box.left - host.left);
-    const oy = (box.height - img.naturalHeight * scale) * py + (box.top - host.top);
-    Object.assign(cvs.style, {
-      left: `${ox + BAND.x * scale}px`, top: `${oy + BAND.y * scale}px`,
-      width: `${BAND.w * scale}px`, height: `${BAND.h * scale}px`,
-    });
-  };
-
-  const COL = 2, AMP = 13, WAVELEN = 420, SPEED = 1.3; // px, px, px, rad/s
-  let running = false, raf = 0;
-  const frame = (t) => {
-    const ph = (t / 1000) * SPEED;
-    bctx.clearRect(0, 0, BAND.w, BAND.h);
-    for (let x = 0; x < BAND.w; x += COL) {
-      const dy = AMP * Math.sin(((x + BAND.x) / WAVELEN) * Math.PI * 2 - ph)
-               + AMP * 0.4 * Math.sin(((x + BAND.x) / (WAVELEN * 0.47)) * Math.PI * 2 - ph * 1.7);
-      bctx.drawImage(img, BAND.x + x, BAND.y, COL, BAND.h, x, dy, COL, BAND.h);
+  const centre = (x) => { // linear interpolation along PATH, smoothed by a cosine ease
+    for (let i = 1; i < PATH.length; i++) {
+      const [x0, y0] = PATH[i - 1], [x1, y1] = PATH[i];
+      if (x <= x1) { const t = (x - x0) / (x1 - x0), e = (1 - Math.cos(Math.PI * t)) / 2; return y0 + (y1 - y0) * e; }
     }
-    bctx.globalCompositeOperation = 'destination-in';
-    bctx.drawImage(mask, 0, 0);
-    bctx.globalCompositeOperation = 'source-over';
-    ctx.clearRect(0, 0, BAND.w, BAND.h);
-    ctx.drawImage(band, 0, 0);
-    if (running) raf = requestAnimationFrame(frame);
+    return PATH[PATH.length - 1][1];
   };
-  const start = () => { if (!running) { running = true; raf = requestAnimationFrame(frame); } };
+
+  const place = () => {
+    const r = cvs.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+    const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => parseFloat(v) / 100);
+    const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+    map = { s, ox: (W - img.naturalWidth * s) * px, oy: (H - img.naturalHeight * s) * py };
+  };
+
+  const draw = (t) => {
+    const ph = t / 1000;
+    const { s, ox, oy } = map;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.lineWidth = Math.max(0.6, s * 0.8);
+    const x0 = PATH[0][0], x1 = PATH[PATH.length - 1][0];
+    const grad = ctx.createLinearGradient(ox + x0 * s, 0, ox + x1 * s, 0);
+    grad.addColorStop(0, 'rgba(210,225,255,0)');
+    grad.addColorStop(0.2, 'rgba(210,225,255,.38)');
+    grad.addColorStop(0.55, 'rgba(235,215,255,.42)');
+    grad.addColorStop(0.9, 'rgba(255,175,220,.5)');
+    grad.addColorStop(1, 'rgba(255,175,220,.3)');
+    ctx.strokeStyle = grad;
+    for (let k = 0; k < STRANDS; k++) {
+      const u = k / (STRANDS - 1) - 0.5; // -0.5 … 0.5 across the bundle
+      ctx.beginPath();
+      for (let x = x0; x <= x1; x += 6) {
+        const p = (x - x0) / (x1 - x0);
+        const spread = 14 + 62 * Math.sin(Math.PI * Math.min(1, p * 1.1)) ** 2;      // bundle opens in the middle
+        const twist = Math.sin(x / 260 - ph * 0.9 + u * 2.2);                       // strands cross over each other
+        const swell = 18 * Math.sin(x / 210 - ph * 1.6) + 7 * Math.sin(x / 95 - ph * 2.3 + u * 3); // travelling wave
+        const y = centre(x) + u * spread * twist + swell * (0.4 + 0.6 * p);
+        const sx = ox + x * s, sy = oy + y * s;
+        x === x0 ? ctx.moveTo(sx, sy) : ctx.lineTo(sx, sy);
+      }
+      ctx.stroke();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  };
+
+  let running = false, raf = 0;
+  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
   const stop = () => { running = false; cancelAnimationFrame(raf); };
 
   const init = () => {
-    place();
-    window.addEventListener('resize', place);
-    // only animate while the hero is on screen and the tab is visible
-    new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(img);
+    place(); draw(0);
+    window.addEventListener('resize', () => { place(); draw(performance.now()); });
+    new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   };
   img.complete && img.naturalWidth ? init() : img.addEventListener('load', init, { once: true });
