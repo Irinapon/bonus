@@ -60,7 +60,7 @@
 })();
 
 // Hero sound wave: a bundle of thin glowing strands drawn over the clean photo and animated.
-// The path is set in image pixels (1840×854) so it stays attached to the booth at any crop.
+// The path is set in image pixels (2000×1185) so it stays attached to the booth at any crop.
 (() => {
   const img = document.querySelector('.hero__bg');
   const cvs = document.querySelector('.hero__wave');
@@ -69,11 +69,11 @@
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Centreline of the wave in image px: enters from the sky on the left, swells through the booth, exits right
-  const PATH = [[120, 640], [420, 620], [720, 560], [980, 470], [1180, 420], [1420, 450], [1640, 430], [1840, 360]]; // from the left sky, through the booth, out to the right
+  const PATH = [[150, 880], [500, 850], [850, 770], [1130, 650], [1380, 575], [1620, 545], [1840, 525], [2000, 470]]; // from the left sky, through the booth, out to the right
   // Booth glass (image px): the wave is dimmed inside it so it reads as passing through the glass;
   // the interpreter is cut out almost completely so she stays clean
-  const BOOTH = { x: 1215, y: 195, w: 625, h: 565 };
-  const PERSON = { x: 1585, y: 440, w: 140, h: 290 };
+  const BOOTH = { x: 1135, y: 265, w: 865, h: 790 };
+  const PERSON = { x: 1640, y: 610, w: 190, h: 380 };
   const STRANDS = 60;
   let map = { s: 1, ox: 0, oy: 0 }, W = 0, H = 0, dpr = 1;
 
@@ -119,9 +119,9 @@
       let px = 0, py = 0;
       for (let x = x0; x <= x1; x += 12) {
         const p = (x - x0) / (x1 - x0);
-        const spread = 70 + 150 * Math.sin(Math.PI * Math.min(1, p * 1.05)) ** 2; // wide ribbon, fullest mid-way
+        const spread = 90 + 190 * Math.sin(Math.PI * Math.min(1, p * 1.05)) ** 2; // wide ribbon, fullest mid-way
         const twist = Math.sin(x / 260 - ph * 0.55 + u * 2.2);                     // strands cross over each other
-        const swell = 34 * Math.sin(x / 240 - ph * 0.85) + 10 * Math.sin(x / 110 - ph * 1.3 + u * 3); // travelling wave
+        const swell = 42 * Math.sin(x / 290 - ph * 0.85) + 12 * Math.sin(x / 130 - ph * 1.3 + u * 3); // travelling wave
         const y = centre(x) + u * spread * (0.6 + 0.4 * twist) + swell * (0.4 + 0.6 * p);
         const sx = ox + x * s, sy = oy + y * s;
         if (x === x0) ctx.moveTo(sx, sy);

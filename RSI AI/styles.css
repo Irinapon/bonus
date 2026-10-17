@@ -113,9 +113,9 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   background: #cfd7fb;
   overflow: hidden;
 }
-/* Booth enlarged further (1.2×): left edge stays on the content line, right side runs past the screen.
-   left: 50% + translateX(-66.03%) puts image x=1215 (booth's left edge, 1215/1840) exactly on the 50% line. */
-.hero__bg { position: absolute; top: -7vw; left: 50%; right: auto; transform: translateX(-66.03%); width: max(176.6%, calc((100svh + 7vw) * 1840 / 854)); max-width: none; height: auto; }
+/* Booth's left edge (x=1135 of the 2000px render) sits on the content line:
+   left: 50% + translateX(-56.75%); the width keeps the booth running to the right edge and covers the height. */
+.hero__bg { position: absolute; top: 0; left: 50%; right: auto; transform: translateX(-56.75%); width: max(116%, calc(100svh * 2000 / 1185)); max-width: none; height: auto; }
 .hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(214,218,250,.45) 0%, rgba(214,218,250,.2) 38%, rgba(214,218,250,0) 55%); }
 .hero__copy { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 10px; max-width: 837px; padding: 35px 0 20px; }
 .eyebrow { font-size: 14px; line-height: 15px; font-weight: 600; text-transform: uppercase; color: var(--ink); }
