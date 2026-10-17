@@ -381,20 +381,20 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .ftr__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
 .ftr__left { padding-right: clamp(24px, 4vw, 64px); }
 .ftr__right { display: grid; grid-template-columns: 1fr minmax(220px, 40%); gap: 0 30px; align-items: start; }
-.label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin-bottom: 12px; }
+.label { font-size: 14px; text-transform: uppercase; letter-spacing: -.01em; color: #fff; margin-bottom: 12px; }
 .form { margin-top: clamp(50px, 8vw, 110px); }
 .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form label { display: block; margin-top: 14px; }
-.form label span { display: block; font-size: 10.5px; color: #aeb4cc; margin-bottom: 2px; }
+.form label span { display: block; font-size: 14px; color: #aeb4cc; margin-bottom: 4px; }
 .form input, .form textarea {
   width: 100%; background: transparent; border: 0; border-bottom: 1px solid #3a4266;
-  color: #fff; font: inherit; font-size: 13px; padding: 6px 0; outline: none; resize: vertical;
+  color: #fff; font: inherit; font-size: 16px; padding: 6px 0; outline: none; resize: vertical;
   transition: border-color .3s;
 }
 .form input::placeholder { color: #545c7c; }
 .form input:focus, .form textarea:focus { border-color: #a9b6ff; }
 .form__submit { display: flex; align-items: center; gap: 20px; justify-content: center; margin-top: 26px; }
-.form__ok { font-size: 12px; color: #a9b6ff; }
+.form__ok { font-size: 14px; color: #a9b6ff; }
 .ftr__cols { display: grid; grid-template-columns: 1fr; gap: 36px; font-size: 14px; }
 .ftr__cols a { padding-left: var(--indent); } /* links on the 2nd guide, labels on the content line */
 .ftr__cols a { display: block; line-height: 1.7; transition: color .2s; }
@@ -687,3 +687,4 @@ body.no-guides .guide { display: none; }
 .form .btn--hero span, .form .btn--hero i { border: 1px solid #f8fdfe; }
 .form .btn--hero:hover span, .form .btn--hero:hover i { background: transparent; color: #fff; }
 .form__submit { justify-content: flex-start; }
+.form label { margin-top: 20px; }
