@@ -133,11 +133,11 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   margin-left: -.07em; /* optical alignment with the eyebrow: Work Sans side bearing */
 }
 .hero__title em { font-style: italic; color: var(--accent); font-size: .9015em; }
-.hero__lead { max-width: 638px; padding-top: 20px; font-size: 18px; line-height: 1.3; color: var(--ink); }
+.hero__lead { max-width: 638px; padding-top: 20px; font-size: 16px; line-height: 1.3; color: var(--ink); }
 .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding-top: 26px; }
 .btn--hero span, .btn--hero i { height: 40px; background: #f8fdfe; }
 .btn--hero { gap: 0; }
-.btn--hero span { min-width: 185px; padding: 0 22px; font-size: 14px; font-weight: 600; color: #2b3b56; text-transform: lowercase; }
+.btn--hero span { min-width: 185px; padding: 0 22px; font-size: 14px; font-weight: 600; color: #2b3b56; text-transform: uppercase; letter-spacing: -.01em; }
 .btn--hero i { width: 40px; color: #2b3b56; }
 .btn--hero:hover i { transform: translateX(3px); }
 .badge {
