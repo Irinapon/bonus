@@ -105,7 +105,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   background: #cfd7fb;
   overflow: hidden;
 }
-.hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% center; }
+.hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 36% center; }
 .hero__copy { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; max-width: 837px; padding: 35px 0 20px; }
 .eyebrow { font-size: 14px; line-height: 15px; font-weight: 600; text-transform: uppercase; color: var(--ink); }
 .eyebrow span { color: var(--accent); }
