@@ -22,7 +22,7 @@
   --blue: #6c80d6;
   --navy: #0d1430;
 
-  --sans: "Work Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --sans: "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
   --head: "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
   --accent: #d6335f;
   --content-x: 50%; /* main content line: right column of every .split; the header menu starts on it */
