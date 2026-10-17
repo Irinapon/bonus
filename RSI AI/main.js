@@ -6,8 +6,8 @@
   }
 
   // RSI Exchange cross-link — set the real URL here once the domain is confirmed
-  const RSI_EXCHANGE_URL = '#';
-  document.querySelectorAll('[data-rsi-exchange]').forEach((a) => { a.href = RSI_EXCHANGE_URL; });
+  const RSI_EXCHANGE_URL = 'https://rsiexchange.com/';
+  document.querySelectorAll('[data-rsi-exchange]').forEach((a) => { a.href = RSI_EXCHANGE_URL; a.target = '_blank'; a.rel = 'noopener'; });
 
   // Header background after scroll
   const hdr = document.getElementById('hdr');
