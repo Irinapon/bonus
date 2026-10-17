@@ -175,36 +175,32 @@
       <p class="hang">RSI X AI runs at a <b>maximum latency of 3 seconds</b> in internal end-to-end timing tests — comparable to human interpretation. Speech is processed in 100-millisecond chunks, keeping translation as close to real time as possible.</p>
     </div>
   </div>
-  <div class="stats" tabindex="0" aria-label="Key numbers">
-    <article class="stat">
-      <p class="stat__n">01</p>
-      <div class="stat__card">
-        <header><b>Latency</b><span>Maximum latency of 3 seconds, comparable to human interpretation.</span></header>
-        <p class="stat__big"><b>≤ 3 sec</b> <span>maximum latency,</span> <b>end to end</b></p>
-      </div>
-    </article>
-    <article class="stat">
-      <p class="stat__n">02</p>
-      <div class="stat__card">
-        <header><b>Processing</b><span>Speech is processed in 100-millisecond chunks instead of waiting for complete sentences.</span></header>
-        <p class="stat__big"><b>100 ms</b> <span>speech chunks keep translation</span> <b>near real time</b></p>
-      </div>
-    </article>
-    <article class="stat">
-      <p class="stat__n">03</p>
-      <div class="stat__card">
-        <header><b>Languages</b><span>70+ languages supported for live interpretation and captions.</span></header>
-        <p class="stat__big"><b>70+</b> <span>languages for</span> <b>voice and captions</b></p>
-      </div>
-    </article>
-    <article class="stat">
-      <p class="stat__n">04</p>
-      <div class="stat__card">
-        <header><b>Bandwidth</b><span>HD-quality audio on as little as 160 Kbps.</span></header>
-        <p class="stat__big"><b>160 Kbps</b> <span>is enough for</span> <b>HD-quality audio</b></p>
-      </div>
-    </article>
-  </div>
+  <ol class="perf" aria-label="Key numbers">
+    <li class="perf__row">
+      <span class="perf__n">01</span>
+      <h3 class="perf__title"><span class="perf__num">3<small>sec</small></span><span class="perf__label">Maximum latency</span></h3>
+      <p class="perf__body">Measured end to end in internal timing tests — comparable to human interpretation.</p>
+      <ul class="perf__tags"><li>End-to-end</li><li>Internal tests</li></ul>
+    </li>
+    <li class="perf__row">
+      <span class="perf__n">02</span>
+      <h3 class="perf__title"><span class="perf__num">100<small>ms</small></span><span class="perf__label">Speech chunks</span></h3>
+      <p class="perf__body">Speech is processed in 100-millisecond chunks instead of waiting for complete sentences.</p>
+      <ul class="perf__tags"><li>Streaming</li><li>Near real time</li></ul>
+    </li>
+    <li class="perf__row">
+      <span class="perf__n">03</span>
+      <h3 class="perf__title"><span class="perf__num">70<small>+</small></span><span class="perf__label">Languages</span></h3>
+      <p class="perf__body">Supported for live interpretation and captions, one language on screen at a time.</p>
+      <ul class="perf__tags"><li>Voice</li><li>Captions</li></ul>
+    </li>
+    <li class="perf__row">
+      <span class="perf__n">04</span>
+      <h3 class="perf__title"><span class="perf__num">160<small>Kbps</small></span><span class="perf__label">HD audio</span></h3>
+      <p class="perf__body">HD-quality audio on as little as 160 Kbps — the same lightweight base as RSI Exchange, proven on 3G.</p>
+      <ul class="perf__tags"><li>Low bandwidth</li><li>Low battery</li></ul>
+    </li>
+  </ol>
 </section>
 
 <!-- ============ BAND ============ -->
