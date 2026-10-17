@@ -289,9 +289,9 @@
           <rect width="300" height="220" fill="url(#skyWarm)"/>
           <rect x="120" width="60" height="220" fill="#8f96e0" opacity=".45"/>
           <path d="M150 0v220M20 110h260" stroke="#3a4380" stroke-width="2"/>
-          <circle cx="150" cy="60" r="16" fill="#8a5fc0"/>
-          <circle cx="150" cy="110" r="6" fill="#3a4380"/>
-          <circle cx="150" cy="160" r="18" fill="#1b2150"/>
+          <circle class="m1-top" cx="150" cy="60" r="16" fill="#8a5fc0"/>
+          <circle class="m1-mid" cx="150" cy="110" r="6" fill="#3a4380"/>
+          <circle class="m1-bot" cx="150" cy="160" r="18" fill="#1b2150"/>
         </svg>
       </figure>
       <h3><b>On its own</b></h3>
@@ -303,8 +303,8 @@
         <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
           <defs><radialGradient id="halo"><stop offset="0" stop-color="#6c6fd1" stop-opacity=".5"/><stop offset="1" stop-color="#6c6fd1" stop-opacity="0"/></radialGradient></defs>
           <rect width="300" height="220" fill="url(#skyWarm)"/>
-          <circle cx="150" cy="110" r="70" fill="url(#halo)"/>
-          <circle cx="150" cy="110" r="44" fill="none" stroke="#6c6fd1" stroke-opacity=".5"/>
+          <circle class="m2-halo" cx="150" cy="110" r="70" fill="url(#halo)"/>
+          <circle class="m2-ring" cx="150" cy="110" r="44" fill="none" stroke="#6c6fd1" stroke-opacity=".5"/><circle class="m2-ring m2-ring--2" cx="150" cy="110" r="44" fill="none" stroke="#6c6fd1" stroke-opacity=".5"/>
           <path d="M0 110h300M150 20v180" stroke="#3a4380" stroke-width="1.5"/>
           <circle cx="150" cy="110" r="14" fill="#141838"/>
         </svg>
@@ -318,9 +318,9 @@
         <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
           <rect width="300" height="220" fill="url(#skyWarm)"/>
           <rect y="130" width="300" height="90" fill="#9aa6ec" opacity=".7"/>
-          <rect x="110" y="60" width="80" height="80" fill="#6d5bb8" opacity=".55"/>
+          <rect class="m3-sq" x="110" y="60" width="80" height="80" fill="#6d5bb8" opacity=".55"/>
           <path d="M150 20v180M40 100h220" stroke="#3a4380" stroke-width="1.5"/>
-          <g fill="#141838"><circle cx="150" cy="20" r="3"/><circle cx="150" cy="200" r="3"/><circle cx="40" cy="100" r="3"/><circle cx="260" cy="100" r="3"/><circle cx="150" cy="100" r="4"/></g>
+          <g fill="#141838"><circle class="m3-dot" cx="150" cy="20" r="3"/><circle class="m3-dot" cx="260" cy="100" r="3"/><circle class="m3-dot" cx="150" cy="200" r="3"/><circle class="m3-dot" cx="40" cy="100" r="3"/><circle cx="150" cy="100" r="4"/></g>
         </svg>
       </figure>
       <h3><b>High-stakes events</b></h3>

@@ -626,3 +626,29 @@ body.no-guides .guide { display: none; }
   .cta__bg { object-position: 80% bottom; }
   .cta::before { background: linear-gradient(180deg, rgba(214,218,250,.85) 0%, rgba(214,218,250,.5) 55%, rgba(214,218,250,0) 80%); }
 }
+
+/* Where it fits: each card's diagram has its own quiet loop */
+.mode svg * { transform-box: fill-box; transform-origin: center; }
+/* 01 On its own: a signal drops down the line, gets processed in the middle, lands below */
+.m1-top { animation: m1-top 4s cubic-bezier(.45,0,.55,1) infinite; }
+.m1-mid { animation: m1-mid 4s ease-in-out infinite; }
+.m1-bot { animation: m1-bot 4s ease-in-out infinite; }
+@keyframes m1-top { 0%, 15% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(50px) scale(.35); opacity: .2; } 51% { transform: translateY(0) scale(.6); opacity: 0; } 70%, 100% { transform: none; opacity: 1; } }
+@keyframes m1-mid { 0%, 40%, 70%, 100% { transform: none; } 50% { transform: scale(2.2); } }
+@keyframes m1-bot { 0%, 50% { transform: none; } 62% { transform: scale(1.18); } 80%, 100% { transform: none; } }
+/* 02 Alongside interpreters: sonar rings around the interpreter */
+.m2-ring { animation: m2-ring 3.2s cubic-bezier(.2,.7,.2,1) infinite; }
+.m2-ring--2 { animation-delay: 1.6s; }
+.m2-halo { animation: m2-halo 3.2s ease-in-out infinite; }
+@keyframes m2-ring { 0% { transform: scale(.35); opacity: 0; } 15% { opacity: 1; } 100% { transform: scale(1.9); opacity: 0; } }
+@keyframes m2-halo { 50% { transform: scale(1.12); opacity: .75; } }
+/* 03 High-stakes: the four points are checked one by one, the core breathes */
+.m3-dot { animation: m3-dot 4s ease-in-out infinite; }
+.m3-dot:nth-child(2) { animation-delay: 1s; } .m3-dot:nth-child(3) { animation-delay: 2s; } .m3-dot:nth-child(4) { animation-delay: 3s; }
+.m3-sq { animation: m3-sq 4s ease-in-out infinite; }
+@keyframes m3-dot { 0%, 30%, 100% { transform: none; fill: #141838; } 12% { transform: scale(2.6); fill: #d6335f; } }
+@keyframes m3-sq { 50% { transform: scale(1.12) rotate(4deg); } }
+/* hover: the card lifts a little */
+.mode .art--mode { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
+.mode:hover .art--mode { transform: translateY(-6px); box-shadow: 0 22px 36px -24px rgba(13,20,48,.5); }
+@media (prefers-reduced-motion: reduce) { .mode svg * { animation: none !important; } }
