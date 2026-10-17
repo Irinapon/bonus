@@ -15,24 +15,24 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Keep the header menu 20px left of the roof in the hero render.
+  // Put the menu in one row, centred above the booth in the hero render.
   // Must match .hero__bg in styles.css: height 132%, object-position 56% top.
-  // Roof's leftmost point sits at x=864 in the 1942×809 image.
+  // In the 1942×809 image the booth's front face spans x=1067…1542.
   const hero = document.querySelector('.hero');
-  const IMG_W = 1942, IMG_H = 809, ROOF_X = 864, POS_X = 0.56, BOX_H = 1.32, GAP = 20;
+  const IMG_W = 1942, IMG_H = 809, BOOTH_L = 1067, BOOTH_R = 1542, POS_X = 0.56, BOX_H = 1.32;
   const placeNav = () => {
-    if (window.innerWidth <= 960) { hdr.style.removeProperty('--nav-right'); return; }
+    if (window.innerWidth <= 960) { hdr.style.removeProperty('--nav-left'); return; }
     const boxW = hero.clientWidth, boxH = hero.clientHeight * BOX_H;
     const scale = Math.max(boxW / IMG_W, boxH / IMG_H);
-    const roof = ROOF_X * scale - (IMG_W * scale - boxW) * POS_X;
-    // On narrower screens the roof comes too close to "Contact us": keep the menu clear of it instead
-    const contactRight = document.querySelector('.hdr__contact').getBoundingClientRect().right;
+    const shift = (IMG_W * scale - boxW) * POS_X;
+    const center = ((BOOTH_L + BOOTH_R) / 2) * scale - shift;
     const navW = document.querySelector('.hdr__nav').offsetWidth;
-    const navRightEdge = Math.max(roof - GAP, contactRight + 12 + navW);
-    hdr.style.setProperty('--nav-right', `${Math.round(boxW - navRightEdge)}px`);
+    const left = Math.min(Math.max(center - navW / 2, 20), boxW - navW - 20);
+    hdr.style.setProperty('--nav-left', `${Math.round(left)}px`);
   };
   placeNav();
   window.addEventListener('resize', placeNav);
+  document.fonts && document.fonts.ready.then(placeNav);
 
   // Line up the latency badge with the left edge of the header "contact us" link (desktop)
   const badge = document.querySelector('.hero .badge');

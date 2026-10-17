@@ -94,9 +94,9 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hdr__contact-ico { display: grid; place-items: center; width: 13px; height: 13px; border-radius: 2px; background: #d6c6ee; color: #1f2a4d; transition: background .2s, color .2s; }
 .hdr__contact:hover .hdr__contact-ico { background: var(--ink); color: #fff; }
 .hdr__contact:hover { color: var(--ink); }
-.hdr__nav { grid-column: 2 / 4; grid-row: 1; justify-self: end; white-space: nowrap; display: flex; flex-direction: column; align-items: flex-end; gap: 3.5px; margin: 6px 18vw 0 0; }
-/* main.js sets --nav-right so the menu ends 20px before the roof in the hero render */
-.hdr[style*="--nav-right"] .hdr__nav { grid-column: auto; grid-row: auto; position: absolute; top: 22px; right: var(--nav-right); margin: 0; }
+.hdr__nav { grid-column: 3 / 7; grid-row: 1; justify-self: center; display: flex; gap: 32px; white-space: nowrap; margin-top: 6px; }
+/* main.js sets --nav-left so the menu row sits centred above the booth in the hero render */
+.hdr[style*="--nav-left"] .hdr__nav { grid-column: auto; grid-row: auto; position: absolute; top: 22px; left: var(--nav-left); margin: 0; }
 .hdr__nav a { transition: color .2s; }
 .hdr__nav a:hover { color: var(--accent); }
 
