@@ -613,3 +613,7 @@ body.no-guides .guide { display: none; }
 
 .modes__more .circle { width: 44px; height: 44px; color: var(--accent); border-color: var(--accent); font-size: 18px; }
 .modes__more:hover .circle { background: var(--accent); color: #fff; border-color: var(--accent); }
+.flow__step .ico--flow { width: 27px; height: 21px; }
+/* FAQ: answer height animated by main.js */
+.qa__a { overflow: hidden; }
+.qa[open] .qa__a { animation: none; }

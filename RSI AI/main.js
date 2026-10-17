@@ -27,6 +27,34 @@
   window.addEventListener('resize', setIndent);
   document.fonts && document.fonts.ready.then(setIndent);
 
+  // FAQ accordion: smooth open/close, only one answer open at a time
+  const qas = [...document.querySelectorAll('.qa')];
+  const D = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 420;
+  const animate = (el, from, to, done) => {
+    if (!D) { done && done(); return; }
+    const a = el.animate([{ height: `${from}px`, opacity: from ? 1 : 0 }, { height: `${to}px`, opacity: to ? 1 : 0 }], { duration: D, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    a.onfinish = () => done && done();
+  };
+  const close = (d) => {
+    const body = d.querySelector('.qa__a');
+    d.classList.add('is-closing');
+    animate(body, body.offsetHeight, 0, () => { d.open = false; d.classList.remove('is-closing'); });
+  };
+  const open = (d) => {
+    d.open = true;
+    const body = d.querySelector('.qa__a');
+    animate(body, 0, body.offsetHeight);
+  };
+  qas.forEach((d) => {
+    d.querySelector('summary').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (d.classList.contains('is-closing')) return;
+      if (d.open) { close(d); return; }
+      qas.forEach((o) => { if (o !== d && o.open) close(o); });
+      open(d);
+    });
+  });
+
   // Reveal on scroll
   const targets = document.querySelectorAll('.sec__title, .lede, .hang, .rows li, .art, .stat, .card, .mode, .tr, .qa, .faq__card, .mock, .perf__row, .flow__step, .rw__panel');
   targets.forEach((el) => el.classList.add('reveal'));
