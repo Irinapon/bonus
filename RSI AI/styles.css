@@ -103,7 +103,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   display: flex; align-items: center; justify-content: space-between; gap: 28px; white-space: nowrap;
   padding: 10px 12px 10px 0;
 }
-.hdr__nav a { font-size: 14px; font-weight: 500; color: var(--ink); transition: color .2s; }
+.hdr__nav a { font-size: 13px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); transition: color .2s; }
 .hdr__nav a:hover { color: var(--accent); }
 .hdr__contact { display: inline-flex; align-items: center; gap: 8px; }
 .hdr__contact-ico { display: grid; place-items: center; width: 13px; height: 13px; border-radius: 2px; background: #d6c6ee; color: #1f2a4d; transition: background .2s, color .2s; }
