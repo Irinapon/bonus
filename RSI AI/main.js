@@ -34,6 +34,19 @@
   placeNav();
   window.addEventListener('resize', placeNav);
 
+  // Line up the latency badge with the left edge of the header "contact us" link (desktop)
+  const badge = document.querySelector('.hero .badge');
+  const alignBadge = () => {
+    badge.style.marginLeft = '';
+    if (window.innerWidth <= 960) return;
+    const target = document.querySelector('.hdr__contact').getBoundingClientRect().left;
+    const shift = target - badge.getBoundingClientRect().left;
+    if (shift > 0) badge.style.marginLeft = `${shift}px`;
+  };
+  alignBadge();
+  window.addEventListener('resize', alignBadge);
+  document.fonts && document.fonts.ready.then(alignBadge);
+
   // Reveal on scroll
   const targets = document.querySelectorAll('.sec__title, .lede, .hang, .rows li, .art, .stat, .card, .mode, .tr, .faq, .mock');
   targets.forEach((el) => el.classList.add('reveal'));
