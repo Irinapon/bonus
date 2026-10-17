@@ -683,3 +683,7 @@ body.no-guides .guide { display: none; }
 .ftr__credit a:hover, .ftr__legal a:hover { color: #fff; }
 .ftr__bottom-r { display: flex; justify-content: space-between; gap: 10px 24px; flex-wrap: wrap; } /* starts on the content line */
 .ftr--legal .ftr__bottom { display: flex; justify-content: space-between; flex-wrap: wrap; }
+/* Footer submit = site CTA; on hover becomes a white outline (dark background) */
+.form .btn--hero span, .form .btn--hero i { border: 1px solid #f8fdfe; }
+.form .btn--hero:hover span, .form .btn--hero:hover i { background: transparent; color: #fff; }
+.form__submit { justify-content: flex-start; }
