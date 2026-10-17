@@ -397,7 +397,9 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .ftr__cols a:hover { color: #fff; }
 .ftr__note { font-size: 10.5px; color: #8189a8; margin-top: 10px; max-width: 22ch; }
 .ftr__about { margin-top: 18px; max-width: 36ch; font-size: 14px; color: #aeb4cc; }
-.ftr__art .art { aspect-ratio: 5 / 6; }
+.ftr__art .art { aspect-ratio: 965 / 1630; }
+.ftr__photo img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.ftr__photo:hover img { transform: scale(1.04); }
 .ftr__bottom {
   display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
   margin-top: 60px; padding-top: 14px; border-top: 1px solid #2a3150;
