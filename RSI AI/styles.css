@@ -501,9 +501,10 @@ body.no-guides .guide { display: none; }
 .perf__label { font-size: clamp(20px, 1.95vw, 28px); letter-spacing: -.025em; }
 .perf__body { max-width: 440px; padding-top: 10px; padding-left: var(--indent); color: var(--ink-2); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
 .perf__row:hover .perf__body { transform: translateX(6px); }
-.perf__tags { list-style: none; margin: 0; padding: 10px 0 0 24px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; max-width: 260px; }
+.perf__tags { list-style: none; margin: 0; padding: 10px 0 0 24px; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; max-width: 260px; } /* one tag per line in every row */
 .perf__tags li { font-size: 14px; letter-spacing: -.01em; text-transform: uppercase; color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
 @media (max-width: 960px) {
   .perf__row { grid-template-columns: 40px 1fr; row-gap: 12px; }
   .perf__body, .perf__tags { grid-column: 2; padding-left: 0; padding-top: 0; justify-content: flex-start; max-width: none; }
+  .perf__tags { flex-direction: row; flex-wrap: wrap; align-items: center; }
 }
