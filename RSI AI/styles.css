@@ -574,3 +574,17 @@ body.no-guides .guide { display: none; }
   .flow__note { padding-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .flow::after { display: none; } }
+
+/* Responsive flow cards: the hovered/focused card takes the dark "active" look, the others stay light */
+.flow__step { transition: background .35s, color .35s, border-color .35s, transform .45s cubic-bezier(.2,.7,.2,1), box-shadow .45s; outline: none; cursor: default; }
+.flow__step p, .flow__n { transition: color .35s; }
+.flow__step .ico--brand { transition: fill .35s, transform .45s cubic-bezier(.2,.7,.2,1); }
+.flow:hover .flow__step--core:not(:hover), .flow:focus-within .flow__step--core:not(:focus) { background: var(--lav-2); color: var(--ink); border-color: var(--line-soft); }
+.flow:hover .flow__step--core:not(:hover) p, .flow:focus-within .flow__step--core:not(:focus) p { color: var(--ink-2); }
+.flow:hover .flow__step--core:not(:hover) .flow__n, .flow:focus-within .flow__step--core:not(:focus) .flow__n { color: var(--muted); }
+.flow:hover .flow__step--core:not(:hover) .ico--brand, .flow:focus-within .flow__step--core:not(:focus) .ico--brand { fill: var(--ink); }
+.flow .flow__step:hover, .flow .flow__step:focus-visible { background: var(--navy); color: #e8ebff; border-color: var(--navy); transform: translateY(-6px); box-shadow: 0 24px 40px -24px rgba(13,20,48,.55); }
+.flow .flow__step:hover p, .flow .flow__step:focus-visible p { color: #c9cfe6; }
+.flow .flow__step:hover .flow__n, .flow .flow__step:focus-visible .flow__n { color: var(--pink); }
+.flow .flow__step:hover .ico--brand, .flow .flow__step:focus-visible .ico--brand { fill: #fff; transform: scale(1.15) rotate(-6deg); }
+@media (hover: none) { .flow .flow__step:hover { transform: none; box-shadow: none; } }
