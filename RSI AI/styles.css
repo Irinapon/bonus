@@ -666,3 +666,6 @@ body.no-guides .guide { display: none; }
 .legal__body a:hover { color: var(--accent); }
 .ftr--legal { padding-top: 0; }
 .ftr--legal .ftr__bottom { margin-top: 0; padding-top: 18px; border-top: 0; }
+.legal__body ul { margin: 0 0 14px; padding-left: 20px; color: var(--ink-2); }
+.legal__body li { margin-bottom: 10px; }
+.legal__body li b { color: var(--ink); }
