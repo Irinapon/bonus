@@ -95,17 +95,20 @@
   const m = mask.getContext('2d');
   m.lineCap = m.lineJoin = 'round';
   m.strokeStyle = '#fff';
-  for (let wdt = 200; wdt >= 50; wdt -= 15) {
-    m.globalAlpha = 0.12;
+  for (let wdt = 240; wdt >= 60; wdt -= 15) {
+    m.globalAlpha = 0.22;
     m.lineWidth = wdt;
     m.beginPath();
     LINE.forEach(([x, y], i) => (i ? m.lineTo : m.moveTo).call(m, x - BAND.x, y - BAND.y));
     m.stroke();
   }
   m.globalCompositeOperation = 'destination-out';
-  for (let pad = 0; pad <= 40; pad += 8) {
-    m.globalAlpha = 0.25;
-    m.fillRect(BOOTH.x - BAND.x + pad, BOOTH.y - BAND.y + pad, BOOTH.w - pad * 2, BOOTH.h - pad * 2);
+  // booth fully excluded (no ghosting of the interpreter or desk), soft edge outside it
+  m.globalAlpha = 1;
+  m.fillRect(BOOTH.x - BAND.x, BOOTH.y - BAND.y, BOOTH.w, BOOTH.h);
+  for (let pad = 6; pad <= 36; pad += 6) {
+    m.globalAlpha = 0.2;
+    m.fillRect(BOOTH.x - BAND.x - pad, BOOTH.y - BAND.y - pad, BOOTH.w + pad * 2, BOOTH.h + pad * 2);
   }
   // fade out the far-left tip
   const g = m.createLinearGradient(0, 0, 160, 0);
@@ -125,7 +128,7 @@
     });
   };
 
-  const COL = 2, AMP = 5, WAVELEN = 360, SPEED = 0.9; // px, px, px, rad/s
+  const COL = 2, AMP = 13, WAVELEN = 420, SPEED = 1.3; // px, px, px, rad/s
   let running = false, raf = 0;
   const frame = (t) => {
     const ph = (t / 1000) * SPEED;
