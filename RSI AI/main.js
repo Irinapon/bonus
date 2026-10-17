@@ -15,6 +15,18 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  // Hanging indents and row offsets line up with the 2nd header menu item ("Why RSI X AI"):
+  // --indent = distance from the content line (menu start) to that item
+  const setIndent = () => {
+    const nav = document.querySelector('.hdr__nav'), items = nav.querySelectorAll('a');
+    if (window.innerWidth <= 960 || items.length < 2) { document.documentElement.style.removeProperty('--indent'); return; }
+    const d = items[1].getBoundingClientRect().left - nav.getBoundingClientRect().left;
+    document.documentElement.style.setProperty('--indent', `${Math.round(d)}px`);
+  };
+  setIndent();
+  window.addEventListener('resize', setIndent);
+  document.fonts && document.fonts.ready.then(setIndent);
+
   // Reveal on scroll
   const targets = document.querySelectorAll('.sec__title, .lede, .hang, .rows li, .art, .stat, .card, .mode, .tr, .faq, .mock');
   targets.forEach((el) => el.classList.add('reveal'));
