@@ -120,6 +120,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
   line-height: .85; letter-spacing: -.05em;
   max-width: 7.6em;
   text-wrap: balance;
+  margin-left: -.07em; /* optical alignment with the eyebrow: Work Sans side bearing */
 }
 .hero__title em { font-style: italic; color: var(--accent); font-size: .9015em; }
 .hero__lead { max-width: 638px; padding-top: 20px; font-size: 18px; line-height: 21px; color: var(--ink); }
