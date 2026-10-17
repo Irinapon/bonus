@@ -92,7 +92,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .hdr__contact { grid-column: 2; justify-self: start; display: inline-flex; align-items: center; gap: 4px; margin: 6px 0 0 17px; }
 .hdr__contact svg { width: 13px; height: 13px; }
 .hdr__contact:hover { opacity: 1; color: var(--blue); }
-.hdr__nav { grid-column: 3; justify-self: end; display: flex; flex-direction: column; align-items: flex-end; gap: 3.5px; margin-top: 6px; }
+.hdr__nav { grid-column: 3; justify-self: end; display: flex; flex-direction: column; align-items: flex-end; gap: 3.5px; margin: 6px 4vw 0 0; }
 .hdr__nav a { transition: color .2s; }
 .hdr__nav a:hover { color: var(--accent); }
 
