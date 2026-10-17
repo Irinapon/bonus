@@ -360,7 +360,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 /* ---------- Footer ---------- */
 .ftr { background: var(--navy); color: #d6daea; padding: clamp(60px, 8vw, 110px) var(--gut) 18px; }
 .ftr__grid { display: grid; grid-template-columns: 2.2fr 1.2fr 1fr; gap: 40px; }
-.label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--pink); margin-bottom: 12px; }
+.label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin-bottom: 12px; }
 .form { margin-top: clamp(50px, 8vw, 110px); }
 .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form label { display: block; margin-top: 14px; }
