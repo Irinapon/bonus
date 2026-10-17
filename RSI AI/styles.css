@@ -336,7 +336,7 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 .faq__card-t { font-family: var(--head); font-weight: 600; font-size: 20px; letter-spacing: -.02em; }
 .faq__card p:not(.faq__card-t) { color: var(--ink-2); }
 .faq__card .btn { margin-top: 8px; }
-.faq { border-top: 1px solid var(--line); }
+.faq { border-top: 0; } /* the section title rule already sits above the first question */
 .qa { border-bottom: 1px solid var(--line); }
 .qa summary {
   list-style: none; cursor: pointer;
