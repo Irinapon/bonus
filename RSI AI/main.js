@@ -28,7 +28,7 @@
   document.fonts && document.fonts.ready.then(setIndent);
 
   // Reveal on scroll
-  const targets = document.querySelectorAll('.sec__title, .lede, .hang, .rows li, .art, .stat, .card, .mode, .tr, .faq, .mock, .perf__row, .flow__step, .col');
+  const targets = document.querySelectorAll('.sec__title, .lede, .hang, .rows li, .art, .stat, .card, .mode, .tr, .faq, .mock, .perf__row, .flow__step, .rw__panel');
   targets.forEach((el) => el.classList.add('reveal'));
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
