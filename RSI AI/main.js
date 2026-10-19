@@ -89,7 +89,7 @@
     };
     walk(el);
   };
-  const heads = [...document.querySelectorAll('.eyebrow, .hero__title, .sec__title, .lede, .cta__copy h2, .perf__title, .rw__cap, .faq__card-t')];
+  const heads = [...document.querySelectorAll('.eyebrow, .hero__title, .hero__lead, .hero__stat strong, .hero__stat p, .hdr__nav a, .sec__title, .lede, .cta__copy h2, .perf__title, .rw__cap, .faq__card-t')];
   // section titles are flex rows (title + number): keep the title words in one flex item
   document.querySelectorAll('.sec__title').forEach((t) => {
     const wrap = document.createElement('span'); wrap.className = 'sec__t';
@@ -101,10 +101,18 @@
     // hero: play on load as an orchestrated intro
     const hero = document.querySelector('.hero');
     document.documentElement.classList.add('js-intro');
-    hero.querySelector('.hero__title').style.setProperty('--d', '250ms');
+    // timeline for every text on the first screen (start delay, per-word step)
+    const seq = [
+      ['.hdr__nav a', 150, 30], ['.eyebrow', 200, 45], ['.hero__title', 300, 60],
+      ['.hero__lead', 800, 12], ['.hero__stat strong', 1150, 80], ['.hero__stat p', 1250, 25],
+    ];
+    seq.forEach(([sel, d, step]) => document.querySelectorAll(sel).forEach((el, k) => {
+      el.style.setProperty('--d', `${d + k * (sel === '.hdr__nav a' ? 60 : 120)}ms`);
+      el.style.setProperty('--step', `${step}ms`);
+    }));
     const play = () => requestAnimationFrame(() => {
       document.documentElement.classList.add('is-loaded');
-      hero.querySelectorAll('.eyebrow, .hero__title').forEach((h) => h.classList.add('is-in'));
+      seq.forEach(([sel]) => document.querySelectorAll(sel).forEach((h) => h.classList.add('is-in')));
     });
     const bg = hero.querySelector('.hero__bg');
     (bg.complete ? Promise.resolve() : new Promise((r) => { bg.addEventListener('load', r, { once: true }); setTimeout(r, 1200); }))
@@ -113,7 +121,7 @@
     const hio = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); hio.unobserve(e.target); } });
     }, { rootMargin: '0px 0px -10% 0px' });
-    heads.filter((h) => !h.closest('.hero')).forEach((h) => hio.observe(h));
+    heads.filter((h) => !h.closest('.hero, .hdr')).forEach((h) => hio.observe(h));
   }
 
   // Reveal on scroll
