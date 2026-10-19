@@ -67,8 +67,57 @@
     });
   });
 
+  // Word-by-word reveal for the hero and every heading
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const splitWords = (el) => {
+    let i = 0;
+    const walk = (node) => {
+      [...node.childNodes].forEach((n) => {
+        if (n.nodeType === 3) {
+          const parts = n.textContent.split(/(\s+)/);
+          const frag = document.createDocumentFragment();
+          parts.forEach((p) => {
+            if (!p) return;
+            if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+            const w = document.createElement('span'); w.className = 'w';
+            const inner = document.createElement('span'); inner.textContent = p; inner.style.setProperty('--i', i++);
+            w.appendChild(inner); frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && !n.matches('.sec__title > span:not(.sec__t), br, svg')) walk(n);
+      });
+    };
+    walk(el);
+  };
+  const heads = [...document.querySelectorAll('.eyebrow, .hero__title, .sec__title, .lede, .cta__copy h2, .perf__title, .rw__cap, .faq__card-t')];
+  // section titles are flex rows (title + number): keep the title words in one flex item
+  document.querySelectorAll('.sec__title').forEach((t) => {
+    const wrap = document.createElement('span'); wrap.className = 'sec__t';
+    [...t.childNodes].forEach((n) => { if (!(n.nodeType === 1 && n.tagName === 'SPAN')) wrap.appendChild(n); });
+    t.prepend(wrap);
+  });
+  if (!reduceMotion) {
+    heads.forEach(splitWords);
+    // hero: play on load as an orchestrated intro
+    const hero = document.querySelector('.hero');
+    document.documentElement.classList.add('js-intro');
+    hero.querySelector('.hero__title').style.setProperty('--d', '250ms');
+    const play = () => requestAnimationFrame(() => {
+      document.documentElement.classList.add('is-loaded');
+      hero.querySelectorAll('.eyebrow, .hero__title').forEach((h) => h.classList.add('is-in'));
+    });
+    const bg = hero.querySelector('.hero__bg');
+    (bg.complete ? Promise.resolve() : new Promise((r) => { bg.addEventListener('load', r, { once: true }); setTimeout(r, 1200); }))
+      .then(() => (document.fonts ? document.fonts.ready : null)).then(play);
+    // other headings: on scroll
+    const hio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); hio.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    heads.filter((h) => !h.closest('.hero')).forEach((h) => hio.observe(h));
+  }
+
   // Reveal on scroll
-  const targets = document.querySelectorAll('.sec__title, .lede, .hang, .rows li, .art, .stat, .card, .mode, .tr, .qa, .faq__card, .mock, .perf__row, .flow__step, .rw__panel');
+  const targets = document.querySelectorAll('.hang, .rows li, .art, .stat, .card, .mode, .tr, .qa, .faq__card, .mock, .perf__row, .flow__step, .rw__panel');
   targets.forEach((el) => el.classList.add('reveal'));
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
