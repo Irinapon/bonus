@@ -1,3 +1,12 @@
+// Resize only when the canvas box really changed (the mobile URL bar fires resize on every scroll)
+const onBoxResize = (el, fn) => {
+  let w = el.clientWidth, h = el.clientHeight;
+  window.addEventListener('resize', () => {
+    if (Math.abs(el.clientWidth - w) < 1 && Math.abs(el.clientHeight - h) < 1) return;
+    w = el.clientWidth; h = el.clientHeight; fn();
+  });
+};
+
 (() => {
   // Headline option A: open the page with ?h=a
   if (new URLSearchParams(location.search).get('h') === 'a') {
@@ -195,14 +204,15 @@
   };
 
   const place = () => {
-    const r = cvs.getBoundingClientRect(), b = img.getBoundingClientRect();
+    // layout boxes (not getBoundingClientRect): the intro zoom transform must not skew the mapping
+    const b = { left: img.offsetLeft - cvs.offsetLeft, top: img.offsetTop - cvs.offsetTop, width: img.offsetWidth, height: img.offsetHeight };
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    W = r.width; H = r.height;
+    W = cvs.clientWidth; H = cvs.clientHeight;
     cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
     // image box may be larger than the hero (desktop zoom); account for its offset and object-fit: cover
     const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => (v === 'right' || v === 'bottom' ? 1 : v === 'left' || v === 'top' ? 0 : parseFloat(v) / 100));
     const s = Math.max(b.width / img.naturalWidth, b.height / img.naturalHeight);
-    map = { s, ox: b.left - r.left + (b.width - img.naturalWidth * s) * px, oy: b.top - r.top + (b.height - img.naturalHeight * s) * py };
+    map = { s, ox: b.left + (b.width - img.naturalWidth * s) * px, oy: b.top + (b.height - img.naturalHeight * s) * py };
   };
 
   const draw = (t) => {
@@ -262,11 +272,11 @@
 
   const init = () => {
     place(); draw(0);
-    let lastW = 0, lastH = 0;
+    let lastW = cvs.clientWidth, lastH = cvs.clientHeight;
     window.addEventListener('resize', () => { // ignore no-op resizes (e.g. mobile URL bar) that would reset the canvas
-      const r = cvs.getBoundingClientRect();
-      if (Math.abs(r.width - lastW) < 1 && Math.abs(r.height - lastH) < 1) return;
-      lastW = r.width; lastH = r.height; place(); draw(performance.now());
+        const w = cvs.clientWidth, h = cvs.clientHeight;
+      if (Math.abs(w - lastW) < 1 && Math.abs(h - lastH) < 1) return;
+      lastW = w; lastH = h; place(); draw(performance.now());
     });
     new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
@@ -299,9 +309,8 @@
 
   let W = 0, H = 0, dpr = 1, s = 1, ox = 0, oy = 0;
   const place = () => {
-    const r = cvs.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    W = r.width; H = r.height;
+    W = cvs.clientWidth; H = cvs.clientHeight;
     cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
     s = Math.max(W / IW, H / IH); ox = (W - IW * s) / 2; oy = (H - IH * s) / 2;
   };
@@ -353,7 +362,7 @@
   const stop = () => { running = false; cancelAnimationFrame(raf); };
   const init = () => {
     place(); draw(1200);
-    window.addEventListener('resize', () => { place(); draw(performance.now()); });
+    onBoxResize(cvs, () => { place(); draw(performance.now()); });
     new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   };
@@ -375,9 +384,8 @@
   const T_FILL = 2200, T_CROSS = 900, T_HOLD = 700, CYCLE = (T_FILL + T_CROSS) * 2 + T_HOLD;
   let W = 0, H = 0, dpr = 1, s = 1, ox = 0, oy = 0;
   const place = () => {
-    const r = cvs.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    W = r.width; H = r.height;
+    W = cvs.clientWidth; H = cvs.clientHeight;
     cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
     const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => (v === 'right' || v === 'bottom' ? 1 : v === 'left' || v === 'top' ? 0 : parseFloat(v) / 100));
     s = Math.max(W / IW, H / IH); ox = (W - IW * s) * px; oy = (H - IH * s) * py;
@@ -426,9 +434,13 @@
   const stop = () => { running = false; cancelAnimationFrame(raf); };
   const init = () => {
     place();
-    window.addEventListener('resize', place);
+    onBoxResize(cvs, () => { place(); if (!running) draw(performance.now()); });
     new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   };
   img.complete && img.naturalWidth ? init() : img.addEventListener('load', init, { once: true });
 })();
+
+// Images can't be dragged out of the page
+document.querySelectorAll('img').forEach((im) => { im.draggable = false; });
+document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target.closest('img, picture, canvas')) e.preventDefault(); });
