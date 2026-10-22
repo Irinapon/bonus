@@ -895,3 +895,6 @@ img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-
 .pre__ch--a { color: var(--accent); font-style: italic; }
 @keyframes pre-ch { to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .js .pre { display: none; } }
+
+/* over the video, the header plate skips backdrop blur (re-blurring every video frame stutters, esp. in Firefox) */
+.hero-video .hdr:not(.is-scrolled)::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(235,238,252,.42); }

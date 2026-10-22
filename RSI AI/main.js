@@ -11,7 +11,9 @@ const preload = (() => {
   const MIN = 2000, MAX = 6000, t0 = window.__preT0 || performance.now();
   const finish = () => {
     if (finished) return;
-    finished = true; el.classList.add('is-done'); resolveDone();
+    finished = true;
+    if (!location.hash && window.scrollY > 0) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    el.classList.add('is-done'); resolveDone();
     setTimeout(() => el.remove(), 800);
   };
   const minT = new Promise((r) => setTimeout(r, Math.max(0, MIN - (performance.now() - t0))));
@@ -650,7 +652,7 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   const v = box && box.querySelector('video');
   if (!v || !v.getAttribute('src')) return;
   const hero = box.closest('.hero');
-  const on = () => { if (!preload.finished) hero.classList.add('has-video'); };
+  const on = () => { if (!preload.finished) { hero.classList.add('has-video'); document.documentElement.classList.add('hero-video'); } };
   if (!v.paused && v.readyState > 2) on();
   else preload.wait(new Promise((r) => {
     v.addEventListener('playing', () => { on(); r(); }, { once: true });
