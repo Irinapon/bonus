@@ -12,10 +12,15 @@
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css?v=202610221828">
 <style>
-.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; transform-origin: 50% 50%; }
-.js-intro .hero__video { transform: scale(1.06); transition: transform 2.8s cubic-bezier(.16,1,.3,1); }
-.js-intro.is-loaded .hero__video { transform: none; }
-@media (max-width: 960px), (prefers-reduced-motion: reduce) { .hero__video { display: none; } }
+.hero__vids { position: absolute; inset: 0; overflow: hidden; transform-origin: 50% 50%; }
+.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; opacity: 0; }
+.hero__video.is-on { opacity: 1; }
+.hero__video.is-fading { transition: opacity var(--fade, 1.2s) linear; }
+/* soft haze under the copy so the waves don't fight the text; the booth side stays clear */
+.hero__veil { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(214,218,250,.78) 0%, rgba(214,218,250,.62) 32%, rgba(214,218,250,.25) 50%, rgba(214,218,250,0) 62%); }
+.js-intro .hero__vids { transform: scale(1.06); transition: transform 2.8s cubic-bezier(.16,1,.3,1); }
+.js-intro.is-loaded .hero__vids { transform: none; }
+@media (max-width: 960px), (prefers-reduced-motion: reduce) { .hero__vids, .hero__veil { display: none; } }
 </style>
 </head>
 <body>
@@ -82,7 +87,8 @@
 <!-- ============ HERO (Figma: RSI EXCHANGE, node 111:12) ============ -->
 <section class="hero">
   <picture><source media="(max-width: 960px)" srcset="img/rsi-hero-m.webp"><img class="hero__bg" src="img/rsi-hero-clean.webp" alt="" fetchpriority="high"></picture>
-  <video class="hero__video" src="https://pikaso.cdnpk.net/private/production/5816148416/ab99979c-89d3-4622-9c95-db628bb45530-0.mp4?token=exp=1792886400~hmac=bbaea7f3231613005d3de6fb4c2f3cde5b94eb515166f111cbb6ea74c4f50865" poster="img/rsi-hero-loop.jpg" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+  <div class="hero__vids" aria-hidden="true" data-src="https://pikaso.cdnpk.net/private/production/5816148416/ab99979c-89d3-4622-9c95-db628bb45530-0.mp4?token=exp=1792886400~hmac=bbaea7f3231613005d3de6fb4c2f3cde5b94eb515166f111cbb6ea74c4f50865" data-from="2.5" data-fade="1.2" data-rate="0.75"><video class="hero__video" poster="img/rsi-hero-loop.jpg" muted playsinline preload="auto"></video><video class="hero__video" muted playsinline preload="auto"></video></div>
+  <div class="hero__veil" aria-hidden="true"></div>
   <div class="hero__copy">
     <p class="eyebrow"><span>AI live</span> interpretation &amp; captioning</p>
     <!-- Option A headline: open the page with ?h=a -->
@@ -486,10 +492,30 @@
 
 <script src="main.js?v=202610221828"></script>
 <script>
-(() => { const v = document.querySelector('.hero__video'); if (!v) return; const A = 2.5;
-  v.addEventListener('loadedmetadata', () => { v.currentTime = A; });
-  v.addEventListener('timeupdate', () => { if (v.duration && v.currentTime > v.duration - 0.15) { v.currentTime = A; v.play(); } });
-  v.addEventListener('ended', () => { v.currentTime = A; v.play(); });
+// Seamless loop of a clip without a matching start/end: two players, the next one fades in over the last seconds
+(() => {
+  const box = document.querySelector('.hero__vids'); if (!box) return;
+  const [a, b] = box.querySelectorAll('video');
+  const FROM = +box.dataset.from || 0, FADE = +box.dataset.fade || 1.2, RATE = +box.dataset.rate || 1;
+  box.style.setProperty('--fade', FADE + 's');
+  [a, b].forEach((v) => { v.src = box.dataset.src; v.playbackRate = RATE; v.defaultPlaybackRate = RATE; });
+  let cur = a, next = b, busy = false;
+  const startAt = (v) => { try { v.currentTime = FROM; } catch (e) {} v.playbackRate = RATE; return v.play().catch(() => {}); };
+  a.addEventListener('loadedmetadata', () => { startAt(a); a.classList.add('is-on'); }, { once: true });
+  const tick = () => {
+    if (!busy && cur.duration && cur.currentTime >= cur.duration - FADE * RATE - 0.05) {
+      busy = true;
+      startAt(next);
+      next.classList.add('is-fading'); box.appendChild(next);           // the incoming clip sits on top and fades in
+      requestAnimationFrame(() => next.classList.add('is-on'));
+      setTimeout(() => {
+        cur.classList.remove('is-on', 'is-fading'); cur.pause();
+        [cur, next] = [next, cur]; busy = false;
+      }, FADE * 1000 + 60);
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 })();
 </script>
 </body>
