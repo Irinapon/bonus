@@ -1,3 +1,54 @@
+// Preloader: a strand wave runs, collapses into a line and the logo bars grow out of it.
+// Other code can hold it with preload.wait(promise); it lifts after MIN ms once those settle, or at MAX ms regardless.
+const preload = (() => {
+  const el = document.querySelector('.pre');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const waits = [];
+  let finished = false, resolveDone;
+  const done = new Promise((r) => { resolveDone = r; });
+  const api = { done, wait: (p) => { waits.push(p); }, get finished() { return finished; } };
+  if (!el || reduce) { el && el.remove(); finished = true; resolveDone(); return api; }
+  const MIN = 1700, MAX = 3500, t0 = performance.now();
+  const cvs = el.querySelector('.pre__wave'), ctx = cvs.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const W = cvs.clientWidth, H = cvs.clientHeight;
+  cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+  const easeIO = (u) => (u < .5 ? 4 * u ** 3 : 1 - (-2 * u + 2) ** 3 / 2);
+  const frame = (now) => {
+    const t = now - t0;
+    const amp = 1 - easeIO(Math.min(1, Math.max(0, (t - 700) / 500)));         // 0.7–1.2 s: the wave flattens
+    const span = 1 - 0.86 * easeIO(Math.min(1, Math.max(0, (t - 1050) / 450))); // 1.05–1.5 s: the line shrinks to the logo
+    const fade = 1 - Math.min(1, Math.max(0, (t - 1350) / 250));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    const x0 = W / 2 - (W / 2) * span, x1 = W / 2 + (W / 2) * span, mid = H / 2;
+    const g = ctx.createLinearGradient(x0, 0, x1, 0);
+    g.addColorStop(0, 'rgba(13,20,48,0)'); g.addColorStop(.2, 'rgba(13,20,48,.8)'); g.addColorStop(.75, 'rgba(219,98,178,.9)'); g.addColorStop(1, 'rgba(219,98,178,0)');
+    ctx.strokeStyle = g; ctx.lineWidth = 1; ctx.globalAlpha = fade;
+    ctx.beginPath();
+    for (let k = 0; k < 16; k++) {
+      const u = k / 15 - .5;
+      for (let x = x0; x <= x1; x += 4) {
+        const p = (x - x0) / Math.max(1, x1 - x0), env = Math.sin(Math.PI * p);
+        const y = mid + amp * env * H * .38 * Math.sin(p * 9 - t / 160 + u * 1.8) * (.6 + .4 * Math.cos(p * 4 + t / 300 + u * 3));
+        x === x0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+    }
+    ctx.stroke(); ctx.globalAlpha = 1;
+    if (t > 1250 && !el.classList.contains('is-logo')) el.classList.add('is-logo');
+    if (!finished) requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+  const finish = () => {
+    if (finished) return;
+    finished = true; el.classList.add('is-done'); resolveDone();
+    setTimeout(() => el.remove(), 800);
+  };
+  const minT = new Promise((r) => setTimeout(r, MIN));
+  // waits are collected synchronously by the scripts below, so settle them on the next tick
+  setTimeout(() => Promise.race([Promise.all([minT, Promise.allSettled(waits)]), new Promise((r) => setTimeout(r, MAX))]).then(finish), 0);
+  return api;
+})();
+
 // Resize only when the canvas box really changed (the mobile URL bar fires resize on every scroll)
 const onBoxResize = (el, fn) => {
   let w = el.clientWidth, h = el.clientHeight;
@@ -124,8 +175,9 @@ const onBoxResize = (el, fn) => {
       seq.forEach(([sel]) => document.querySelectorAll(sel).forEach((h) => h.classList.add('is-in')));
     });
     const bg = hero.querySelector('.hero__bg');
-    (bg.complete ? Promise.resolve() : new Promise((r) => { bg.addEventListener('load', r, { once: true }); setTimeout(r, 1200); }))
-      .then(() => (document.fonts ? document.fonts.ready : null)).then(play);
+    preload.wait(bg.complete ? Promise.resolve() : new Promise((r) => { bg.addEventListener('load', r, { once: true }); }));
+    if (document.fonts) preload.wait(document.fonts.ready);
+    preload.done.then(play); // the intro starts as the preloader lifts
     // other headings: on scroll
     const hio = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); hio.unobserve(e.target); } });
@@ -633,8 +685,13 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   const src = /\.(mp4|webm)(\?|$)/.test(box.dataset.src) ? box.dataset.src : box.dataset.src + (a.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4');
   if (!FADE) { // seamless file: one native looping player is enough
     a.muted = true; a.loop = true; a.src = src; a.classList.add('is-on'); b.remove();
-    a.addEventListener('playing', () => hero.classList.add('has-video'), { once: true });
+    // switch photo → video only behind the preloader; if the clip is late, the photo + wave simply stay
+    preload.wait(new Promise((r) => {
+      a.addEventListener('playing', () => { if (!preload.finished) hero.classList.add('has-video'); r(); }, { once: true });
+      a.addEventListener('error', r, { once: true });
+    }));
     a.play().catch(() => {});
+    preload.done.then(() => { if (!hero.classList.contains('has-video')) a.pause(); });
     return;
   }
   [a, b].forEach((v) => { v.muted = true; v.src = src; v.defaultPlaybackRate = RATE; });
