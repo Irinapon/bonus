@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="styles.css?v=202610221828">
 <style>
 .hero__vids { position: absolute; inset: 0; overflow: hidden; transform-origin: 50% 50%; }
-.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; opacity: 0; }
+.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; opacity: 0; filter: saturate(.55) brightness(1.04); } /* muted colour: the pink waves calm down */
 .hero__video.is-on { opacity: 1; }
 .hero__video.is-fading { transition: opacity var(--fade, 1.2s) linear; }
 /* soft haze under the copy so the waves don't fight the text; the booth side stays clear */
