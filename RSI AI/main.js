@@ -571,68 +571,49 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
 })();
 
-// Ultra-light panel: a bundle of thin strands forms a sound wave whose amplitude breathes like speech
+// Ultra-light panel: a live audio track at 160 Kbps — a fine mirrored waveform streaming left,
+// played part in navy, upcoming part in lavender, a pink playhead between them
 (() => {
   const cvs = document.querySelector('.rw__wave');
   if (!cvs) return;
   const ctx = cvs.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const STRANDS = 18;
+  const STEP = 4, BAR = 2, SPEED = 26; // px between bars, bar width, px per second
   let W = 0, H = 0, dpr = 1;
   const place = () => {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = cvs.clientWidth; H = cvs.clientHeight;
     cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
   };
-  // speech-like envelope: a few soft "words" drifting along the line, never fully silent
-  const env = (x, ph) => {
-    const u = x / W;
-    const words = 0.55 * Math.exp(-(((u - ((ph * 0.06) % 1.4 - 0.2)) / 0.16) ** 2))
-                + 0.45 * Math.exp(-(((u - ((ph * 0.06 + 0.55) % 1.4 - 0.2)) / 0.12) ** 2))
-                + 0.35 * Math.exp(-(((u - ((ph * 0.06 + 0.95) % 1.4 - 0.2)) / 0.1) ** 2));
-    const edge = Math.sin(Math.PI * Math.min(1, Math.max(0, u))) ** 0.6; // taper at both ends
-    return (0.18 + words) * edge;
+  // speech-like amplitude for sample n: syllables inside words, short pauses between words
+  const amp = (n) => {
+    const word = 0.5 + 0.5 * Math.sin(n * 0.045) * Math.sin(n * 0.017 + 1.3);
+    const syll = 0.55 + 0.45 * Math.abs(Math.sin(n * 0.21 + Math.sin(n * 0.05) * 2));
+    const grain = 0.82 + 0.18 * Math.sin(n * 1.7) * Math.sin(n * 0.63);
+    return Math.max(0.06, Math.min(1, (0.15 + 0.85 * word ** 1.4) * syll * grain));
   };
+  const rr = (x, y, w, h) => { const r = w / 2; ctx.beginPath(); ctx.moveTo(x, y + r); ctx.arc(x + r, y + r, r, Math.PI, 0); ctx.lineTo(x + w, y + h - r); ctx.arc(x + r, y + h - r, r, 0, Math.PI); ctx.closePath(); ctx.fill(); };
   const draw = (t) => {
-    const ph = t / 1000;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    const grad = ctx.createLinearGradient(0, 0, W, 0);
-    grad.addColorStop(0, 'rgba(13,20,48,0)');
-    grad.addColorStop(0.12, 'rgba(13,20,48,.85)');
-    grad.addColorStop(0.55, 'rgba(70,60,120,.85)');
-    grad.addColorStop(0.9, 'rgba(219,98,178,.95)');
-    grad.addColorStop(1, 'rgba(219,98,178,0)');
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    const mid = H / 2, amp = H * 0.6;
-    for (let k = 0; k < STRANDS; k++) {
-      const u = k / (STRANDS - 1) - 0.5;
-      let px = 0, py = 0;
-      for (let x = 0; x <= W; x += 4) {
-        const e = env(x, ph);
-        const y = mid + amp * e * (Math.sin(x / 22 - ph * 2.2 + u * 1.6) * (0.55 + 0.45 * Math.cos(x / 70 + ph * 0.9 + u * 3)));
-        if (x === 0) ctx.moveTo(x, y); else ctx.quadraticCurveTo(px, py, (px + x) / 2, (py + y) / 2);
-        px = x; py = y;
-      }
-      ctx.lineTo(px, py);
+    const off = (t / 1000) * SPEED, head = W * 0.62, mid = H / 2;
+    const first = Math.floor(off / STEP);
+    for (let k = 0; k * STEP < W + STEP; k++) {
+      const n = first + k, x = n * STEP - off;
+      const h = Math.max(BAR, amp(n) * (H - 4));
+      ctx.fillStyle = x < head ? '#0d1430' : '#c9cdea';
+      rr(x, mid - h / 2, BAR, h);
     }
-    ctx.stroke();
-    // one brighter accent strand on top
-    ctx.strokeStyle = 'rgba(219,98,178,.9)'; ctx.lineWidth = 1.4;
-    ctx.beginPath();
-    for (let x = 0; x <= W; x += 4) {
-      const y = mid + amp * env(x, ph) * Math.sin(x / 22 - ph * 2.2) * 0.9;
-      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-    }
-    ctx.stroke();
+    // playhead
+    ctx.fillStyle = '#db62b2';
+    ctx.fillRect(head - 0.75, 0, 1.5, H);
+    ctx.beginPath(); ctx.arc(head, 3, 3, 0, Math.PI * 2); ctx.fill();
   };
   let running = false, raf = 0;
   const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
   const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
   const stop = () => { running = false; cancelAnimationFrame(raf); };
-  place(); draw(4000);
+  place(); draw(0);
   onBoxResize(cvs, () => { place(); draw(performance.now()); });
   new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));

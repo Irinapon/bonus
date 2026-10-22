@@ -866,4 +866,4 @@ img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-
 .msel__menu li.is-hi { background: var(--accent); color: #fff; }
 
 /* Ultra-light panel: thin-strand sound wave (replaces the bar chart) */
-.rw__wave { display: block; width: 100%; height: 96px; }
+.rw__wave { display: block; width: 100%; height: 72px; }
