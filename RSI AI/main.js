@@ -184,6 +184,8 @@ const onBoxResize = (el, fn) => {
   const cvs = document.querySelector('.hero__wave');
   if (!img || !cvs) return;
   const ctx = cvs.getContext('2d');
+  const vid = document.querySelector('.hero__video'); // optional video preview layer
+  const onVideo = () => vid && vid.videoWidth > 0 && getComputedStyle(vid).display !== 'none';
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Centreline of the wave in image px: enters from the sky on the left, swells through the booth, exits right
@@ -213,6 +215,11 @@ const onBoxResize = (el, fn) => {
     const [px, py] = getComputedStyle(img).objectPosition.split(' ').map((v) => (v === 'right' || v === 'bottom' ? 1 : v === 'left' || v === 'top' ? 0 : parseFloat(v) / 100));
     const s = Math.max(b.width / img.naturalWidth, b.height / img.naturalHeight);
     map = { s, ox: b.left + (b.width - img.naturalWidth * s) * px, oy: b.top + (b.height - img.naturalHeight * s) * py };
+    if (onVideo()) { // video layer under the wave: same box, its own frame size; the clip keeps the photo's full width (16:9 crop)
+      const vw = vid.videoWidth, vh = vid.videoHeight, k = vw / img.naturalWidth, dy = (img.naturalHeight * k - vh) / 2;
+      const sv = Math.max(b.width / vw, b.height / vh);
+      map = { s: sv * k, ox: b.left + (b.width - vw * sv) * px, oy: b.top + (b.height - vh * sv) * py - dy * sv };
+    }
   };
 
   const draw = (t) => {
@@ -261,7 +268,28 @@ const onBoxResize = (el, fn) => {
       }
     };
     // booth glass itself is a separate image layered above the wave (img/rsi-hero-booth.webp)
+    if (vid) soft(BOOTH, 0.35, 40); // no booth overlay over a video: dim the strands behind the glass instead
     soft(PERSON, 0.95, 30);
+    if (vid) rings(ph, soft);
+    ctx.globalCompositeOperation = 'source-over';
+  };
+
+  // Broadcast: wide perspective rings leave the booth one after another, without a gap, and fade towards the horizon
+  const HUB = [1560, 640], RINGS = 9;
+  const rings = (ph, soft) => {
+    const { s: k, ox, oy } = map;
+    const cx = ox + HUB[0] * k, cy = oy + HUB[1] * k;
+    ctx.globalCompositeOperation = 'source-over';
+    for (let i = 0; i < RINGS; i++) {
+      const p = (ph * 0.16 + i / RINGS) % 1;            // 0 at the booth → 1 at the horizon
+      const rx = (120 + p * 1700) * k, ry = rx * (0.22 + 0.06 * Math.sin(ph * 0.7 + i));
+      const a = Math.min(1, p * 8) * (1 - p) ** 1.6;      // soft birth, long fade
+      ctx.strokeStyle = i % 3 === 1 ? `rgba(255,255,255,${0.55 * a})` : `rgba(219,98,178,${0.6 * a})`;
+      ctx.lineWidth = Math.max(0.8, k * (2.2 - p * 1.4));
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, -0.08, 0, Math.PI * 2); ctx.stroke();
+    }
+    ctx.globalCompositeOperation = 'destination-out';
+    soft(PERSON, 0.9, 20);                                 // keep her clear of the rings too
     ctx.globalCompositeOperation = 'source-over';
   };
 
@@ -272,6 +300,7 @@ const onBoxResize = (el, fn) => {
 
   const init = () => {
     place(); draw(0);
+    if (vid) vid.addEventListener('loadedmetadata', () => { place(); draw(performance.now()); });
     let lastW = cvs.clientWidth, lastH = cvs.clientHeight;
     window.addEventListener('resize', () => { // ignore no-op resizes (e.g. mobile URL bar) that would reset the canvas
         const w = cvs.clientWidth, h = cvs.clientHeight;
