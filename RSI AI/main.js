@@ -354,7 +354,7 @@ const onBoxResize = (el, fn) => {
   };
 
   let running = false, raf = 0;
-  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const loop = (t) => { if (cvs.closest('.has-video')) { running = false; return; } draw(t); if (running) raf = requestAnimationFrame(loop); }; // the video took over: stop drawing
   const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
   const stop = () => { running = false; cancelAnimationFrame(raf); };
 
@@ -650,7 +650,6 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   const v = box && box.querySelector('video');
   if (!v || !v.getAttribute('src')) return;
   const hero = box.closest('.hero');
-  v.classList.add('is-on');
   const on = () => { if (!preload.finished) hero.classList.add('has-video'); };
   if (!v.paused && v.readyState > 2) on();
   else preload.wait(new Promise((r) => {
