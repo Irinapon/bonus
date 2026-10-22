@@ -8,44 +8,16 @@ const preload = (() => {
   const done = new Promise((r) => { resolveDone = r; });
   const api = { done, wait: (p) => { waits.push(p); }, get finished() { return finished; } };
   if (!el || reduce) { el && el.remove(); finished = true; resolveDone(); return api; }
-  const MIN = 1700, MAX = 3500, t0 = performance.now();
-  const cvs = el.querySelector('.pre__wave'), ctx = cvs.getContext('2d');
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const W = cvs.clientWidth, H = cvs.clientHeight;
-  cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
-  const easeIO = (u) => (u < .5 ? 4 * u ** 3 : 1 - (-2 * u + 2) ** 3 / 2);
-  const frame = (now) => {
-    const t = now - t0;
-    const amp = 1 - easeIO(Math.min(1, Math.max(0, (t - 700) / 500)));         // 0.7–1.2 s: the wave flattens
-    const span = 1 - 0.86 * easeIO(Math.min(1, Math.max(0, (t - 1050) / 450))); // 1.05–1.5 s: the line shrinks to the logo
-    const fade = 1 - Math.min(1, Math.max(0, (t - 1350) / 250));
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
-    const x0 = W / 2 - (W / 2) * span, x1 = W / 2 + (W / 2) * span, mid = H / 2;
-    const g = ctx.createLinearGradient(x0, 0, x1, 0);
-    g.addColorStop(0, 'rgba(13,20,48,0)'); g.addColorStop(.2, 'rgba(13,20,48,.8)'); g.addColorStop(.75, 'rgba(219,98,178,.9)'); g.addColorStop(1, 'rgba(219,98,178,0)');
-    ctx.strokeStyle = g; ctx.lineWidth = 1; ctx.globalAlpha = fade;
-    ctx.beginPath();
-    for (let k = 0; k < 16; k++) {
-      const u = k / 15 - .5;
-      for (let x = x0; x <= x1; x += 4) {
-        const p = (x - x0) / Math.max(1, x1 - x0), env = Math.sin(Math.PI * p);
-        const y = mid + amp * env * H * .38 * Math.sin(p * 9 - t / 160 + u * 1.8) * (.6 + .4 * Math.cos(p * 4 + t / 300 + u * 3));
-        x === x0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-      }
-    }
-    ctx.stroke(); ctx.globalAlpha = 1;
-    if (t > 1250 && !el.classList.contains('is-logo')) el.classList.add('is-logo');
-    if (!finished) requestAnimationFrame(frame);
-  };
-  requestAnimationFrame(frame);
+  // the wave itself is drawn by the inline script inside .pre, so it runs from the first paint
+  const MIN = 1700, MAX = 3500, t0 = window.__preT0 || performance.now();
   const finish = () => {
     if (finished) return;
     finished = true; el.classList.add('is-done'); resolveDone();
     setTimeout(() => el.remove(), 800);
   };
-  const minT = new Promise((r) => setTimeout(r, MIN));
+  const minT = new Promise((r) => setTimeout(r, Math.max(0, MIN - (performance.now() - t0))));
   // waits are collected synchronously by the scripts below, so settle them on the next tick
-  setTimeout(() => Promise.race([Promise.all([minT, Promise.allSettled(waits)]), new Promise((r) => setTimeout(r, MAX))]).then(finish), 0);
+  setTimeout(() => Promise.race([Promise.all([minT, Promise.allSettled(waits)]), new Promise((r) => setTimeout(r, Math.max(0, MAX - (performance.now() - t0))))]).then(finish), 0);
   return api;
 })();
 
