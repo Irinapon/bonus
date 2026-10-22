@@ -647,16 +647,54 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
 
 // Hero video (desktop only): the inline script next to it already started loading/playing the seamless clip.
 // The hero switches to it only behind the preloader; if the clip is late, the photo + wave simply stay.
+// Looping: a native loop seeks back to 0 and stalls for a moment in Firefox, so two players hand over instead —
+// the second one waits on frame 0 underneath and takes the top as the first one reaches its last frame.
 (() => {
   const box = document.querySelector('.hero__clip');
-  const v = box && box.querySelector('video');
-  if (!v || !v.getAttribute('src')) return;
+  const a = box && box.querySelector('video');
+  if (!a || !a.getAttribute('src')) return;
   const hero = box.closest('.hero');
+  const b = a.cloneNode(); b.removeAttribute('autoplay'); b.muted = true; b.src = a.currentSrc || a.getAttribute('src');
+  box.appendChild(b);
+  let top = a, under = b;
+  top.style.zIndex = 1; under.style.zIndex = 0;
   const on = () => { if (!preload.finished) { hero.classList.add('has-video'); document.documentElement.classList.add('hero-video'); } };
-  if (!v.paused && v.readyState > 2) on();
+  if (!a.paused && a.readyState > 2) on();
   else preload.wait(new Promise((r) => {
-    v.addEventListener('playing', () => { on(); r(); }, { once: true });
-    v.addEventListener('error', r, { once: true });
+    a.addEventListener('playing', () => { on(); r(); }, { once: true });
+    a.addEventListener('error', r, { once: true });
   }));
-  preload.done.then(() => { if (!hero.classList.contains('has-video')) v.pause(); });
+  let handing = false;
+  const tick = () => {
+    if (!hero.classList.contains('has-video')) return; // photo stays: nothing to loop
+    if (!handing && top.duration && top.currentTime >= top.duration - 0.09) {
+      handing = true;
+      const prev = top;
+      under.currentTime = 0;
+      under.play().catch(() => {});
+      const swap = () => {
+        [top, under] = [under, prev];
+        top.style.zIndex = 1; under.style.zIndex = 0;
+        prev.pause(); prev.currentTime = 0; handing = false;
+      };
+      under.addEventListener('playing', swap, { once: true });
+      setTimeout(() => { if (handing) swap(); }, 400); // never get stuck
+    }
+    requestAnimationFrame(tick);
+  };
+  preload.done.then(() => { if (hero.classList.contains('has-video')) requestAnimationFrame(tick); else a.pause(); });
+  // ?videodebug: a small read-out of the clip's state, to diagnose a browser that won't play it
+  if (/[?&]videodebug/.test(location.search)) {
+    const out = document.createElement('pre');
+    out.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:200;margin:0;padding:8px 10px;font:12px/1.35 monospace;background:rgba(0,0,0,.75);color:#fff;border-radius:6px;white-space:pre';
+    document.body.appendChild(out);
+    const show = () => {
+      const e = a.error;
+      out.textContent = [navigator.userAgent.slice(0, 90), 'src: ' + (a.currentSrc || a.getAttribute('src') || '—').split('/').pop(),
+        'mp4: ' + a.canPlayType('video/mp4; codecs="avc1.640028"') + ' | webm: ' + a.canPlayType('video/webm; codecs="vp9"'),
+        'readyState ' + a.readyState + ' · networkState ' + a.networkState + ' · paused ' + a.paused + ' · t ' + a.currentTime.toFixed(2),
+        'error: ' + (e ? e.code + ' ' + (e.message || '') : 'none'), 'hero: ' + hero.className].join('\n');
+    };
+    show(); setInterval(show, 500);
+  }
 })();
