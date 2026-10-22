@@ -8,7 +8,7 @@ const preload = (() => {
   const done = new Promise((r) => { resolveDone = r; });
   const api = { done, wait: (p) => { waits.push(p); }, get finished() { return finished; } };
   if (!el || reduce) { el && el.remove(); finished = true; resolveDone(); return api; }
-  const MIN = 2000, MAX = 3500, t0 = window.__preT0 || performance.now();
+  const MIN = 2000, MAX = 6000, t0 = window.__preT0 || performance.now();
   const finish = () => {
     if (finished) return;
     finished = true; el.classList.add('is-done'); resolveDone();
@@ -643,47 +643,19 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
 })();
 
-// Hero video (desktop only): a clip without matching start/end frames loops seamlessly by cross-fading
-// two players; the hero switches to it only once it really plays, otherwise the photo + wave remain
+// Hero video (desktop only): the inline script next to it already started loading/playing the seamless clip.
+// The hero switches to it only behind the preloader; if the clip is late, the photo + wave simply stay.
 (() => {
   const box = document.querySelector('.hero__clip');
-  if (!box || getComputedStyle(box).display === 'none') return;
+  const v = box && box.querySelector('video');
+  if (!v || !v.getAttribute('src')) return;
   const hero = box.closest('.hero');
-  const [a, b] = box.querySelectorAll('video');
-  const FROM = +box.dataset.from || 0, FADE = box.dataset.fade === undefined ? 1.2 : +box.dataset.fade, RATE = +box.dataset.rate || 1;
-  box.style.setProperty('--fade', FADE + 's');
-  // a bare path gets the best format this browser plays; the file itself is already a seamless loop
-  // H.264 MP4 wherever it is fully supported (Safari answers "maybe" for VP9 WebM and then fails to play it)
-  const src = /\.(mp4|webm)(\?|$)/.test(box.dataset.src) ? box.dataset.src
-    : box.dataset.src + (a.canPlayType('video/mp4; codecs="avc1.640028"') === 'probably' || !a.canPlayType('video/webm; codecs="vp9"') ? '.mp4' : '.webm');
-  if (!FADE) { // seamless file: one native looping player is enough
-    a.muted = true; a.loop = true; a.src = src; a.classList.add('is-on'); b.remove();
-    // switch photo → video only behind the preloader; if the clip is late, the photo + wave simply stay
-    preload.wait(new Promise((r) => {
-      a.addEventListener('playing', () => { if (!preload.finished) hero.classList.add('has-video'); r(); }, { once: true });
-      a.addEventListener('error', r, { once: true });
-    }));
-    a.play().catch(() => {});
-    preload.done.then(() => { if (!hero.classList.contains('has-video')) a.pause(); });
-    return;
-  }
-  [a, b].forEach((v) => { v.muted = true; v.src = src; v.defaultPlaybackRate = RATE; });
-  let cur = a, next = b, busy = false;
-  const startAt = (v) => { try { v.currentTime = FROM; } catch (e) { /* not seekable yet */ } v.playbackRate = RATE; return v.play().catch(() => {}); };
-  a.addEventListener('loadedmetadata', () => { startAt(a); a.classList.add('is-on'); }, { once: true });
-  a.addEventListener('playing', () => hero.classList.add('has-video'), { once: true });
-  const tick = () => {
-    if (!busy && cur.duration && cur.currentTime >= cur.duration - FADE * RATE - 0.05) {
-      busy = true;
-      startAt(next);
-      next.classList.add('is-fading'); box.appendChild(next); // the incoming clip sits on top and fades in
-      requestAnimationFrame(() => next.classList.add('is-on'));
-      setTimeout(() => {
-        cur.classList.remove('is-on', 'is-fading'); cur.pause();
-        [cur, next] = [next, cur]; busy = false;
-      }, FADE * 1000 + 60);
-    }
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
+  v.classList.add('is-on');
+  const on = () => { if (!preload.finished) hero.classList.add('has-video'); };
+  if (!v.paused && v.readyState > 2) on();
+  else preload.wait(new Promise((r) => {
+    v.addEventListener('playing', () => { on(); r(); }, { once: true });
+    v.addEventListener('error', r, { once: true });
+  }));
+  preload.done.then(() => { if (!hero.classList.contains('has-video')) v.pause(); });
 })();

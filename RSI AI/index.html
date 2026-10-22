@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css?v=202610222013">
+<link rel="stylesheet" href="styles.css?v=202610222020">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -84,7 +84,17 @@
   <canvas class="hero__wave" aria-hidden="true"></canvas>
   <img class="hero__bg hero__fg" src="img/rsi-hero-booth.webp" alt="" aria-hidden="true"><!-- booth glass on top of the wave -->
   <!-- hero video (desktop): two players cross-fade into a seamless loop; if it can't load, the photo + wave above stay -->
-  <div class="hero__clip" aria-hidden="true" data-src="img/rsi-hero-clip" data-from="0" data-fade="0" data-rate="1"><video muted playsinline preload="auto"></video><video muted playsinline preload="auto"></video></div>
+  <div class="hero__clip" aria-hidden="true"><video muted loop playsinline preload="auto"></video></div>
+  <script>
+  // start fetching the clip as soon as the parser gets here (desktop only); H.264 MP4 first, VP9 WebM as fallback
+  (function () {
+    if (window.matchMedia('(max-width: 960px), (prefers-reduced-motion: reduce)').matches) return;
+    var v = document.currentScript.previousElementSibling.querySelector('video');
+    v.muted = true;
+    v.src = 'img/rsi-hero-clip' + (v.canPlayType('video/mp4; codecs="avc1.640028"') || !v.canPlayType('video/webm; codecs="vp9"') ? '.mp4' : '.webm');
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  })();
+  </script>
   <div class="hero__veil" aria-hidden="true"></div>
   <div class="hero__copy">
     <p class="eyebrow"><span>AI live</span> interpretation &amp; captioning</p>
@@ -487,6 +497,6 @@
   </div>
 </footer>
 
-<script src="main.js?v=202610222013"></script>
+<script src="main.js?v=202610222020"></script>
 </body>
 </html>
