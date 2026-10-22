@@ -876,7 +876,7 @@ img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-
 .hero__clip, .hero__veil { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 1.2s var(--ease-ui); }
 .hero__clip { overflow: hidden; }
 .hero__clip video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; opacity: 0;
-  filter: saturate(.55) brightness(1.04); } /* muted colour keeps the waves calm */
+  filter: saturate(.75) brightness(1.03); } /* reds are already toned down in the file; a light overall mute keeps it calm */
 .hero__clip video.is-on { opacity: 1; }
 .hero__clip video.is-fading { transition: opacity var(--fade, 1.2s) linear; }
 /* soft haze under the copy so the waves don't fight the text; the booth side stays clear */

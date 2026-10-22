@@ -627,9 +627,17 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   if (!box || getComputedStyle(box).display === 'none') return;
   const hero = box.closest('.hero');
   const [a, b] = box.querySelectorAll('video');
-  const FROM = +box.dataset.from || 0, FADE = +box.dataset.fade || 1.2, RATE = +box.dataset.rate || 1;
+  const FROM = +box.dataset.from || 0, FADE = box.dataset.fade === undefined ? 1.2 : +box.dataset.fade, RATE = +box.dataset.rate || 1;
   box.style.setProperty('--fade', FADE + 's');
-  [a, b].forEach((v) => { v.muted = true; v.src = box.dataset.src; v.defaultPlaybackRate = RATE; });
+  // a bare path gets the best format this browser plays; the file itself is already a seamless loop
+  const src = /\.(mp4|webm)(\?|$)/.test(box.dataset.src) ? box.dataset.src : box.dataset.src + (a.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4');
+  if (!FADE) { // seamless file: one native looping player is enough
+    a.muted = true; a.loop = true; a.src = src; a.classList.add('is-on'); b.remove();
+    a.addEventListener('playing', () => hero.classList.add('has-video'), { once: true });
+    a.play().catch(() => {});
+    return;
+  }
+  [a, b].forEach((v) => { v.muted = true; v.src = src; v.defaultPlaybackRate = RATE; });
   let cur = a, next = b, busy = false;
   const startAt = (v) => { try { v.currentTime = FROM; } catch (e) { /* not seekable yet */ } v.playbackRate = RATE; return v.play().catch(() => {}); };
   a.addEventListener('loadedmetadata', () => { startAt(a); a.classList.add('is-on'); }, { once: true });
