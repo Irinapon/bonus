@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css?v=202610191500">
+<link rel="stylesheet" href="styles.css?v=202610221828">
 </head>
 <body>
 
@@ -132,6 +132,7 @@
   <div class="split">
     <figure class="art art--sq art--photo">
       <img src="img/rsi-human-signal.webp" alt="A warm signal passing through three translucent glass panels" loading="lazy">
+      <canvas class="art__fx" aria-hidden="true"></canvas>
       <figcaption>The right signal<br>travels further.</figcaption>
     </figure>
     <div>
@@ -139,24 +140,27 @@
       <p class="hang">RSI X AI combines <b>spoken AI interpretation and synchronized live captions</b> in a single experience. Choose the language you want from a simple dropdown, then listen and read along in real time.</p>
       <p class="hang">Captions show one language at a time by design, so the screen stays clear instead of filling up with every available language.</p>
 
-      <!-- mini product mock -->
-      <div class="mock" aria-label="Example of the RSI X AI listener view">
-        <div class="mock__bar">
-          <span class="mock__live">Live</span>
-          <label class="mock__select">
-            <span class="sr">Listening language</span>
-            <select id="lang">
-              <option value="en">English</option>
-              <option value="fr">Français</option>
-              <option value="es">Español</option>
-              <option value="de">Deutsch</option>
-              <option value="ar">العربية</option>
-              <option value="ja">日本語</option>
-            </select>
-          </label>
-          <span class="mock__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <!-- mini product mock: a macOS-style listener window (custom popup so it looks the same in every browser) -->
+      <div class="mock mac" aria-label="Example of the RSI X AI listener view">
+        <div class="mac__bar" aria-hidden="true"><span class="mac__dots"><i></i><i></i><i></i></span><span class="mac__title">RSI X AI — Listener</span></div>
+        <div class="mac__body">
+          <div class="mock__bar">
+            <span class="mock__live">Live</span>
+            <div class="msel" id="lang" data-value="en">
+              <button type="button" class="msel__btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Listening language: English"><span class="msel__val">English</span><span class="msel__chev" aria-hidden="true"><svg width="8" height="12" viewBox="0 0 8 12"><path d="M1.5 4.5 4 2l2.5 2.5M1.5 7.5 4 10l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+              <ul class="msel__menu" role="listbox" aria-label="Listening language" tabindex="-1" hidden>
+                <li role="option" data-value="en" aria-selected="true">English</li>
+                <li role="option" data-value="fr" aria-selected="false">Français</li>
+                <li role="option" data-value="es" aria-selected="false">Español</li>
+                <li role="option" data-value="de" aria-selected="false">Deutsch</li>
+                <li role="option" data-value="ar" aria-selected="false">العربية</li>
+                <li role="option" data-value="ja" aria-selected="false">日本語</li>
+              </ul>
+            </div>
+            <span class="mock__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+          <p class="mock__cap" id="cap" aria-live="polite">Thank you all for joining. Let's begin with the regional outlook for the next quarter.</p>
         </div>
-        <p class="mock__cap" id="cap">Thank you all for joining. Let's begin with the regional outlook for the next quarter.</p>
       </div>
 
       <div class="chips">
@@ -474,6 +478,6 @@
   </div>
 </footer>
 
-<script src="main.js?v=202610221757"></script>
+<script src="main.js?v=202610221828"></script>
 </body>
 </html>

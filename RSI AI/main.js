@@ -156,13 +156,50 @@ const onBoxResize = (el, fn) => {
   const show = () => {
     cap.classList.add('is-fading');
     setTimeout(() => {
-      const set = lines[sel.value];
+      const v = sel.dataset.value, set = lines[v];
       cap.textContent = set[i % set.length];
-      cap.dir = sel.value === 'ar' ? 'rtl' : 'ltr';
+      cap.dir = v === 'ar' ? 'rtl' : 'ltr';
       cap.classList.remove('is-fading');
     }, 250);
   };
-  sel.addEventListener('change', show);
+
+  // macOS-style popup menu (a native <select> renders differently in every browser and OS)
+  const btn = sel.querySelector('.msel__btn'), menu = sel.querySelector('.msel__menu');
+  const opts = [...menu.querySelectorAll('[role="option"]')];
+  let hi = 0;
+  const highlight = (n) => { hi = (n + opts.length) % opts.length; opts.forEach((o, k) => o.classList.toggle('is-hi', k === hi)); };
+  const openMenu = () => {
+    menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); sel.classList.add('is-open');
+    highlight(opts.findIndex((o) => o.dataset.value === sel.dataset.value)); menu.focus();
+  };
+  const closeMenu = (refocus) => {
+    menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); sel.classList.remove('is-open');
+    if (refocus) btn.focus();
+  };
+  const pick = (o) => {
+    opts.forEach((x) => x.setAttribute('aria-selected', String(x === o)));
+    sel.dataset.value = o.dataset.value;
+    sel.querySelector('.msel__val').textContent = o.textContent;
+    btn.setAttribute('aria-label', 'Listening language: ' + o.textContent);
+    closeMenu(true); show();
+  };
+  btn.addEventListener('click', () => (menu.hidden ? openMenu() : closeMenu()));
+  btn.addEventListener('keydown', (e) => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); openMenu(); } });
+  opts.forEach((o, k) => {
+    o.addEventListener('mouseenter', () => highlight(k));
+    o.addEventListener('click', () => pick(o));
+  });
+  menu.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') highlight(hi + 1);
+    else if (e.key === 'ArrowUp') highlight(hi - 1);
+    else if (e.key === 'Home') highlight(0);
+    else if (e.key === 'End') highlight(opts.length - 1);
+    else if (e.key === 'Enter' || e.key === ' ') pick(opts[hi]);
+    else if (e.key === 'Escape' || e.key === 'Tab') { closeMenu(e.key === 'Escape'); return; }
+    else return;
+    e.preventDefault();
+  });
+  document.addEventListener('click', (e) => { if (!sel.contains(e.target) && !menu.hidden) closeMenu(); });
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     setInterval(() => { i += 1; show(); }, 3800);
   }
@@ -473,3 +510,63 @@ const onBoxResize = (el, fn) => {
 // Images can't be dragged out of the page
 document.querySelectorAll('img').forEach((im) => { im.draggable = false; });
 document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target.closest('img, picture, canvas')) e.preventDefault(); });
+
+// Voice & captions render: a light pulse runs along the beam through the three glass panels,
+// each ghost of the sphere lights up as it passes, the sphere itself breathes. Image px: 1200×1200.
+(() => {
+  const fig = document.querySelector('#captions .art--photo');
+  const cvs = fig && fig.querySelector('.art__fx');
+  if (!cvs) return;
+  const ctx = cvs.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const IW = 1200, BEAM_Y = 557, X0 = 380, X1 = 1200;
+  const SPHERE = { x: 287, y: 558, r: 93 };
+  const GHOSTS = [{ x: 448, r: 72 }, { x: 538, r: 60 }, { x: 612, r: 80 }, { x: 786, r: 74 }];
+  const PERIOD = 2600, PULSES = 2; // two pulses always on the beam: the flow never stops
+  let W = 0, H = 0, dpr = 1, s = 1, ox = 0, oy = 0;
+  const place = () => {
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    W = cvs.clientWidth; H = cvs.clientHeight;
+    cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+    s = Math.max(W / IW, H / IW); ox = (W - IW * s) / 2; oy = (H - IW * s) / 2;
+  };
+  const glow = (x, y, r, a, c) => {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgba(${c},${a})`); g.addColorStop(1, `rgba(${c},0)`);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  };
+  const draw = (t) => {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+    const X = (x) => ox + x * s, Y = (y) => oy + y * s;
+    // sphere breathes
+    const br = 0.5 + 0.5 * Math.sin(t / 1100);
+    glow(X(SPHERE.x), Y(SPHERE.y), SPHERE.r * s * (1.4 + 0.18 * br), 0.18 + 0.22 * br, '255,150,120');
+    // pulses along the beam
+    const heads = [];
+    for (let k = 0; k < PULSES; k++) {
+      const p = ((t / PERIOD) + k / PULSES) % 1;
+      const x = X0 + (X1 - X0) * p, fade = Math.min(1, p * 10, (1 - p) * 4);
+      heads.push(x);
+      const g = ctx.createLinearGradient(X(x - 160), 0, X(x + 14), 0);
+      g.addColorStop(0, 'rgba(255,190,170,0)'); g.addColorStop(1, `rgba(255,236,226,${0.85 * fade})`);
+      ctx.fillStyle = g; ctx.fillRect(X(x - 160), Y(BEAM_Y) - 2 * s - 0.6, 174 * s, 4 * s + 1.2);
+      glow(X(x), Y(BEAM_Y), 46 * s, 0.9 * fade, '255,225,210');
+    }
+    // ghosts in the panels light up as a pulse passes
+    GHOSTS.forEach((gh) => {
+      const a = heads.reduce((m, x) => Math.max(m, Math.exp(-(((x - gh.x) / 70) ** 2))), 0);
+      if (a > 0.02) glow(X(gh.x), Y(BEAM_Y), gh.r * s * 1.35, 0.6 * a, '255,160,190');
+    });
+    ctx.globalCompositeOperation = 'source-over';
+  };
+  let running = false, raf = 0;
+  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
+  const stop = () => { running = false; cancelAnimationFrame(raf); };
+  place();
+  onBoxResize(cvs, () => { place(); draw(performance.now()); });
+  new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
+  document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+})();

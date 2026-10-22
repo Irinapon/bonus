@@ -830,3 +830,37 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 
 /* images can't be dragged out or selected */
 img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+
+/* ---------- Voice & captions: animated render + macOS-style listener window ---------- */
+.art__fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mock.mac { padding: 0; border-radius: 12px; background: #1d2238; border: 1px solid rgba(255,255,255,.1);
+  box-shadow: 0 0 0 .5px rgba(0,0,0,.6), 0 24px 60px -18px rgba(13,20,48,.55);
+  font-family: var(--sans); -webkit-font-smoothing: antialiased; color: #e8ebff; }
+.mac__bar { position: relative; display: flex; align-items: center; justify-content: center; height: 30px; padding: 0 12px;
+  background: linear-gradient(#2c3150, #252a45); border-bottom: 1px solid rgba(0,0,0,.45); border-radius: 12px 12px 0 0; }
+.mac__dots { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); display: flex; gap: 8px; }
+.mac__dots i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.25); }
+.mac__dots i:nth-child(2) { background: #febc2e; } .mac__dots i:nth-child(3) { background: #28c840; }
+.mac__title { font-size: 13px; font-weight: 600; letter-spacing: -.01em; color: rgba(232,235,255,.82); }
+.mac__body { padding: 14px 16px 18px; }
+.mock.mac .mock__bar { font-size: 13px; }
+.mock.mac .mock__live { font-size: 11px; font-weight: 600; letter-spacing: .06em; }
+/* popup button (Big Sur style: pill + accent chevron square) */
+.msel { position: relative; }
+.msel__btn { display: inline-flex; align-items: center; gap: 8px; height: 24px; padding: 0 3px 0 10px; border-radius: 6px;
+  font: 500 13px/1 var(--sans); letter-spacing: -.01em; color: #fff; cursor: pointer;
+  background: rgba(255,255,255,.12); border: .5px solid rgba(255,255,255,.18); box-shadow: 0 1px 1px rgba(0,0,0,.25);
+  -webkit-appearance: none; appearance: none; transition: background .15s; }
+.msel__btn:hover { background: rgba(255,255,255,.18); }
+.msel__btn:focus-visible { outline: 3px solid rgba(219,98,178,.55); outline-offset: 1px; }
+.msel__chev { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 4px; background: var(--accent); color: #fff; }
+.msel__menu { position: absolute; z-index: 20; top: calc(100% + 4px); left: -4px; min-width: 170px; margin: 0; padding: 5px; list-style: none;
+  background: rgba(40,44,66,.97); -webkit-backdrop-filter: blur(24px) saturate(1.6); backdrop-filter: blur(24px) saturate(1.6);
+  border: .5px solid rgba(255,255,255,.16); border-radius: 8px; outline: none;
+  box-shadow: 0 0 0 .5px rgba(0,0,0,.5), 0 12px 32px rgba(0,0,0,.4);
+  animation: msel-in .14s ease-out; }
+@keyframes msel-in { from { opacity: 0; transform: translateY(-3px); } }
+.msel__menu li { position: relative; padding: 4px 12px 4px 24px; border-radius: 4px; font: 400 13px/18px var(--sans); color: #eef0ff; cursor: default; white-space: nowrap; }
+.msel__menu li[aria-selected="true"]::before { content: ""; position: absolute; left: 9px; top: 7px; width: 7px; height: 4px;
+  border-left: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; transform: rotate(-45deg); }
+.msel__menu li.is-hi { background: var(--accent); color: #fff; }
