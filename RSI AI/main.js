@@ -653,7 +653,9 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   const FROM = +box.dataset.from || 0, FADE = box.dataset.fade === undefined ? 1.2 : +box.dataset.fade, RATE = +box.dataset.rate || 1;
   box.style.setProperty('--fade', FADE + 's');
   // a bare path gets the best format this browser plays; the file itself is already a seamless loop
-  const src = /\.(mp4|webm)(\?|$)/.test(box.dataset.src) ? box.dataset.src : box.dataset.src + (a.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4');
+  // H.264 MP4 wherever it is fully supported (Safari answers "maybe" for VP9 WebM and then fails to play it)
+  const src = /\.(mp4|webm)(\?|$)/.test(box.dataset.src) ? box.dataset.src
+    : box.dataset.src + (a.canPlayType('video/mp4; codecs="avc1.640028"') === 'probably' || !a.canPlayType('video/webm; codecs="vp9"') ? '.mp4' : '.webm');
   if (!FADE) { // seamless file: one native looping player is enough
     a.muted = true; a.loop = true; a.src = src; a.classList.add('is-on'); b.remove();
     // switch photo → video only behind the preloader; if the clip is late, the photo + wave simply stay

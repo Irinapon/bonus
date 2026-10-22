@@ -887,7 +887,7 @@ img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-
 
 /* ---------- Preloader: the name types itself in ---------- */
 .pre { display: none; }
-.js .pre { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #d3d8f8; /* the hero's own tone behind the copy */
+.js .pre { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: linear-gradient(180deg, #b0bcd8 0%, #c2c4dd 45%, #dac3c8 76%, #e6cdc6 100%); /* the clip's own sky: blue on top, warm haze at the horizon */
   transition: opacity .7s var(--ease-ui), visibility .7s;
   animation: pre-safety 0s 6s forwards; } /* never block the page if a script fails */
 @keyframes pre-safety { to { opacity: 0; visibility: hidden; } }
