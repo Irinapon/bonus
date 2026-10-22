@@ -53,7 +53,7 @@ const onBoxResize = (el, fn) => {
   const D = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 420;
   const animate = (el, from, to, done) => {
     if (!D) { done && done(); return; }
-    const a = el.animate([{ height: `${from}px`, opacity: from ? 1 : 0 }, { height: `${to}px`, opacity: to ? 1 : 0 }], { duration: D, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    const a = el.animate([{ height: `${from}px`, opacity: from ? 1 : 0 }, { height: `${to}px`, opacity: to ? 1 : 0 }], { duration: D, easing: 'cubic-bezier(.65,0,.35,1)' });
     a.onfinish = () => done && done();
   };
   const close = (d) => {
@@ -408,7 +408,7 @@ const onBoxResize = (el, fn) => {
     glowEllipse(REFL, 0.06 + 0.16 * breath);
     // 1 · signals: a bright head with a fading tail along each arc
     routes.forEach((r) => {
-      const p = ((t + r.off) % r.dur) / r.dur;
+      const lin = ((t + r.off) % r.dur) / r.dur, p = lin < .5 ? 4 * lin ** 3 : 1 - (-2 * lin + 2) ** 3 / 2; // ease-in-out along the arc
       const fade = Math.min(1, p * 6, (1 - p) * 6);
       for (let k = 0; k < 9; k++) {
         const tt = p - k * 0.018;
@@ -457,6 +457,7 @@ const onBoxResize = (el, fn) => {
     s = Math.max(W / IW, H / IH); ox = (W - IW * s) * px; oy = (H - IH * s) * py;
   };
   const X = (x) => ox + x * s, Y = (y) => oy + y * s;
+  const easeIO = (u) => (u < .5 ? 4 * u ** 3 : 1 - (-2 * u + 2) ** 3 / 2);
   const fillLines = (scr, p) => { // p: 0…1 progress of "typing" across the 5 lines
     ROWS.forEach((y, i) => {
       const lp = Math.min(1, Math.max(0, p * ROWS.length - i));
@@ -487,9 +488,9 @@ const onBoxResize = (el, fn) => {
     const leg = c < T_FILL + T_CROSS ? 0 : 1;
     const lc = leg ? c - (T_FILL + T_CROSS) : c;
     const from = SCREENS[leg], to = SCREENS[1 - leg];
-    if (lc < T_FILL) { glowBox(from, .5); fillLines(from, lc / T_FILL); }
+    if (lc < T_FILL) { glowBox(from, .5); fillLines(from, easeIO(lc / T_FILL)); }
     else if (lc < T_FILL + T_CROSS) {
-      const p = (lc - T_FILL) / T_CROSS;
+      const p = easeIO((lc - T_FILL) / T_CROSS);
       fillLines(from, 1 - p); pulse(p, leg ? -1 : 1); fillLines(to, p * 0.25); glowBox(to, .5 * p);
     } else { glowBox(to, .5); fillLines(to, 1); }
     ctx.globalCompositeOperation = 'source-over';
@@ -617,4 +618,34 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   onBoxResize(cvs, () => { place(); draw(performance.now()); });
   new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? start() : stop())).observe(cvs);
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+})();
+
+// Hero video (desktop only): a clip without matching start/end frames loops seamlessly by cross-fading
+// two players; the hero switches to it only once it really plays, otherwise the photo + wave remain
+(() => {
+  const box = document.querySelector('.hero__clip');
+  if (!box || getComputedStyle(box).display === 'none') return;
+  const hero = box.closest('.hero');
+  const [a, b] = box.querySelectorAll('video');
+  const FROM = +box.dataset.from || 0, FADE = +box.dataset.fade || 1.2, RATE = +box.dataset.rate || 1;
+  box.style.setProperty('--fade', FADE + 's');
+  [a, b].forEach((v) => { v.muted = true; v.src = box.dataset.src; v.defaultPlaybackRate = RATE; });
+  let cur = a, next = b, busy = false;
+  const startAt = (v) => { try { v.currentTime = FROM; } catch (e) { /* not seekable yet */ } v.playbackRate = RATE; return v.play().catch(() => {}); };
+  a.addEventListener('loadedmetadata', () => { startAt(a); a.classList.add('is-on'); }, { once: true });
+  a.addEventListener('playing', () => hero.classList.add('has-video'), { once: true });
+  const tick = () => {
+    if (!busy && cur.duration && cur.currentTime >= cur.duration - FADE * RATE - 0.05) {
+      busy = true;
+      startAt(next);
+      next.classList.add('is-fading'); box.appendChild(next); // the incoming clip sits on top and fades in
+      requestAnimationFrame(() => next.classList.add('is-on'));
+      setTimeout(() => {
+        cur.classList.remove('is-on', 'is-fading'); cur.pause();
+        [cur, next] = [next, cur]; busy = false;
+      }, FADE * 1000 + 60);
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 })();
