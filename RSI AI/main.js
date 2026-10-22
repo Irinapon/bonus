@@ -1,4 +1,4 @@
-// Preloader: a strand wave runs, collapses into a line and the logo bars grow out of it.
+// Preloader: the name types itself in (CSS); this only decides when the curtain lifts.
 // Other code can hold it with preload.wait(promise); it lifts after MIN ms once those settle, or at MAX ms regardless.
 const preload = (() => {
   const el = document.querySelector('.pre');
@@ -8,8 +8,7 @@ const preload = (() => {
   const done = new Promise((r) => { resolveDone = r; });
   const api = { done, wait: (p) => { waits.push(p); }, get finished() { return finished; } };
   if (!el || reduce) { el && el.remove(); finished = true; resolveDone(); return api; }
-  // the wave itself is drawn by the inline script inside .pre, so it runs from the first paint
-  const MIN = 1700, MAX = 3500, t0 = window.__preT0 || performance.now();
+  const MIN = 2000, MAX = 3500, t0 = window.__preT0 || performance.now();
   const finish = () => {
     if (finished) return;
     finished = true; el.classList.add('is-done'); resolveDone();

@@ -9,48 +9,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css?v=202610221958">
+<link rel="stylesheet" href="styles.css?v=202610222001">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-<!-- preloader: a strand wave collapses into a line, the logo bars grow out of it -->
+<!-- preloader: the name types itself in, letter by letter (pure CSS, nothing to stutter) -->
 <div class="pre" aria-hidden="true">
-  <canvas class="pre__wave"></canvas>
-  <div class="pre__logo">
-    <span class="pre__mark"><i></i><i></i><i></i></span>
-    <span class="pre__text"><span>RSI X <i>AI</i></span></span>
-  </div>
-  <script>
-  // runs at first paint: strand wave → flat line → shrinks to the logo, then the logo bars grow (main.js lifts the curtain)
-  (function () {
-    var el = document.currentScript.parentNode, cvs = el.querySelector('.pre__wave');
-    if (!cvs.getContext || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var ctx = cvs.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2), W = cvs.clientWidth, H = cvs.clientHeight;
-    cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
-    var t0 = window.__preT0 = performance.now();
-    var io = function (u) { u = Math.min(1, Math.max(0, u)); return u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; };
-    function frame(now) {
-      if (!el.isConnected || el.classList.contains('is-done')) return;
-      var t = now - t0, amp = 1 - io((t - 700) / 500), span = 1 - .86 * io((t - 1050) / 450), fade = 1 - Math.min(1, Math.max(0, (t - 1350) / 250));
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
-      var x0 = W / 2 - W / 2 * span, x1 = W / 2 + W / 2 * span, mid = H / 2;
-      var g = ctx.createLinearGradient(x0, 0, x1, 0);
-      g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.2, 'rgba(255,255,255,.95)'); g.addColorStop(.75, 'rgba(219,98,178,.95)'); g.addColorStop(1, 'rgba(219,98,178,0)');
-      ctx.strokeStyle = g; ctx.lineWidth = 1.2; ctx.globalAlpha = fade; ctx.beginPath();
-      for (var k = 0; k < 22; k++) {
-        var u = k / 21 - .5;
-        for (var x = x0; x <= x1; x += 4) {
-          var p = (x - x0) / Math.max(1, x1 - x0), y = mid + amp * Math.sin(Math.PI * p) * H * .38 * Math.sin(p * 9 - t / 160 + u * 1.8) * (.6 + .4 * Math.cos(p * 4 + t / 300 + u * 3));
-          x === x0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-      }
-      ctx.stroke(); ctx.globalAlpha = 1;
-      if (t > 1250 && !el.classList.contains('is-logo')) el.classList.add('is-logo');
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  })();
-  </script>
+  <p class="pre__word"><span class="pre__ch" style="--i:0">R</span><span class="pre__ch" style="--i:1">S</span><span class="pre__ch" style="--i:2">I</span><span class="pre__ch" style="--i:3">&nbsp;</span><span class="pre__ch" style="--i:4">X</span><span class="pre__ch" style="--i:5">&nbsp;</span><span class="pre__ch pre__ch--a" style="--i:6">A</span><span class="pre__ch pre__ch--a" style="--i:7">I</span></p>
+  <script>window.__preT0 = performance.now();</script>
 </div>
 
 <!-- Shared SVG defs -->
@@ -521,6 +487,6 @@
   </div>
 </footer>
 
-<script src="main.js?v=202610221958"></script>
+<script src="main.js?v=202610222001"></script>
 </body>
 </html>
