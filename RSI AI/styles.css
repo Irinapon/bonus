@@ -874,10 +874,13 @@ img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-
 
 /* ---------- Hero video (desktop): always rendered under the photo (Safari won't autoplay a hidden video);
    once it plays, the photo, wave and booth layer step aside — under the preloader, so nothing visibly switches ---------- */
-.hero__clip { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.hero__clip { position: absolute; inset: 0; z-index: 0; isolation: isolate; overflow: hidden; pointer-events: none; } /* own stacking context: the two players' z-index stays inside, the fog stays on top */
 .hero__clip video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; } /* colour is graded in the file: no CSS filter */
 .hero__veil { position: absolute; inset: 0; pointer-events: none; opacity: 0;
-  background: linear-gradient(90deg, rgba(214,218,250,.9) 0%, rgba(214,218,250,.8) 34%, rgba(214,218,250,.45) 50%, rgba(214,218,250,.12) 60%, rgba(214,218,250,0) 68%); }
+  background:
+    linear-gradient(90deg, rgba(218,221,250,.94) 0%, rgba(218,221,250,.86) 36%, rgba(218,221,250,.6) 52%, rgba(218,221,250,.3) 64%, rgba(218,221,250,.12) 76%, rgba(218,221,250,0) 88%), /* heavy fog under the copy */
+    linear-gradient(0deg, rgba(232,226,246,.7) 0%, rgba(232,226,246,.25) 22%, rgba(232,226,246,0) 40%),                                                              /* low fog over the clouds */
+    rgba(226,229,250,.22); }                                                                                                                                       /* light haze over the whole frame */
 .hero.has-video .hero__veil { opacity: 1; }
 .hero.has-video .hero__bg, .hero.has-video .hero__wave { visibility: hidden; }
 @media (max-width: 960px), (prefers-reduced-motion: reduce) { .hero__clip, .hero__veil { display: none; } }
