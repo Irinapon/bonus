@@ -888,7 +888,7 @@ img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-
 /* ---------- Preloader: the name types itself in ---------- */
 .pre { display: none; }
 .js .pre { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: linear-gradient(180deg, #b0bcd8 0%, #c2c4dd 45%, #dac3c8 76%, #e6cdc6 100%); /* the clip's own sky: blue on top, warm haze at the horizon */
-  transition: opacity .7s var(--ease-ui), visibility .7s;
+  transition: opacity 1.1s var(--ease-in-out) .15s, visibility 0s 1.3s; /* the name leaves first, then the curtain dissolves */
   animation: pre-safety 0s 7s forwards; } /* never block the page if a script fails */
 @keyframes pre-safety { to { opacity: 0; visibility: hidden; } }
 .pre.is-done { opacity: 0; visibility: hidden; }
@@ -916,3 +916,16 @@ p, li, .qa__q, .hang { text-wrap: pretty; }
 .faq__card .btn { margin-top: calc(var(--to-btn) - 12px); }          /* .faq__card has a 12px gap */
 .cta__copy p { margin-bottom: var(--to-btn); }
 .form__submit { margin-top: var(--to-btn); }
+
+/* preloader → site: the name drifts up and fades, the hero settles from a slight zoom underneath */
+.pre__word { transition: transform .8s var(--ease-out), opacity .6s var(--ease-ui); }
+.pre.is-done .pre__word { transform: translateY(-14px); opacity: 0; }
+.js-intro .hero__clip { transform: scale(1.05); transition: transform 2.6s var(--ease-out); }
+.js-intro.is-loaded .hero__clip { transform: none; }
+@media (prefers-reduced-motion: reduce) { .js-intro .hero__clip { transform: none; transition: none; } }
+
+/* phones: the hero stats sit over the photo, give them a soft frosted plate so they stay readable */
+@media (max-width: 960px) {
+  .hero__foot { align-self: flex-start; padding: 14px 16px; border-radius: 14px; gap: 14px 28px;
+    background: rgba(241,243,253,.62); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.5); }
+}
