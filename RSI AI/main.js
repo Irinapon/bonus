@@ -121,7 +121,27 @@ const onBoxResize = (el, fn) => {
       });
     };
     walk(el);
+    // keep the last two words together so a heading never ends on a lone word
+    const ws = el.querySelectorAll('.w');
+    if (ws.length >= 3) {
+      const a = ws[ws.length - 2], b = ws[ws.length - 1];
+      if (a.parentNode === b.parentNode) {
+        const glue = document.createElement('span'); glue.style.whiteSpace = 'nowrap';
+        a.before(glue);
+        for (let n = a, next; n; n = next) { next = n.nextSibling; glue.appendChild(n); if (n === b) break; }
+      }
+    }
   };
+  // body copy: a no-break space between the last two words (fallback for browsers without text-wrap: pretty)
+  const glueLast = (el) => {
+    const texts = []; const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let t;
+    while ((t = tw.nextNode())) if (t.data.trim()) texts.push(t);
+    const last = texts[texts.length - 1];
+    if (last && /\S\s+\S+\s*$/.test(last.data)) last.data = last.data.replace(/\s+(\S+\s*)$/, '\u00a0$1');
+  };
+  document.querySelectorAll('main p, main li, .qa__q, .hang, .mode h3, .flow__step p, .cta__copy p, .ftr__about, .faq__card p').forEach((el) => {
+    if (!el.closest('.mock, .chips, .perf__tags, .rw__facts, .rw__uses') && el.children.length < 4) glueLast(el);
+  });
   const heads = [...document.querySelectorAll('.eyebrow, .hero__title, .hero__lead, .hero__stat strong, .hero__stat p, .hdr__nav a, .sec__title, .lede, .cta__copy h2, .perf__title, .rw__cap, .faq__card-t')];
   // section titles are flex rows (title + number): keep the title words in one flex item
   document.querySelectorAll('.sec__title').forEach((t) => {

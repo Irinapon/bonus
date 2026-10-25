@@ -878,9 +878,9 @@ img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-
 .hero__clip video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; } /* colour is graded in the file: no CSS filter */
 .hero__veil { position: absolute; inset: 0; pointer-events: none; opacity: 0;
   background:
-    linear-gradient(90deg, rgba(218,221,250,.94) 0%, rgba(218,221,250,.86) 36%, rgba(218,221,250,.6) 52%, rgba(218,221,250,.3) 64%, rgba(218,221,250,.12) 76%, rgba(218,221,250,0) 88%), /* heavy fog under the copy */
-    linear-gradient(0deg, rgba(232,226,246,.7) 0%, rgba(232,226,246,.25) 22%, rgba(232,226,246,0) 40%),                                                              /* low fog over the clouds */
-    rgba(226,229,250,.22); }                                                                                                                                       /* light haze over the whole frame */
+    linear-gradient(90deg, rgba(218,221,250,.82) 0%, rgba(218,221,250,.68) 34%, rgba(218,221,250,.36) 50%, rgba(218,221,250,.12) 62%, rgba(218,221,250,0) 74%), /* fog under the copy */
+    linear-gradient(0deg, rgba(232,226,246,.4) 0%, rgba(232,226,246,0) 30%),                                                                  /* low fog over the clouds */
+    rgba(226,229,250,.06); }                                                                                                                  /* faint haze over the frame */                                                                                                                                       /* light haze over the whole frame */
 .hero.has-video .hero__veil { opacity: 1; }
 .hero.has-video .hero__bg, .hero.has-video .hero__wave { visibility: hidden; }
 @media (max-width: 960px), (prefers-reduced-motion: reduce) { .hero__clip, .hero__veil { display: none; } }
@@ -901,3 +901,18 @@ img, picture, canvas { -webkit-user-drag: none; user-select: none; -webkit-user-
 
 /* over the video, the header plate skips backdrop blur (re-blurring every video frame stutters, esp. in Firefox) */
 .hero-video .hdr:not(.is-scrolled)::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(235,238,252,.42); }
+
+/* ---------- Typography clean-up ---------- */
+/* no single word left alone on the last line: balanced headings, "pretty" paragraphs (main.js also glues the last two words for browsers without text-wrap: pretty) */
+h1, h2, h3, .lede, .cta__copy h2, .faq__card-t, .rw__cap, .perf__label { text-wrap: balance; }
+p, li, .qa__q, .hang { text-wrap: pretty; }
+/* h3: on the type scale (22), not body size */
+.mode h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.02em; font-weight: 500; margin-bottom: 10px; }
+.mode h3 b { font-weight: 600; }
+/* one distance from text to button everywhere: 28px */
+:root { --to-btn: 28px; }
+.hero__cta { padding-top: calc(var(--to-btn) - 10px); }              /* .hero__copy has a 10px gap */
+.rw__cta { margin-top: calc(var(--to-btn) - 18px); }                 /* .rw__panel has an 18px gap */
+.faq__card .btn { margin-top: calc(var(--to-btn) - 12px); }          /* .faq__card has a 12px gap */
+.cta__copy p { margin-bottom: var(--to-btn); }
+.form__submit { margin-top: var(--to-btn); }
