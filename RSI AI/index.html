@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css?v=202610251717">
+<link rel="stylesheet" href="styles.css?v=202610261602">
 <script>
 document.documentElement.classList.add('js');
 // always open on the first screen (Safari restores the old scroll position on reload, which lands under the preloader)
@@ -95,7 +95,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     v.muted = true;
     // which clip plays: 'rsi-hero-sphere' (thin lavender wave, current) · 'rsi-hero-clip' (previous: wide pink wave) — both stay in img/
     var CLIP = 'img/rsi-hero-sphere';
-    v.src = CLIP + (v.canPlayType('video/mp4; codecs="avc1.640028"') || !v.canPlayType('video/webm; codecs="vp9"') ? '.mp4' : '.webm') + '?v=202610251717'; // ?v= busts the cache when a clip is re-graded
+    v.src = CLIP + (v.canPlayType('video/mp4; codecs="avc1.640028"') || !v.canPlayType('video/webm; codecs="vp9"') ? '.mp4' : '.webm') + '?v=202610261602'; // ?v= busts the cache when a clip is re-graded
     var p = v.play(); if (p && p.catch) p.catch(function () {});
   })();
   </script>
@@ -504,6 +504,6 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   </div>
 </footer>
 
-<script src="main.js?v=202610251717"></script>
+<script src="main.js?v=202610261602"></script>
 </body>
 </html>
