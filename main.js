@@ -270,13 +270,42 @@ const onBoxResize = (el, fn) => {
     setInterval(() => { i += 1; show(); }, 3800);
   }
 
-  // Contact form (front-end only until a backend/email endpoint is connected)
+  // Contact form → Web3Forms → info@rsiexchange.com. The access key is public by design (it can only send to that inbox).
+  const WEB3FORMS_KEY = ''; // ← paste the key from the Web3Forms e-mail here
   const form = document.getElementById('form');
-  form.addEventListener('submit', (e) => {
+  const ja = document.documentElement.lang === 'ja';
+  const msg = ja
+    ? { sending: '送信中…', ok: 'ありがとうございます。担当者より追ってご連絡します。', err: '送信できませんでした。お手数ですが info@rsiexchange.com まで直接ご連絡ください。' }
+    : { sending: 'Sending…', ok: "Thank you - we'll be in touch shortly.", err: "Something went wrong. Please write to us directly at info@rsiexchange.com." };
+  const status = document.getElementById('formOk');
+  const sendBtn = form.querySelector('button[type="submit"]');
+  const say = (text, kind) => { status.textContent = text; status.hidden = false; status.dataset.kind = kind || ''; };
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.reportValidity()) return;
-    document.getElementById('formOk').hidden = false;
-    form.reset();
+    const data = Object.fromEntries(new FormData(form));
+    if (data.botcheck) return;                                   // a bot ticked the hidden trap
+    if (!WEB3FORMS_KEY) { say(msg.err, 'err'); return; }          // not connected yet
+    sendBtn.disabled = true; say(msg.sending);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `RSI X AI enquiry${ja ? ' (JP site)' : ''}: ${data.name}${data.org ? ' · ' + data.org : ''}`,
+          from_name: 'RSI X AI website',
+          replyto: data.email,
+          Name: data.name, Email: data.email, Organization: data.org || '-', 'Event type': data.event || '-',
+          'Languages needed': data.langs || '-', Message: data.msg || '-', 'Site version': ja ? 'Japanese (ja.html)' : 'English',
+          botcheck: '',
+        }),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || out.success === false) throw new Error(out.message || res.status);
+      say(msg.ok, 'ok'); form.reset();
+    } catch (err) {
+      say(msg.err, 'err');
+    } finally { sendBtn.disabled = false; }
   });
 })();
 

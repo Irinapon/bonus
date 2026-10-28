@@ -991,3 +991,8 @@ html[lang="ja"] .cc__b { text-transform: none; letter-spacing: 0; }
 /* footer "Cookie settings" looks like the other legal links */
 .ftr__cookie { padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .ftr__cookie:hover { color: #fff; }
+
+/* contact form: bot trap stays out of sight; status line colours */
+.form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.form__ok[data-kind="err"] { color: #ff9cc9; }
+.form button[disabled] { opacity: .6; cursor: progress; }
