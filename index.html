@@ -32,7 +32,7 @@
 <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="stylesheet" href="styles.css?v=202610281153">
+<link rel="stylesheet" href="styles.css?v=202610281158">
 <script>
 document.documentElement.classList.add('js');
 // always open on the first screen (Safari restores the old scroll position on reload, which lands under the preloader)
@@ -483,11 +483,11 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
           <label><span>Work email</span><input name="email" type="email" autocomplete="email" required></label>
         </div>
         <div class="form__row">
-          <label><span>Organization</span><input name="org" autocomplete="organization"></label>
-          <label><span>Event type</span><input name="event" placeholder="e.g. conference, internal briefing"></label>
+          <label><span>Organization</span><input name="org" autocomplete="organization" required></label>
+          <label><span>Event type</span><input name="event" placeholder="e.g. conference, internal briefing" required></label>
         </div>
-        <label class="form__full"><span>Languages needed</span><input name="langs" placeholder="e.g. EN → FR, ES, AR"></label>
-        <label class="form__full"><span>Message</span><textarea name="msg" rows="2"></textarea></label>
+        <label class="form__full"><span>Languages needed</span><input name="langs" placeholder="e.g. EN → FR, ES, AR" required></label>
+        <label class="form__full"><span>Message</span><textarea name="msg" rows="2" required></textarea></label>
         <div class="form__submit">
           <button type="submit" class="btn btn--hero"><span>Talk to the team</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></button>
           <p class="form__ok" id="formOk" hidden>Thank you - we'll be in touch shortly.</p>
@@ -529,7 +529,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   </div>
 </footer>
 
-<script src="main.js?v=202610281153"></script>
+<script src="main.js?v=202610281158"></script>
 <script src="consent.js?v=202610281136" defer></script>
 </body>
 </html>
