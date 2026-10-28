@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RSI X AI - Live AI Interpretation &amp; Captioning</title>
 <meta name="description" content="RSI X AI delivers ultra-low latency AI voice interpretation and live captioning in one lightweight tool. Max 3-second latency, 70+ languages, works with any meeting platform.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/inter.css">
 <link rel="alternate" hreflang="en" href="https://rsix-ai.com/">
 <link rel="alternate" hreflang="ja" href="https://rsix-ai.com/jp/">
 <link rel="alternate" hreflang="x-default" href="https://rsix-ai.com/">
@@ -32,7 +30,7 @@
 <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="stylesheet" href="styles.css?v=202610281208">
+<link rel="stylesheet" href="styles.css?v=202610281224">
 <script>
 document.documentElement.classList.add('js');
 // always open on the first screen (Safari restores the old scroll position on reload, which lands under the preloader)
@@ -41,6 +39,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 </script>
 </head>
 <body>
+<a class="skip" href="#top" data-skip>Skip to content</a>
 <!-- preloader: the name types itself in, letter by letter (pure CSS, nothing to stutter) -->
 <div class="pre" aria-hidden="true">
   <p class="pre__word"><span class="pre__ch" style="--i:0">R</span><span class="pre__ch" style="--i:1">S</span><span class="pre__ch" style="--i:2">I</span><span class="pre__ch" style="--i:3">&nbsp;</span><span class="pre__ch" style="--i:4">X</span><span class="pre__ch" style="--i:5">&nbsp;</span><span class="pre__ch pre__ch--a" style="--i:6">A</span><span class="pre__ch pre__ch--a" style="--i:7">I</span></p>
@@ -123,9 +122,9 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     var p = v.play(); if (p && p.catch) p.catch(function () {});
   })();
   </script>
-  <picture><source media="(max-width: 960px)" srcset="img/rsi-hero-m.webp"><img class="hero__bg" src="img/rsi-hero-clean.webp" alt="" fetchpriority="high"></picture>
+  <picture><source media="(max-width: 960px)" srcset="img/rsi-hero-m.webp" width="941" height="1672"><img class="hero__bg" src="img/rsi-hero-clean.webp" alt="" fetchpriority="high" width="2000" height="1185"></picture>
   <canvas class="hero__wave" aria-hidden="true"></canvas>
-  <img class="hero__bg hero__fg" src="img/rsi-hero-booth.webp" alt="" aria-hidden="true"><!-- booth glass on top of the wave -->
+  <img class="hero__bg hero__fg" src="img/rsi-hero-booth.webp" alt="" aria-hidden="true" width="2000" height="1185"><!-- booth glass on top of the wave -->
   <div class="hero__veil" aria-hidden="true"></div>
   <div class="hero__copy">
     <p class="eyebrow"><span>AI live</span> interpretation &amp; captioning</p>
@@ -136,6 +135,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       <a href="#contact" class="btn btn--hero"><span>Talk to us about your event</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></a>
     </div>
   </div>
+  <button type="button" class="motion-btn" aria-pressed="false" aria-label="Pause motion"><svg class="i-pause" width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M1.5 1v12M10.5 1v12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><svg class="i-play" width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M2 1.2v11.6L11 7z" fill="currentColor"/></svg></button>
   <!-- Latency stat at the bottom of the hero -->
   <div class="hero__foot">
     <div class="hero__stat">
@@ -181,7 +181,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   <h2 class="sec__title">Voice &amp; captions<span>02</span></h2>
   <div class="split">
     <figure class="art art--sq art--photo">
-      <img src="img/rsi-human-signal.webp" alt="A warm signal passing through three translucent glass panels" loading="lazy">
+      <img src="img/rsi-human-signal.webp" alt="A warm signal passing through three translucent glass panels" loading="lazy" width="1200" height="1200">
       <canvas class="art__fx" aria-hidden="true"></canvas>
       <figcaption>The right signal<br>travels further.</figcaption>
     </figure>
@@ -199,12 +199,12 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
             <div class="msel" id="lang" data-value="en">
               <button type="button" class="msel__btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Listening language: English"><span class="msel__val">English</span><span class="msel__chev" aria-hidden="true"><svg width="8" height="12" viewBox="0 0 8 12"><path d="M1.5 4.5 4 2l2.5 2.5M1.5 7.5 4 10l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
               <ul class="msel__menu" role="listbox" aria-label="Listening language" tabindex="-1" hidden>
-                <li role="option" data-value="en" aria-selected="true">English</li>
-                <li role="option" data-value="fr" aria-selected="false">Français</li>
-                <li role="option" data-value="es" aria-selected="false">Español</li>
-                <li role="option" data-value="de" aria-selected="false">Deutsch</li>
-                <li role="option" data-value="ar" aria-selected="false">العربية</li>
-                <li role="option" data-value="ja" aria-selected="false">日本語</li>
+                <li role="option" data-value="en" aria-selected="true" lang="en">English</li>
+                <li role="option" data-value="fr" aria-selected="false" lang="fr">Français</li>
+                <li role="option" data-value="es" aria-selected="false" lang="es">Español</li>
+                <li role="option" data-value="de" aria-selected="false" lang="de">Deutsch</li>
+                <li role="option" data-value="ar" aria-selected="false" lang="ar">العربية</li>
+                <li role="option" data-value="ja" aria-selected="false" lang="ja">日本語</li>
               </ul>
             </div>
             <span class="mock__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
@@ -260,7 +260,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
 <!-- ============ BAND ============ -->
 <figure class="band">
-  <img src="img/rsi-global-event.webp" alt="A glass interpretation hub on a bridge, connected to remote participants around the world" loading="lazy">
+  <img src="img/rsi-global-event.webp" alt="A glass interpretation hub on a bridge, connected to remote participants around the world" loading="lazy" width="1774" height="887">
   <canvas class="band__fx" aria-hidden="true"></canvas>
   <figcaption class="band__label"><span>The RSI X AI signal</span><span>One clear conversation, in 70+ languages</span></figcaption>
 </figure>
@@ -454,7 +454,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
 <!-- ============ CTA ============ -->
 <section class="cta">
-  <picture><source media="(max-width: 960px)" srcset="img/rsi-cta-m.webp"><img class="cta__bg" src="img/rsi-cta.webp" alt="" loading="lazy"></picture>
+  <picture><source media="(max-width: 960px)" srcset="img/rsi-cta-m.webp" width="940" height="1672"><img class="cta__bg" src="img/rsi-cta.webp" alt="" loading="lazy" width="1942" height="809"></picture>
   <canvas class="cta__fx" aria-hidden="true"></canvas>
   <div class="cta__copy">
     <h2>Let's make your next event <em>multilingual</em></h2>
@@ -492,6 +492,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
           <button type="submit" class="btn btn--hero"><span>Talk to the team</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></button>
           <p class="form__ok" id="formOk" hidden>Thank you - we'll be in touch shortly.</p>
         </div>
+        <p class="form__note">By sending this form, you agree that we use your details to reply to your enquiry. See our <a href="privacy.html">Privacy Policy</a>.</p>
       </form>
     </div>
 
@@ -515,7 +516,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
     <div class="ftr__art">
       <p class="label">AI interpretation · captions</p>
-      <figure class="art art--photo ftr__photo"><img src="img/rsi-footer.webp" alt="An empty interpreter booth with a microphone and headphones, suspended above misty mountains at dusk" loading="lazy"></figure>
+      <figure class="art art--photo ftr__photo"><img src="img/rsi-footer.webp" alt="An empty interpreter booth with a microphone and headphones, suspended above misty mountains at dusk" loading="lazy" width="965" height="1630"></figure>
     </div>
     </div>
   </div>
@@ -529,7 +530,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   </div>
 </footer>
 
-<script src="main.js?v=202610281208"></script>
-<script src="consent.js?v=202610281208" defer></script>
+<script src="main.js?v=202610281224"></script>
+<script src="consent.js?v=202610281224" defer></script>
 </body>
 </html>

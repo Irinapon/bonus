@@ -18,7 +18,7 @@
   --bg: #f7fbfd;
   --ink: #101a35;
   --ink-2: #3b4566;
-  --muted: #7c8399;
+  --muted: #636a80; /* 4.5:1+ on every light surface (WCAG AA) */
   --line: #a9aebf;
   --line-soft: #d9dce6;
   --lav: #e9ebfb;
@@ -997,3 +997,22 @@ html[lang="ja"] .cc__b { text-transform: none; letter-spacing: 0; }
 .form__ok { color: var(--accent); font-size: 16px; font-weight: 500; }
 .form__ok[data-kind="err"] { color: #ff9cc9; }
 .form button[disabled] { opacity: .6; cursor: progress; }
+
+/* ---------- Accessibility additions ---------- */
+/* skip link: first tab stop, visible only on keyboard focus */
+.skip { position: fixed; z-index: 200; left: 16px; top: 12px; padding: 10px 16px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 600;
+  transform: translateY(-160%); transition: transform .25s var(--ease-out); }
+.skip:focus-visible { transform: none; outline: 3px solid rgba(219,98,178,.55); outline-offset: 2px; }
+/* pause/play for the moving hero (WCAG 2.2.2): stops the video, canvases and CSS loops site-wide */
+.motion-btn { position: absolute; z-index: 3; right: 20px; bottom: 20px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.6); background: rgba(247,251,253,.55); color: var(--ink); cursor: pointer;
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: background .3s var(--ease-ui); }
+.motion-btn:hover { background: rgba(247,251,253,.85); }
+.motion-btn:focus-visible { outline: 3px solid rgba(219,98,178,.55); outline-offset: 2px; }
+.motion-btn .i-play { display: none; }
+.motion-paused .motion-btn .i-play { display: block; } .motion-paused .motion-btn .i-pause { display: none; }
+.motion-paused *, .motion-paused *::before, .motion-paused *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .motion-btn { display: none; } }
+/* privacy notice under the contact form (GDPR art. 13) */
+.form__note { margin-top: 14px; font-size: 14px; line-height: 1.4; color: #aeb4cc; max-width: 52ch; }
+.form__note a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }

@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RSI X AI - リアルタイムAI通訳・字幕</title>
 <meta name="description" content="RSI X AIは、超低遅延のAI音声通訳とライブ字幕をひとつの軽量ツールで提供します。最大遅延3秒、70以上の言語に対応し、あらゆる会議プラットフォームで使えます。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+JP:wght@400;500;600&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../fonts/inter.css">
+<link rel="stylesheet" href="../fonts/noto-sans-jp.css">
 <link rel="alternate" hreflang="en" href="https://rsix-ai.com/">
 <link rel="alternate" hreflang="ja" href="https://rsix-ai.com/jp/">
 <link rel="alternate" hreflang="x-default" href="https://rsix-ai.com/">
@@ -32,7 +31,7 @@
 <link rel="icon" href="../img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
-<link rel="stylesheet" href="../styles.css?v=202610281208">
+<link rel="stylesheet" href="../styles.css?v=202610281224">
 <script>
 document.documentElement.classList.add('js');
 // always open on the first screen (Safari restores the old scroll position on reload, which lands under the preloader)
@@ -41,6 +40,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 </script>
 </head>
 <body>
+<a class="skip" href="#top" data-skip>本文へスキップ</a>
 <!-- preloader: the name types itself in, letter by letter (pure CSS, nothing to stutter) -->
 <div class="pre" aria-hidden="true">
   <p class="pre__word"><span class="pre__ch" style="--i:0">R</span><span class="pre__ch" style="--i:1">S</span><span class="pre__ch" style="--i:2">I</span><span class="pre__ch" style="--i:3">&nbsp;</span><span class="pre__ch" style="--i:4">X</span><span class="pre__ch" style="--i:5">&nbsp;</span><span class="pre__ch pre__ch--a" style="--i:6">A</span><span class="pre__ch pre__ch--a" style="--i:7">I</span></p>
@@ -100,7 +100,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     <a href="#team">選ばれる理由</a>
     <a href="#real-world">活用シーン</a>
     <a href="#faq">よくある質問</a>
-    <span class="hdr__lang" aria-label="Language"><a href="../" hreflang="en" lang="en">EN</a><i aria-hidden="true">/</i><a href="./" hreflang="ja" lang="ja" aria-current="page">JP</a></span>
+    <span class="hdr__lang" aria-label="言語"><a href="../" hreflang="en" lang="en">EN</a><i aria-hidden="true">/</i><a href="./" hreflang="ja" lang="ja" aria-current="page">JP</a></span>
     <a href="#contact" class="hdr__contact">お問い合わせ <span class="hdr__contact-ico" aria-hidden="true"><svg viewBox="0 0 13 13" width="13" height="13"><path d="M4 9l5-5M5 4h4v4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span></a>
   </nav>
 </header>
@@ -123,9 +123,9 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     var p = v.play(); if (p && p.catch) p.catch(function () {});
   })();
   </script>
-  <picture><source media="(max-width: 960px)" srcset="../img/rsi-hero-m.webp"><img class="hero__bg" src="../img/rsi-hero-clean.webp" alt="" fetchpriority="high"></picture>
+  <picture><source media="(max-width: 960px)" srcset="../img/rsi-hero-m.webp" width="941" height="1672"><img class="hero__bg" src="../img/rsi-hero-clean.webp" alt="" fetchpriority="high" width="2000" height="1185"></picture>
   <canvas class="hero__wave" aria-hidden="true"></canvas>
-  <img class="hero__bg hero__fg" src="../img/rsi-hero-booth.webp" alt="" aria-hidden="true"><!-- booth glass on top of the wave -->
+  <img class="hero__bg hero__fg" src="../img/rsi-hero-booth.webp" alt="" aria-hidden="true" width="2000" height="1185"><!-- booth glass on top of the wave -->
   <div class="hero__veil" aria-hidden="true"></div>
   <div class="hero__copy">
     <p class="eyebrow"><span>AIライブ</span>通訳・字幕</p>
@@ -136,6 +136,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       <a href="#contact" class="btn btn--hero"><span>イベントについて相談する</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></a>
     </div>
   </div>
+  <button type="button" class="motion-btn" aria-pressed="false" aria-label="動きを一時停止"><svg class="i-pause" width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M1.5 1v12M10.5 1v12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><svg class="i-play" width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M2 1.2v11.6L11 7z" fill="currentColor"/></svg></button>
   <!-- Latency stat at the bottom of the hero -->
   <div class="hero__foot">
     <div class="hero__stat">
@@ -181,7 +182,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   <h2 class="sec__title">音声と字幕<span>02</span></h2>
   <div class="split">
     <figure class="art art--sq art--photo">
-      <img src="../img/rsi-human-signal.webp" alt="3枚の半透明なガラスパネルを通り抜ける、温かな光の信号" loading="lazy">
+      <img src="../img/rsi-human-signal.webp" alt="3枚の半透明なガラスパネルを通り抜ける、温かな光の信号" loading="lazy" width="1200" height="1200">
       <canvas class="art__fx" aria-hidden="true"></canvas>
       <figcaption>正しい信号は、<br>遠くまで届く。</figcaption>
     </figure>
@@ -199,12 +200,12 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
             <div class="msel" id="lang" data-value="ja">
               <button type="button" class="msel__btn" aria-haspopup="listbox" aria-expanded="false" aria-label="視聴言語: 日本語"><span class="msel__val">日本語</span><span class="msel__chev" aria-hidden="true"><svg width="8" height="12" viewBox="0 0 8 12"><path d="M1.5 4.5 4 2l2.5 2.5M1.5 7.5 4 10l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
               <ul class="msel__menu" role="listbox" aria-label="視聴言語" tabindex="-1" hidden>
-                <li role="option" data-value="en" aria-selected="false">English</li>
-                <li role="option" data-value="fr" aria-selected="false">Français</li>
-                <li role="option" data-value="es" aria-selected="false">Español</li>
-                <li role="option" data-value="de" aria-selected="false">Deutsch</li>
-                <li role="option" data-value="ar" aria-selected="false">العربية</li>
-                <li role="option" data-value="ja" aria-selected="true">日本語</li>
+                <li role="option" data-value="en" aria-selected="false" lang="en">English</li>
+                <li role="option" data-value="fr" aria-selected="false" lang="fr">Français</li>
+                <li role="option" data-value="es" aria-selected="false" lang="es">Español</li>
+                <li role="option" data-value="de" aria-selected="false" lang="de">Deutsch</li>
+                <li role="option" data-value="ar" aria-selected="false" lang="ar">العربية</li>
+                <li role="option" data-value="ja" aria-selected="true" lang="ja">日本語</li>
               </ul>
             </div>
             <span class="mock__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
@@ -260,7 +261,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
 <!-- ============ BAND ============ -->
 <figure class="band">
-  <img src="../img/rsi-global-event.webp" alt="世界中の参加者とつながる、橋の上のガラスの通訳ハブ" loading="lazy">
+  <img src="../img/rsi-global-event.webp" alt="世界中の参加者とつながる、橋の上のガラスの通訳ハブ" loading="lazy" width="1774" height="887">
   <canvas class="band__fx" aria-hidden="true"></canvas>
   <figcaption class="band__label"><span>RSI X AIの信号</span><span>70以上の言語で、ひとつのクリアな会話を</span></figcaption>
 </figure>
@@ -454,7 +455,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
 <!-- ============ CTA ============ -->
 <section class="cta">
-  <picture><source media="(max-width: 960px)" srcset="../img/rsi-cta-m.webp"><img class="cta__bg" src="../img/rsi-cta.webp" alt="" loading="lazy"></picture>
+  <picture><source media="(max-width: 960px)" srcset="../img/rsi-cta-m.webp" width="940" height="1672"><img class="cta__bg" src="../img/rsi-cta.webp" alt="" loading="lazy" width="1942" height="809"></picture>
   <canvas class="cta__fx" aria-hidden="true"></canvas>
   <div class="cta__copy">
     <h2>次のイベントを、<em>多言語</em>に</h2>
@@ -492,6 +493,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
           <button type="submit" class="btn btn--hero"><span>チームに相談する</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></button>
           <p class="form__ok" id="formOk" hidden>ありがとうございます。担当者より追ってご連絡します。</p>
         </div>
+        <p class="form__note">送信いただいた情報は、お問い合わせへの回答のためにのみ利用します。詳しくは<a href="../privacy.html">プライバシーポリシー（英語）</a>をご覧ください。</p>
       </form>
     </div>
 
@@ -515,7 +517,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
     <div class="ftr__art">
       <p class="label">AI通訳・字幕</p>
-      <figure class="art art--photo ftr__photo"><img src="../img/rsi-footer.webp" alt="夕暮れの霧がかった山々の上に浮かぶ、マイクとヘッドホンが置かれた無人の通訳ブース" loading="lazy"></figure>
+      <figure class="art art--photo ftr__photo"><img src="../img/rsi-footer.webp" alt="夕暮れの霧がかった山々の上に浮かぶ、マイクとヘッドホンが置かれた無人の通訳ブース" loading="lazy" width="965" height="1630"></figure>
     </div>
     </div>
   </div>
@@ -529,7 +531,7 @@ if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   </div>
 </footer>
 
-<script src="../main.js?v=202610281208"></script>
-<script src="../consent.js?v=202610281208" defer></script>
+<script src="../main.js?v=202610281224"></script>
+<script src="../consent.js?v=202610281224" defer></script>
 </body>
 </html>

@@ -22,6 +22,9 @@ const preload = (() => {
   return api;
 })();
 
+// Motion pause (WCAG 2.2.2): the hero button toggles html.motion-paused; loops and the video read it
+const motionPaused = () => document.documentElement.classList.contains('motion-paused');
+
 // Resize only when the canvas box really changed (the mobile URL bar fires resize on every scroll)
 const onBoxResize = (el, fn) => {
   let w = el.clientWidth, h = el.clientHeight;
@@ -267,7 +270,7 @@ const onBoxResize = (el, fn) => {
   });
   document.addEventListener('click', (e) => { if (!sel.contains(e.target) && !menu.hidden) closeMenu(); });
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    setInterval(() => { i += 1; show(); }, 3800);
+    setInterval(() => { if (motionPaused()) return; i += 1; show(); }, 3800);
   }
 
   // Contact form → Web3Forms → info@rsiexchange.com. The access key is public by design (it can only send to that inbox).
@@ -426,7 +429,7 @@ const onBoxResize = (el, fn) => {
   };
 
   let running = false, raf = 0;
-  const loop = (t) => { if (cvs.closest('.has-video')) { running = false; return; } draw(t); if (running) raf = requestAnimationFrame(loop); }; // the video took over: stop drawing
+  const loop = (t) => { if (cvs.closest('.has-video')) { running = false; return; } if (!motionPaused()) draw(t); if (running) raf = requestAnimationFrame(loop); }; // the video took over: stop drawing
   const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
   const stop = () => { running = false; cancelAnimationFrame(raf); };
 
@@ -518,7 +521,7 @@ const onBoxResize = (el, fn) => {
   };
 
   let running = false, raf = 0;
-  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const loop = (t) => { if (!motionPaused()) draw(t); if (running) raf = requestAnimationFrame(loop); };
   const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
   const stop = () => { running = false; cancelAnimationFrame(raf); };
   const init = () => {
@@ -591,7 +594,7 @@ const onBoxResize = (el, fn) => {
     ctx.globalCompositeOperation = 'source-over';
   };
   let running = false, raf = 0;
-  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const loop = (t) => { if (!motionPaused()) draw(t); if (running) raf = requestAnimationFrame(loop); };
   const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
   const stop = () => { running = false; cancelAnimationFrame(raf); };
   const init = () => {
@@ -658,7 +661,7 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
     ctx.globalCompositeOperation = 'source-over';
   };
   let running = false, raf = 0;
-  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const loop = (t) => { if (!motionPaused()) draw(t); if (running) raf = requestAnimationFrame(loop); };
   const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
   const stop = () => { running = false; cancelAnimationFrame(raf); };
   place();
@@ -706,7 +709,7 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
     ctx.beginPath(); ctx.arc(head, 3, 3, 0, Math.PI * 2); ctx.fill();
   };
   let running = false, raf = 0;
-  const loop = (t) => { draw(t); if (running) raf = requestAnimationFrame(loop); };
+  const loop = (t) => { if (!motionPaused()) draw(t); if (running) raf = requestAnimationFrame(loop); };
   const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(loop); } };
   const stop = () => { running = false; cancelAnimationFrame(raf); };
   place(); draw(0);
@@ -777,6 +780,9 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    if (a.hasAttribute('data-skip')) { // skip link: move keyboard focus into the content
+      e.preventDefault(); const m = document.querySelector('main'); m.setAttribute('tabindex', '-1'); m.focus({ preventScroll: true }); go(0); return;
+    }
     const id = a.getAttribute('href');
     const target = id === '#top' || id === '#' ? document.body : document.querySelector(id);
     if (!target) return;
@@ -790,4 +796,19 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
   window.addEventListener('scroll', () => {                            // keep the current entry's spot fresh
     clearTimeout(window.__ySave); window.__ySave = setTimeout(() => history.replaceState({ y: window.scrollY }, ''), 150);
   }, { passive: true });
+})();
+
+// Hero pause/play: stops the video, every canvas animation, CSS loops and the caption demo
+(() => {
+  const btn = document.querySelector('.motion-btn');
+  if (!btn) return;
+  const ja = document.documentElement.lang === 'ja';
+  const label = (p) => (p ? (ja ? '動きを再開' : 'Play motion') : (ja ? '動きを一時停止' : 'Pause motion'));
+  btn.addEventListener('click', () => {
+    const p = document.documentElement.classList.toggle('motion-paused');
+    btn.setAttribute('aria-pressed', String(p)); btn.setAttribute('aria-label', label(p));
+    const vids = [...document.querySelectorAll('.hero__clip video')];
+    if (p) { vids.forEach((v) => { v.dataset.wasPlaying = v.paused ? '' : '1'; v.pause(); }); }
+    else vids.forEach((v) => { if (v.dataset.wasPlaying) v.play().catch(() => {}); }); // resume only the player that was running
+  });
 })();
