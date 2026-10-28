@@ -718,3 +718,26 @@ document.addEventListener('dragstart', (e) => { if (e.target.closest && e.target
     show(); setInterval(show, 500);
   }
 })();
+
+// In-page links (CTA buttons → form, menu → sections): remember where the visitor was, so the browser's Back
+// button brings them back to that exact spot (scroll restoration is manual because of the preloader)
+(() => {
+  const go = (y) => window.scrollTo({ top: y, behavior: 'smooth' });
+  if (!history.state || history.state.y === undefined) history.replaceState({ y: window.scrollY }, '');
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    const id = a.getAttribute('href');
+    const target = id === '#top' || id === '#' ? document.body : document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    history.replaceState({ y: window.scrollY }, '');                  // the spot we're leaving
+    const y = id === '#top' || id === '#' ? 0 : target.getBoundingClientRect().top + window.scrollY - 70; // clear the fixed header
+    history.pushState({ y }, '', id);
+    go(y);
+  });
+  window.addEventListener('popstate', (e) => { if (e.state && typeof e.state.y === 'number') go(e.state.y); });
+  window.addEventListener('scroll', () => {                            // keep the current entry's spot fresh
+    clearTimeout(window.__ySave); window.__ySave = setTimeout(() => history.replaceState({ y: window.scrollY }, ''), 150);
+  }, { passive: true });
+})();
