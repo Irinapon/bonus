@@ -1,6 +1,6 @@
 ---
 name: typography
-description: House typography rules for the RSI X AI site (RSI AI/). Use whenever adding or editing copy, headings, buttons or a new language version of the site.
+description: House typography rules for the RSI X AI site (repo root: index.html, ja.html, styles.css, main.js). Use whenever adding or editing copy, headings, buttons or a new language version of the site.
 ---
 
 # Typography rules - RSI X AI
