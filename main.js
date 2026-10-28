@@ -271,7 +271,7 @@ const onBoxResize = (el, fn) => {
   }
 
   // Contact form → Web3Forms → info@rsiexchange.com. The access key is public by design (it can only send to that inbox).
-  const WEB3FORMS_KEY = ''; // ← paste the key from the Web3Forms e-mail here
+  const WEB3FORMS_KEY = '003288fe-ebe7-47a1-b958-98c339506dd0'; // Web3Forms access key (public by design)
   const form = document.getElementById('form');
   const ja = document.documentElement.lang === 'ja';
   const msg = ja
