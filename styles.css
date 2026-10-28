@@ -730,7 +730,16 @@ h1, h2, h3, .lede, .stat__n, .stat__big, .note strong, .hero__float strong { fon
 /* CTA buttons with long labels: let the pill grow to two lines instead of squashing */
 .btn span { text-align: center; }
 @media (max-width: 560px) {
-  .btn--hero span { height: auto; min-height: 40px; padding: 10px 20px; line-height: 1.25; }
+  .btn--hero span { padding: 0 clamp(12px, 4vw, 20px); font-size: clamp(11px, 3.4vw, 14px); }
+}
+/* CTA labels and hero figures never break inside */
+.btn--hero span, .hero__stat strong { white-space: nowrap; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* phones: hero stats on one grid - figures in an equal column, captions start on the same line */
+@media (max-width: 960px) {
+  .hero__foot { flex-direction: column; flex-wrap: nowrap; }
+  .hero__stat { gap: 16px; }
+  .hero__stat strong { flex: 0 0 76px; }
 }
 @media (max-width: 960px) {
   .hdr.is-open .hdr__burger { background: #fff; }
