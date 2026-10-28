@@ -296,7 +296,7 @@ const onBoxResize = (el, fn) => {
           from_name: 'RSI X AI website',
           replyto: data.email,
           Name: data.name, Email: data.email, Organization: data.org || '-', 'Event type': data.event || '-',
-          'Languages needed': data.langs || '-', Message: data.msg || '-', 'Site version': ja ? 'Japanese (ja.html)' : 'English',
+          'Languages needed': data.langs || '-', Message: data.msg || '-', 'Site version': ja ? 'Japanese (/jp)' : 'English',
           botcheck: '',
         }),
       });

@@ -3,6 +3,7 @@
 // and is exposed as window.rsixConsent (+ a "rsix:consent" event) for any script that needs it later.
 (() => {
   const KEY = 'rsix-consent';
+  const POLICY = new URL('cookies.html', (document.currentScript && document.currentScript.src) || location.href).href; // works from /jp/ too
   const ja = document.documentElement.lang === 'ja';
   const T = ja ? {
     title: 'Cookieについて',
@@ -28,7 +29,7 @@
     box = document.createElement('div');
     box.className = 'cc'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', T.label); box.setAttribute('aria-live', 'polite');
     box.innerHTML = `<p class="cc__t">${T.title}</p>
-      <p class="cc__p">${T.text} <a href="cookies.html">${T.policy}</a></p>
+      <p class="cc__p">${T.text} <a href="${POLICY}">${T.policy}</a></p>
       <div class="cc__btns"><button type="button" class="cc__b cc__b--main" data-v="all">${T.all}</button><button type="button" class="cc__b" data-v="essential">${T.essential}</button></div>`;
     box.addEventListener('click', (e) => {
       const b = e.target.closest('[data-v]'); if (!b) return;

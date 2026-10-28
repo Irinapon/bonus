@@ -1,6 +1,6 @@
 ---
 name: typography
-description: House typography rules for the RSI X AI site (repo root: index.html, ja.html, styles.css, main.js). Use whenever adding or editing copy, headings, buttons or a new language version of the site.
+description: House typography rules for the RSI X AI site (repo root: index.html, jp/index.html, styles.css, main.js). Use whenever adding or editing copy, headings, buttons or a new language version of the site.
 ---
 
 # Typography rules - RSI X AI
@@ -19,7 +19,7 @@ description: House typography rules for the RSI X AI site (repo root: index.html
 - **Text → button distance: 28px everywhere** (`--to-btn` in `styles.css`). Measure it after any layout change.
 - Accent words in headings: `<em>` in `--accent` (#db62b2). Italic in Latin scripts only.
 
-## Japanese (ja.html)
+## Japanese (jp/index.html → rsix-ai.com/jp)
 - Font stack: Inter for Latin + **Noto Sans JP** for Japanese; no negative letter-spacing on Japanese text.
 - `<em>` stays pink but **not italic** (Japanese has no true italics).
 - Line breaking: `word-break: auto-phrase` (keeps phrases together), `line-break: strict`; slightly taller line-height (1.5 body, 1.15 headings).
