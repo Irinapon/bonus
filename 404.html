@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found - RSI X AI</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#d3d8f8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<!-- served for any missing path, so every URL here is absolute -->
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .nf { position: relative; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 120px 20px 80px; background: #cfd7fb url(/img/rsi-hero-sphere.jpg) 72% center / cover; overflow: hidden; }
+  .nf::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(218,221,250,.94) 0%, rgba(218,221,250,.82) 40%, rgba(218,221,250,.3) 64%, rgba(218,221,250,0) 80%); }
+  .nf > * { position: relative; }
+  .nf__logo { position: absolute; top: 24px; left: 20px; }
+  .nf__code { font-size: clamp(88px, 14vw, 200px); font-weight: 500; line-height: .85; letter-spacing: -.06em; color: var(--ink); }
+  .nf__code em { color: var(--accent); }
+  .nf__t { margin-top: 24px; font-size: clamp(28px, 3vw, 44px); font-weight: 500; letter-spacing: -.035em; line-height: 1.05; max-width: 16ch; }
+  .nf__p { margin-top: 14px; max-width: 46ch; color: var(--ink-2); }
+  .nf__ja { margin-top: 36px; font-family: "Noto Sans JP", var(--sans); word-break: auto-phrase; line-break: strict; }
+  .nf__ja .nf__t { font-size: clamp(20px, 2vw, 28px); letter-spacing: 0; line-height: 1.3; max-width: none; }
+  .nf .btn { margin-top: var(--to-btn); }
+  @media (max-width: 960px) { .nf { background-position: 70% bottom; } .nf::before { background: linear-gradient(180deg, rgba(218,221,250,.94) 0%, rgba(218,221,250,.8) 55%, rgba(218,221,250,.2) 100%); } }
+</style>
+</head>
+<body>
+<main class="nf">
+  <a href="/" class="logo nf__logo" aria-label="RSI X AI home">
+    <span class="logo__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="logo__text">RSI X <i>AI</i></span>
+  </a>
+  <p class="nf__code">4<em>0</em>4</p>
+  <h1 class="nf__t">This page doesn't exist</h1>
+  <p class="nf__p">It may have moved, or the link may be mistyped. Everything about RSI X AI is on the home page.</p>
+  <div class="nf__ja" lang="ja">
+    <p class="nf__t">ページが見つかりません</p>
+    <p class="nf__p">移動したか、URLが間違っている可能性があります。</p>
+  </div>
+  <div><a href="/" class="btn btn--hero"><span>Back to the home page</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></a></div>
+  <p class="nf__p" lang="ja" style="margin-top:14px"><a href="/ja.html" style="text-decoration:underline;text-underline-offset:3px">日本語のトップページへ</a></p>
+</main>
+</body>
+</html>

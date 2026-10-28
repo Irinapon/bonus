@@ -964,3 +964,30 @@ html[lang="ja"] .hdr__nav a { text-transform: none; }
 /* Japanese glyphs sit lower than Latin: give the word-reveal mask more room so nothing is clipped */
 html[lang="ja"] .w { padding-top: .2em; margin-top: -.2em; padding-bottom: .24em; margin-bottom: -.24em; }
 html[lang="ja"] .hdr__nav a .w, html[lang="ja"] .sec__title .sec__t .w { padding-top: .2em; padding-bottom: .24em; }
+
+/* ---------- Cookie consent card (consent.js) ---------- */
+.cc { position: fixed; z-index: 90; right: 20px; bottom: 20px; width: min(400px, calc(100vw - 40px)); padding: 20px 22px 22px;
+  background: rgba(247,251,253,.9); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.7); border-radius: 16px; box-shadow: 0 24px 60px -24px rgba(13,20,48,.45);
+  color: var(--ink); font-family: var(--sans);
+  opacity: 0; transform: translateY(16px); visibility: hidden;
+  transition: opacity .5s var(--ease-ui), transform .7s var(--ease-out), visibility 0s .7s; }
+.cc.is-on { opacity: 1; transform: none; visibility: visible; transition: opacity .5s var(--ease-ui), transform .7s var(--ease-out), visibility 0s; }
+.cc__t { margin: 0 0 8px; font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+.cc__p { margin: 0; font-size: 14px; line-height: 1.4; color: var(--ink-2); text-wrap: pretty; }
+.cc__p a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.cc__p a:hover { color: var(--accent); }
+.cc__btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--to-btn); }
+.cc__b { height: 40px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--ink); background: transparent; color: var(--ink);
+  font: 600 14px/1 var(--sans); letter-spacing: -.01em; text-transform: uppercase; cursor: pointer;
+  transition: background .3s var(--ease-ui), color .3s var(--ease-ui), border-color .3s var(--ease-ui); }
+.cc__b:hover { border-color: var(--accent); color: var(--accent); }
+.cc__b--main { background: var(--ink); color: #fff; }
+.cc__b--main:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.cc__b:focus-visible { outline: 3px solid rgba(219,98,178,.45); outline-offset: 2px; }
+html[lang="ja"] .cc__b { text-transform: none; letter-spacing: 0; }
+@media (max-width: 560px) { .cc { left: 12px; right: 12px; bottom: 12px; width: auto; padding: 18px 18px 18px; } .cc__b { flex: 1; padding: 0 12px; font-size: 13px; white-space: nowrap; } }
+@media (prefers-reduced-motion: reduce) { .cc, .cc.is-on { transition: none; transform: none; } }
+/* footer "Cookie settings" looks like the other legal links */
+.ftr__cookie { padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.ftr__cookie:hover { color: #fff; }

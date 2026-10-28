@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /video-preview
+Disallow: /RSI%20AI/
+
+Sitemap: https://rsix-ai.com/sitemap.xml

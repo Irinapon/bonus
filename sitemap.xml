@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://rsix-ai.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsix-ai.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://rsix-ai.com/ja.html"/>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://rsix-ai.com/ja.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsix-ai.com/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://rsix-ai.com/ja.html"/>
+    <priority>0.9</priority>
+  </url>
+  <url><loc>https://rsix-ai.com/terms.html</loc><priority>0.3</priority></url>
+  <url><loc>https://rsix-ai.com/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://rsix-ai.com/cookies.html</loc><priority>0.3</priority></url>
+</urlset>
