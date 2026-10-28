@@ -929,3 +929,38 @@ p, li, .qa__q, .hang { text-wrap: pretty; }
   .hero__foot { align-self: flex-start; padding: 14px 16px; border-radius: 14px; gap: 14px 28px;
     background: rgba(241,243,253,.62); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.5); }
 }
+
+/* ---------- Language switch (EN / JP) in the menu ---------- */
+.hdr__lang { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-size: 14px; font-weight: 500; }
+.hdr__lang + .hdr__contact { margin-left: 30px; }
+.hdr__nav .hdr__lang a { color: rgba(16,26,53,.5); }
+.hdr__nav .hdr__lang a[aria-current] { color: var(--ink); }
+.hdr__nav .hdr__lang a:hover { color: var(--accent); }
+.hdr__lang i { font-style: normal; color: var(--line); }
+@media (max-width: 960px) {
+  .hdr .hdr__nav .hdr__lang { margin: 24px 0 0; font-size: 20px; gap: 10px; }
+  .hdr .hdr__nav .hdr__lang a { font-size: 20px; color: rgba(255,255,255,.55); }
+  .hdr .hdr__nav .hdr__lang a[aria-current] { color: #fff; }
+  .hdr .hdr__nav .hdr__lang + .hdr__contact { margin: 12px 0 0; }
+}
+
+/* ---------- Japanese page (ja.html) ---------- */
+html[lang="ja"] { --sans: "Inter", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif; --head: var(--sans); }
+html[lang="ja"] body { line-height: 1.6; }
+html[lang="ja"] :where(p, li, h1, h2, h3, summary, .lede, .qa__q, .hang, figcaption, .eyebrow) { word-break: auto-phrase; line-break: strict; }
+/* no tight tracking on Japanese text; numbers keep theirs */
+html[lang="ja"] :is(.hero__title, .sec__t, .lede, .cta__copy h2, .perf__label, .rw__cap, .rw__uses li, .qa__q, .faq__card-t, .mode h3, .hang, .hdr__nav a) { letter-spacing: 0; }
+html[lang="ja"] em { font-style: normal; }
+html[lang="ja"] .hero__title { font-size: clamp(38px, 4.6vw, 66px); line-height: 1.15; max-width: 11.5em; font-weight: 500; }
+html[lang="ja"] .hero__title em { font-size: 1em; }
+html[lang="ja"] .sec__title { font-size: clamp(32px, 4.2vw, 60px); line-height: 1.15; }
+html[lang="ja"] .lede { line-height: 1.4; font-size: clamp(19px, 1.7vw, 24px); }
+html[lang="ja"] .cta__copy h2 { font-size: clamp(32px, 4.2vw, 60px); line-height: 1.2; }
+html[lang="ja"] .perf__label { font-size: clamp(18px, 1.6vw, 24px); }
+html[lang="ja"] .rw__uses li { font-size: clamp(19px, 1.6vw, 24px); }
+html[lang="ja"] .eyebrow { letter-spacing: .04em; }
+html[lang="ja"] .hdr__nav a { text-transform: none; }
+
+/* Japanese glyphs sit lower than Latin: give the word-reveal mask more room so nothing is clipped */
+html[lang="ja"] .w { padding-top: .2em; margin-top: -.2em; padding-bottom: .24em; margin-bottom: -.24em; }
+html[lang="ja"] .hdr__nav a .w, html[lang="ja"] .sec__title .sec__t .w { padding-top: .2em; padding-bottom: .24em; }

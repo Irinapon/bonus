@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSI X AI - リアルタイムAI通訳・字幕</title>
+<meta name="description" content="RSI X AIは、超低遅延のAI音声通訳とライブ字幕をひとつの軽量ツールで提供します。最大遅延3秒、70以上の言語に対応し、あらゆる会議プラットフォームで使えます。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+JP:wght@400;500;600&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="alternate" hreflang="en" href="index.html">
+<link rel="alternate" hreflang="ja" href="ja.html">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css?v=202610281111">
+<script>
+document.documentElement.classList.add('js');
+// always open on the first screen (Safari restores the old scroll position on reload, which lands under the preloader)
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+</script>
+</head>
+<body>
+<!-- preloader: the name types itself in, letter by letter (pure CSS, nothing to stutter) -->
+<div class="pre" aria-hidden="true">
+  <p class="pre__word"><span class="pre__ch" style="--i:0">R</span><span class="pre__ch" style="--i:1">S</span><span class="pre__ch" style="--i:2">I</span><span class="pre__ch" style="--i:3">&nbsp;</span><span class="pre__ch" style="--i:4">X</span><span class="pre__ch" style="--i:5">&nbsp;</span><span class="pre__ch pre__ch--a" style="--i:6">A</span><span class="pre__ch pre__ch--a" style="--i:7">I</span></p>
+  <script>window.__preT0 = performance.now();</script>
+</div>
+
+<!-- Shared SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfc9f7"/>
+      <stop offset=".45" stop-color="#d9d2f2"/>
+      <stop offset=".78" stop-color="#efc6da"/>
+      <stop offset="1" stop-color="#f6d3bf"/>
+    </linearGradient>
+    <linearGradient id="skyWarm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e7c8ee"/>
+      <stop offset=".55" stop-color="#efb9cf"/>
+      <stop offset=".8" stop-color="#9da6e6"/>
+      <stop offset="1" stop-color="#6f7fd3"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d7defc" stop-opacity=".95"/>
+      <stop offset=".6" stop-color="#b8c1f0" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#f3cdb9" stop-opacity=".9"/>
+    </linearGradient>
+    <linearGradient id="glassSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9aa6e6"/>
+      <stop offset="1" stop-color="#c6cdf5"/>
+    </linearGradient>
+    <linearGradient id="slab" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2150"/>
+      <stop offset=".6" stop-color="#2b3285"/>
+      <stop offset="1" stop-color="#141838"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2d3a8c"/>
+      <stop offset=".5" stop-color="#5566c4"/>
+      <stop offset="1" stop-color="#26307a"/>
+    </linearGradient>
+    <linearGradient id="warmWall" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f3b9d2"/>
+      <stop offset="1" stop-color="#fbd7b4"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr" id="hdr">
+  <a href="#top" class="logo" aria-label="RSI X AI ホーム">
+    <span class="logo__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="logo__text">RSI X <i>AI</i><small>ライブ通訳</small></span>
+  </a>
+  <button class="hdr__burger" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="hdr-nav"><i></i><i></i></button>
+  <nav class="hdr__nav" id="hdr-nav" aria-label="メイン">
+    <a href="#pitfalls">製品</a>
+    <a href="#team">選ばれる理由</a>
+    <a href="#real-world">活用シーン</a>
+    <a href="#faq">よくある質問</a>
+    <span class="hdr__lang" aria-label="Language"><a href="index.html" hreflang="en" lang="en">EN</a><i aria-hidden="true">/</i><a href="ja.html" hreflang="ja" lang="ja" aria-current="page">JP</a></span>
+    <a href="#contact" class="hdr__contact">お問い合わせ <span class="hdr__contact-ico" aria-hidden="true"><svg viewBox="0 0 13 13" width="13" height="13"><path d="M4 9l5-5M5 4h4v4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span></a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO (Figma: RSI EXCHANGE, node 111:12) ============ -->
+<section class="hero">
+  <!-- hero video (desktop): sits under the photo and is revealed by hiding the photo once it plays -->
+  <div class="hero__clip" aria-hidden="true"><video muted autoplay playsinline preload="auto"></video></div>
+  <script>
+  // start fetching the clip as soon as the parser gets here (desktop only); H.264 MP4 first, VP9 WebM as fallback
+  (function () {
+    if (window.matchMedia('(max-width: 960px), (prefers-reduced-motion: reduce)').matches) return;
+    var v = document.currentScript.previousElementSibling.querySelector('video');
+    v.muted = true;
+    // which clip plays: 'rsi-hero-sphere' (thin lavender wave, current) · 'rsi-hero-clip' (previous: wide pink wave) — both stay in img/
+    var CLIP = 'img/rsi-hero-sphere';
+    v.src = CLIP + (v.canPlayType('video/mp4; codecs="avc1.640028"') || !v.canPlayType('video/webm; codecs="vp9"') ? '.mp4' : '.webm') + '?v=202610261602'; // ?v= busts the cache when a clip is re-graded
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  })();
+  </script>
+  <picture><source media="(max-width: 960px)" srcset="img/rsi-hero-m.webp"><img class="hero__bg" src="img/rsi-hero-clean.webp" alt="" fetchpriority="high"></picture>
+  <canvas class="hero__wave" aria-hidden="true"></canvas>
+  <img class="hero__bg hero__fg" src="img/rsi-hero-booth.webp" alt="" aria-hidden="true"><!-- booth glass on top of the wave -->
+  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="hero__copy">
+    <p class="eyebrow"><span>AIライブ</span>通訳・字幕</p>
+    <!-- Option A headline: open the page with ?h=a -->
+    <h1 class="hero__title" data-headline>話すスピードに<em>ちゃんと追いつく</em>リアルタイム翻訳</h1>
+    <p class="hero__lead">RSI X AIは、最大遅延3秒のAI音声通訳とライブ字幕を、ひとつの軽量ツールで提供します。プロの通訳者がいない会議やイベントにも、通訳者のリアルタイム支援にも。</p>
+    <div class="hero__cta">
+      <a href="#contact" class="btn btn--hero"><span>イベントについて相談する</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></a>
+    </div>
+  </div>
+  <!-- Latency stat at the bottom of the hero -->
+  <div class="hero__foot">
+    <div class="hero__stat">
+      <strong>3<small>s</small></strong>
+      <p><b>最大遅延</b><br>人間の通訳と同等</p>
+    </div>
+    <div class="hero__stat">
+      <strong>70<small>+</small></strong>
+      <p><b>対応言語</b><br>ライブ通訳・字幕</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PITFALLS ============ -->
+<section class="sec" id="pitfalls">
+  <h2 class="sec__title">課題と解決<span>01</span></h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>AI翻訳によくある</b><em>落とし穴を避けるために</em></p>
+      <p class="hang">AI通訳では、スピードか意味か、どちらかを選ばされがちです。翻訳が遅すぎれば、会話はもう先へ進んでいます。速くても意味が失われれば、別の問題が生まれます。</p>
+      <p class="hang">RSI X AIはその両方を大切にしています。<b>ついていける速さ、理解できる正確さ、そして邪魔にならない軽さ。</b></p>
+      <ol class="rows">
+        <li>
+          <svg class="ico ico--brand" viewBox="0 0 24 26" aria-hidden="true"><path d="M8 18H0V26H8V18Z"/><path d="M8.00085 18H16.0009V26L8.00085 18Z"/><path d="M24.0009 18H16.0009V26H24.0009V18Z"/><path d="M8.00122 18L8.00122 9L0.0012207 9L8.00122 18Z"/><path d="M8.00122 0V9H0.0012207L0.0012207 0H8.00122Z"/><path d="M24 10H16V18H24V10Z"/></svg>
+          <div><b>遅すぎる</b><span>翻訳に30秒かかれば、話し手はもう次の話題に移っています。</span></div>
+        </li>
+        <li>
+          <svg class="ico ico--brand" viewBox="0 0 24 25" aria-hidden="true"><path d="M8 18.0001H0V25.0001H8V18.0001Z"/><path d="M24 11L16 11L16 18L24 11Z"/><path d="M8 11H16V18H8V11Z"/><path d="M8 18L8 9L9.53674e-07 9L8 18Z"/><path d="M8 0V9H0L0 0H8Z"/></svg>
+          <div><b>わかりにくい</b><span>名前や数字、意味が抜け落ちるなら、速さに価値はありません。</span></div>
+        </li>
+        <li>
+          <svg class="ico ico--brand" viewBox="0 0 25 25" aria-hidden="true"><path d="M7 7V0L0 0V7L7 7Z"/><path d="M7 7L7 16H0L7 7Z"/><path d="M7 25V16H0V25H7Z"/><path d="M7 7L16 7V0L7 7Z"/><path d="M25 7H16V0H25V7Z"/></svg>
+          <div><b>重すぎる</b><span>会議プラットフォームに不要なボットやプラグイン、複雑な設定は要りません。</span></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOICE + CAPTIONS ============ -->
+<section class="sec" id="captions">
+  <h2 class="sec__title">音声と字幕<span>02</span></h2>
+  <div class="split">
+    <figure class="art art--sq art--photo">
+      <img src="img/rsi-human-signal.webp" alt="3枚の半透明なガラスパネルを通り抜ける、温かな光の信号" loading="lazy">
+      <canvas class="art__fx" aria-hidden="true"></canvas>
+      <figcaption>正しい信号は、<br>遠くまで届く。</figcaption>
+    </figure>
+    <div>
+      <p class="lede"><b>音声通訳とライブ字幕を、</b><em>ひとつのツールで</em></p>
+      <p class="hang">RSI X AIは、<b>AIによる音声通訳と、同期したライブ字幕</b>をひとつの体験にまとめました。シンプルなドロップダウンで言語を選ぶだけで、リアルタイムに聞きながら読むことができます。</p>
+      <p class="hang">字幕はあえて一度に一言語だけを表示します。利用できるすべての言語で画面が埋まることなく、すっきりと見やすいままです。</p>
+
+      <!-- mini product mock: a macOS-style listener window (custom popup so it looks the same in every browser) -->
+      <div class="mock mac" aria-label="RSI X AIのリスナー画面の例">
+        <div class="mac__bar" aria-hidden="true"><span class="mac__dots"><i></i><i></i><i></i></span><span class="mac__title">RSI X AI - リスナー</span></div>
+        <div class="mac__body">
+          <div class="mock__bar">
+            <span class="mock__live">ライブ</span>
+            <div class="msel" id="lang" data-value="ja">
+              <button type="button" class="msel__btn" aria-haspopup="listbox" aria-expanded="false" aria-label="視聴言語: 日本語"><span class="msel__val">日本語</span><span class="msel__chev" aria-hidden="true"><svg width="8" height="12" viewBox="0 0 8 12"><path d="M1.5 4.5 4 2l2.5 2.5M1.5 7.5 4 10l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+              <ul class="msel__menu" role="listbox" aria-label="視聴言語" tabindex="-1" hidden>
+                <li role="option" data-value="en" aria-selected="false">English</li>
+                <li role="option" data-value="fr" aria-selected="false">Français</li>
+                <li role="option" data-value="es" aria-selected="false">Español</li>
+                <li role="option" data-value="de" aria-selected="false">Deutsch</li>
+                <li role="option" data-value="ar" aria-selected="false">العربية</li>
+                <li role="option" data-value="ja" aria-selected="true">日本語</li>
+              </ul>
+            </div>
+            <span class="mock__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+          <p class="mock__cap" id="cap" aria-live="polite">ご参加いただきありがとうございます。まず次の四半期の地域見通しから始めます。</p>
+        </div>
+      </div>
+
+      <div class="chips">
+        <span>音声通訳</span><span>同期字幕</span><br class="chips__br"><span>画面には一言語</span><span>かんたんな言語選択</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPEED ============ -->
+<section class="sec" id="speed">
+  <h2 class="sec__title">パフォーマンス<span>03</span></h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>測れるスピード、</b><em>追える正確さ</em></p>
+      <p class="hang">RSI X AIは、社内のエンドツーエンド計測で<b>最大遅延3秒</b>を記録しています。これは人間の通訳と同等です。音声は100ミリ秒単位で処理され、翻訳をできる限りリアルタイムに近づけます。</p>
+    </div>
+  </div>
+  <ol class="perf" aria-label="主な数値">
+    <li class="perf__row">
+      <span class="perf__n">01</span>
+      <h3 class="perf__title"><span class="perf__num">3<small>秒</small></span><span class="perf__label">最大遅延</span></h3>
+      <p class="perf__body">社内のエンドツーエンド計測による値で、人間の通訳と同等です。</p>
+      <ul class="perf__tags"><li>エンドツーエンド</li><li>社内テスト</li></ul>
+    </li>
+    <li class="perf__row">
+      <span class="perf__n">02</span>
+      <h3 class="perf__title"><span class="perf__num">100<small>ms</small></span><span class="perf__label">音声チャンク</span></h3>
+      <p class="perf__body">文の終わりを待たず、音声を100ミリ秒単位で処理します。</p>
+      <ul class="perf__tags"><li>ストリーミング</li><li>ほぼリアルタイム</li></ul>
+    </li>
+    <li class="perf__row">
+      <span class="perf__n">03</span>
+      <h3 class="perf__title"><span class="perf__num">70<small>+</small></span><span class="perf__label">対応言語</span></h3>
+      <p class="perf__body">ライブ通訳と字幕に対応し、画面には一度に一言語を表示します。</p>
+      <ul class="perf__tags"><li>音声</li><li>字幕</li></ul>
+    </li>
+    <li class="perf__row">
+      <span class="perf__n">04</span>
+      <h3 class="perf__title"><span class="perf__num">160<small>Kbps</small></span><span class="perf__label">HD音声</span></h3>
+      <p class="perf__body">わずか160 KbpsでHD品質の音声を実現。RSI Exchangeと同じ軽量な基盤で、3G回線での実績もあります。</p>
+      <ul class="perf__tags"><li>低帯域</li><li>低バッテリー</li></ul>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ BAND ============ -->
+<figure class="band">
+  <img src="img/rsi-global-event.webp" alt="世界中の参加者とつながる、橋の上のガラスの通訳ハブ" loading="lazy">
+  <canvas class="band__fx" aria-hidden="true"></canvas>
+  <figcaption class="band__label"><span>RSI X AIの信号</span><span>70以上の言語で、ひとつのクリアな会話を</span></figcaption>
+</figure>
+
+<!-- ============ HOW IT FITS IN: platforms ============ -->
+<section class="sec" id="platforms">
+  <h2 class="sec__title">導入のしくみ<span>04</span></h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>どんなプラットフォームからでも。</b><em>届けるのは、ひとつの落ち着いた画面。</em></p>
+    </div>
+  </div>
+  <ol class="flow" aria-label="RSI X AIと会議のつながり方">
+    <li class="flow__step" tabindex="0">
+      <span class="flow__n">01 / 入力</span>
+      <svg class="ico ico--brand ico--flow" viewBox="0 0 27 21" aria-hidden="true"><path d="M27 10.5L13.5 10.5L13.5 21L27 10.5Z"/><path d="M0 10.5L13.5 10.5L13.5 21H0L0 10.5Z"/><path d="M10.5 10.5V0L0 0V10.5L10.5 10.5Z"/></svg>
+      <p>Zoom、Microsoft Teams、Google Meetなどのビデオ会議でも、対面の会議でも。その音声や映像をそのまま使えます。</p>
+    </li>
+    <li class="flow__step flow__step--core" tabindex="0">
+      <span class="flow__n">02 / RSI X AI</span>
+      <svg class="ico ico--brand ico--flow" viewBox="0 0 27 21" aria-hidden="true"><path d="M0 10.5L13.5 10.5L13.5 0L0 10.5Z"/><path d="M27 10.5H13.5V0H27V10.5Z"/><path d="M10.5 21V10.5L0 10.5V21H10.5Z"/></svg>
+      <p>音声を聞き取り、処理し、リアルタイムで翻訳します。</p>
+    </li>
+    <li class="flow__step" tabindex="0">
+      <span class="flow__n">03 / 参加者</span>
+      <svg class="ico ico--brand ico--flow" viewBox="0 0 27 21" aria-hidden="true"><path d="M27 10.5H13.5V0L27 10.5Z"/><path d="M0 10.5L13.5 10.5L13.5 0L0 0L0 10.5Z"/><path d="M10.5 21V10.5L0 10.5V21H10.5Z"/></svg>
+      <p>参加者はRSI X AIのアプリまたはウェブページで、音声通訳と字幕を利用できます。</p>
+    </li>
+  </ol>
+  <p class="flow__note">プラグイン不要。会議にボットは参加しません。複雑な設定もありません。</p>
+</section>
+
+<!-- ============ BUILT FOR REAL-WORLD USE ============ -->
+<section class="sec" id="real-world">
+  <h2 class="sec__title">現場で使える設計<span>05</span></h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>国際的なチームの、</b><em>実際の働き方に合わせて。</em></p>
+    </div>
+  </div>
+  <div class="rw">
+    <article class="rw__panel rw__panel--light">
+      <header class="rw__head"><span class="rw__tag">01 / 超軽量</span></header>
+      <p class="rw__fig">160<small>Kbps</small></p>
+      <p class="rw__cap">あれば、HD品質の音声に十分です</p>
+      <canvas class="rw__wave" aria-hidden="true"></canvas>
+      <ul class="rw__facts">
+        <li>HD音声</li><li>低バッテリー消費</li><li>限られた通信環境</li>
+      </ul>
+      <p class="rw__txt">わずか160 KbpsでのHD品質の音声、低いバッテリー消費、そして通信環境が限られていても動作するよう設計された軽量なアーキテクチャ。</p>
+    </article>
+    <article class="rw__panel rw__panel--dark">
+      <header class="rw__head"><span class="rw__tag">02 / 企業・国際機関向け</span></header>
+      <ul class="rw__uses">
+        <li><span>多言語会議</span><i aria-hidden="true">→</i></li>
+        <li><span>社内ブリーフィング</span><i aria-hidden="true">→</i></li>
+        <li><span>国際チームの通話</span><i aria-hidden="true">→</i></li>
+        <li><span>イベント</span><i aria-hidden="true">→</i></li>
+      </ul>
+      <p class="rw__txt">多言語会議、社内ブリーフィング、国際チームの通話、そして本格的な通訳ブースまでは必要ないイベントのために。</p>
+      <a href="#contact" class="btn btn--hero rw__cta"><span>イベントについて相談する</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></a>
+    </article>
+  </div>
+</section>
+
+<!-- ============ WHERE IT FITS ============ -->
+<section class="sec" id="honest">
+  <h2 class="sec__title">使いどころ<span>06</span></h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>AIが役立つところにはAIを。</b><em>大切な場面には人を。</em></p>
+    </div>
+  </div>
+  <div class="modes">
+    <article class="mode">
+      <figure class="art art--mode" aria-hidden="true">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="220" fill="url(#skyWarm)"/>
+          <rect x="120" width="60" height="220" fill="#8f96e0" opacity=".45"/>
+          <path d="M150 0v220M20 110h260" stroke="#3a4380" stroke-width="2"/>
+          <circle class="m1-top" cx="150" cy="60" r="16" fill="#8a5fc0"/>
+          <circle class="m1-mid" cx="150" cy="110" r="6" fill="#3a4380"/>
+          <circle class="m1-bot" cx="150" cy="160" r="18" fill="#1b2150"/>
+        </svg>
+      </figure>
+      <h3><b>単独で</b></h3>
+      <p>機密性の高くない会議、社内ブリーフィング、本格的な通訳ブースまでは必要ないイベントに。</p>
+      <span class="mode__n">01</span>
+    </article>
+    <article class="mode">
+      <figure class="art art--mode" aria-hidden="true">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
+          <defs><radialGradient id="halo"><stop offset="0" stop-color="#6c6fd1" stop-opacity=".5"/><stop offset="1" stop-color="#6c6fd1" stop-opacity="0"/></radialGradient></defs>
+          <rect width="300" height="220" fill="url(#skyWarm)"/>
+          <circle class="m2-halo" cx="150" cy="110" r="70" fill="url(#halo)"/>
+          <circle class="m2-ring" cx="150" cy="110" r="44" fill="none" stroke="#6c6fd1" stroke-opacity=".5"/><circle class="m2-ring m2-ring--2" cx="150" cy="110" r="44" fill="none" stroke="#6c6fd1" stroke-opacity=".5"/>
+          <path d="M0 110h300M150 20v180" stroke="#3a4380" stroke-width="1.5"/>
+          <circle cx="150" cy="110" r="14" fill="#141838"/>
+        </svg>
+      </figure>
+      <h3><b>通訳者と一緒に</b></h3>
+      <p>プロの通訳者のリアルタイム支援として。専門用語や数字、固有名詞を拾い上げ、主導権は通訳者が保ちます。</p>
+      <span class="mode__n">02</span>
+    </article>
+    <article class="mode">
+      <figure class="art art--mode" aria-hidden="true">
+        <svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="220" fill="url(#skyWarm)"/>
+          <rect y="130" width="300" height="90" fill="#9aa6ec" opacity=".7"/>
+          <rect class="m3-sq" x="110" y="60" width="80" height="80" fill="#6d5bb8" opacity=".55"/>
+          <path d="M150 20v180M40 100h220" stroke="#3a4380" stroke-width="1.5"/>
+          <g fill="#141838"><circle class="m3-dot" cx="150" cy="20" r="3"/><circle class="m3-dot" cx="260" cy="100" r="3"/><circle class="m3-dot" cx="150" cy="200" r="3"/><circle class="m3-dot" cx="40" cy="100" r="3"/><circle cx="150" cy="100" r="4"/></g>
+        </svg>
+      </figure>
+      <h3><b>重要度の高いイベント</b></h3>
+      <p>外交や交渉など、ニュアンスと判断が欠かせないイベントには、RSI Exchangeがプロの通訳者を手配します。</p>
+      <span class="mode__n">03</span>
+    </article>
+    <a class="modes__more" href="https://rsiexchange.com/" data-rsi-exchange>
+      <span class="circle" aria-hidden="true">→</span>
+      繊細なニュアンスと人の判断が必要ですか？<br>RSI Exchangeへ
+    </a>
+  </div>
+</section>
+
+<!-- ============ TEAM / PEDIGREE ============ -->
+<!-- Experience of the RSI Exchange team — not RSI X AI clients -->
+<section class="sec" id="team">
+  <h2 class="sec__title">つくり手<span>07</span></h2>
+  <div class="split">
+    <div></div>
+    <div>
+      <p class="lede"><b>エンジニアだけでなく、</b><em>通訳者がつくった</em></p>
+      <p class="hang">RSI X AIは、<b>RSI Exchange</b>のチームから生まれました。プロの通訳に伴うプレッシャー、正確さ、責任を知り尽くしたチームです。</p>
+      <p class="hang">その経験は、製品のつくり方だけでなく、どこで使うべきか、どこで人の通訳者が欠かせないか、そしてRSI X AIが何を約束するのかにも活かされています。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec" id="faq">
+  <h2 class="sec__title">よくある質問<span>08</span></h2>
+  <div class="split split--faq">
+    <aside class="faq__aside">
+      <p class="lede"><b>お問い合わせの前に、</b><em>率直な答えを</em></p>
+      <div class="faq__card">
+        <p class="faq__card-t">まだご質問がありますか？</p>
+        <p>イベントの内容、言語、参加者について教えてください。あとはこちらでお答えします。</p>
+        <a href="#contact" class="btn btn--hero"><span>チームに相談する</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></a>
+      </div>
+    </aside>
+    <div class="faq">
+        <details class="qa">
+          <summary><span class="qa__n">01</span><span class="qa__q">RSI X AIとRSI Exchangeの違いは？</span><span class="qa__ico" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>RSI X AIは、プロの通訳者がいない場面や、本格的な通訳体制までは必要ない場面のために、高速なAI通訳と字幕を提供します。RSI Exchangeは、ニュアンス、トーン、判断が欠かせない重要なイベントのために、プロの通訳者を提供します。</p></div>
+        </details>
+        <details class="qa">
+          <summary><span class="qa__n">02</span><span class="qa__q">オンライン会議にはどのように組み込めますか？</span><span class="qa__ico" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>RSI X AIは、Zoom、Microsoft Teams、Google Meetなどの会議・イベントプラットフォームの音声や映像を聞き取り、リアルタイムで処理して、翻訳結果をRSI X AIのアプリまたはウェブページで届けます。</p></div>
+        </details>
+        <details class="qa">
+          <summary><span class="qa__n">03</span><span class="qa__q">プラグインのインストールや、会議へのボット追加は必要ですか？</span><span class="qa__ico" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>いいえ。RSI X AIは、元の会議プラットフォームにプラグインやボットを追加する必要がありません。</p></div>
+        </details>
+        <details class="qa">
+          <summary><span class="qa__n">04</span><span class="qa__q">どのくらい速いですか？</span><span class="qa__ico" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>社内のエンドツーエンド計測では最大遅延3秒で、人間の通訳と同等です。音声は100ミリ秒単位で処理され、翻訳をリアルタイムに近い状態に保ちます。</p></div>
+        </details>
+        <details class="qa">
+          <summary><span class="qa__n">05</span><span class="qa__q">いくつの言語に対応していますか？</span><span class="qa__ico" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>RSI X AIは、ライブ通訳と字幕で70以上の言語に対応しています。利用できる言語は、選択したモードやイベントの設定によって異なる場合があります。</p></div>
+        </details>
+        <details class="qa">
+          <summary><span class="qa__n">06</span><span class="qa__q">どのくらいの通信帯域が必要ですか？</span><span class="qa__ico" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>RSI X AIは、限られた通信環境でも動作するよう設計されています。イベントの設定やネットワーク状況によりますが、HD品質の音声はわずか160 Kbpsで利用できます。</p></div>
+        </details>
+        <details class="qa">
+          <summary><span class="qa__n">07</span><span class="qa__q">音声データはどのように扱われますか？</span><span class="qa__ico" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>有料プランの環境では、RSI X AIで処理された音声がAIモデルの学習に使われることはありません。データの保持期間は、適用されるサービス設定に従います。</p></div>
+        </details>
+        <details class="qa">
+          <summary><span class="qa__n">08</span><span class="qa__q">どのように始めればよいですか？</span><span class="qa__ico" aria-hidden="true"></span></summary>
+          <div class="qa__a"><p>会議の内容、言語、参加者、環境について教えてください。RSI X AIが合っているかどうか、一緒に確認します。</p></div>
+        </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <picture><source media="(max-width: 960px)" srcset="img/rsi-cta-m.webp"><img class="cta__bg" src="img/rsi-cta.webp" alt="" loading="lazy"></picture>
+  <canvas class="cta__fx" aria-hidden="true"></canvas>
+  <div class="cta__copy">
+    <h2>次のイベントを、<em>多言語</em>に</h2>
+    <p>会議やイベントについて教えてください。RSI X AIが、言語、参加者、環境にどう合うかをご紹介します。</p>
+    <a href="#contact" class="btn btn--hero"><span>チームに相談する</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></a>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="ftr" id="contact">
+  <div class="ftr__grid">
+    <div class="ftr__left">
+      <a href="#top" class="logo logo--light">
+        <span class="logo__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="logo__text">RSI X <i>AI</i></span>
+      </a>
+      <p class="ftr__about">多言語の会議やイベントのための、AIライブ通訳と字幕。RSI Exchangeのチームがつくりました。</p>
+
+      <form class="form" id="form">
+        <p class="label">イベントについて教えてください</p>
+        <div class="form__row">
+          <label><span>お名前</span><input name="name" autocomplete="name" required></label>
+          <label><span>勤務先メールアドレス</span><input name="email" type="email" autocomplete="email" required></label>
+        </div>
+        <div class="form__row">
+          <label><span>組織名</span><input name="org" autocomplete="organization"></label>
+          <label><span>イベントの種類</span><input name="event" placeholder="例：カンファレンス、社内ブリーフィング"></label>
+        </div>
+        <label class="form__full"><span>必要な言語</span><input name="langs" placeholder="例：JA → EN, ZH, KO"></label>
+        <label class="form__full"><span>メッセージ</span><textarea name="msg" rows="2"></textarea></label>
+        <div class="form__submit">
+          <button type="submit" class="btn btn--hero"><span>チームに相談する</span><i aria-hidden="true"><svg viewBox="0 0 16 14" width="16" height="14"><path d="M1 7h13M8.5 1.5 14 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></i></button>
+          <p class="form__ok" id="formOk" hidden>ありがとうございます。担当者より追ってご連絡します。</p>
+        </div>
+      </form>
+    </div>
+
+    <div class="ftr__right">
+    <div class="ftr__cols">
+      <div>
+        <p class="label">ナビゲーション</p>
+        <a href="#pitfalls">製品</a>
+        <a href="#captions">音声と字幕</a>
+        <a href="#speed">パフォーマンス</a>
+        <a href="#platforms">導入のしくみ</a>
+        <a href="#honest">使いどころ</a>
+        <a href="#real-world">活用シーン</a>
+        <a href="#faq">よくある質問</a>
+      </div>
+      <div>
+        <p class="label">人による通訳</p>
+        <a href="https://rsiexchange.com/" data-rsi-exchange>重要なイベントには、人による通訳 → RSI Exchange</a>
+      </div>
+    </div>
+
+    <div class="ftr__art">
+      <p class="label">AI通訳・字幕</p>
+      <figure class="art art--photo ftr__photo"><img src="img/rsi-footer.webp" alt="夕暮れの霧がかった山々の上に浮かぶ、マイクとヘッドホンが置かれた無人の通訳ブース" loading="lazy"></figure>
+    </div>
+    </div>
+  </div>
+  <div class="ftr__bottom">
+    <span>© RSI X Limited · 無断転載を禁じます</span>
+    <div class="ftr__bottom-r">
+      <span>RSI Exchangeのチームがつくりました</span>
+      <span class="ftr__credit">Design by <a href="https://allthatjazz.ltd/" target="_blank" rel="noopener">All That Jazz</a></span>
+      <span class="ftr__legal"><a href="terms.html" hreflang="en">利用規約</a> · <a href="privacy.html" hreflang="en">プライバシーポリシー</a> · <a href="cookies.html" hreflang="en">Cookieポリシー</a>（英語）</span>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js?v=202610281111"></script>
+</body>
+</html>

@@ -102,6 +102,23 @@ const onBoxResize = (el, fn) => {
 
   // Word-by-word reveal for the hero and every heading
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Japanese: dictionary word segmentation (Intl.Segmenter), punctuation stays with the word before it
+  const CJK = /[\u3000-\u30ff\u4e00-\u9fff\uff00-\uffef]/;
+  const seg = window.Intl && Intl.Segmenter ? new Intl.Segmenter('ja', { granularity: 'word' }) : null;
+  const cjkWords = (text) => {
+    if (text.length <= 8) return [text];                                    // short labels (menu items) stay whole
+    const raw = seg ? [...seg.segment(text)].map((x) => x.segment) : [...text];
+    const out = [];
+    raw.forEach((t) => {
+      const prev = out[out.length - 1];
+      if (prev === undefined) out.push(t);
+      else if (/^[、。，．・：；？！」』）】〕…ー〜っゃゅょァィゥェォッャュョ]/.test(t)) out[out.length - 1] += t; // no line may start with these
+      else if (/[「『（【〔]$/.test(prev) || /^[おご]$/.test(prev)) out[out.length - 1] += t;     // brackets and honorific prefixes hold on to the next word
+      else if (/^[\u3041-\u309f]{1,3}$/.test(t)) out[out.length - 1] += t;                       // particles (に・を・の・は・から…) stay with the word before
+      else out.push(t);
+    });
+    return out;
+  };
   const splitWords = (el) => {
     let i = 0;
     const walk = (node) => {
@@ -109,12 +126,16 @@ const onBoxResize = (el, fn) => {
         if (n.nodeType === 3) {
           const parts = n.textContent.split(/(\s+)/);
           const frag = document.createDocumentFragment();
-          parts.forEach((p) => {
-            if (!p) return;
-            if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+          const addWord = (p) => {
             const w = document.createElement('span'); w.className = 'w';
             const inner = document.createElement('span'); inner.textContent = p; inner.style.setProperty('--i', i++);
             w.appendChild(inner); frag.appendChild(w);
+          };
+          parts.forEach((p) => {
+            if (!p) return;
+            if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+            if (CJK.test(p)) cjkWords(p).forEach(addWord); // Japanese has no spaces: split into dictionary words
+            else addWord(p);
           });
           n.replaceWith(frag);
         } else if (n.nodeType === 1 && !n.matches('.sec__title > span:not(.sec__t), br, svg')) walk(n);
