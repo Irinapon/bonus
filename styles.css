@@ -811,7 +811,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .sec__t { display: block; }
 .sec__title .sec__t, .sec__title .sec__t span { font-size: inherit; font-weight: inherit; letter-spacing: inherit; color: inherit; padding-bottom: 0; }
 .sec__title .sec__t .w { padding-bottom: .14em; }
-.hdr__nav a .w { padding-bottom: .1em; }
+.hdr__nav a .w { padding: .14em .06em .22em 0; margin: -.14em -.06em -.22em 0; }   /* room for C/Q tops and y/p tails */
+.w { padding-top: .08em; margin-top: -.08em; }
 .js-intro .hdr__contact-ico { opacity: 0; transition: opacity .6s var(--ease-ui) .6s; }
 .js-intro.is-loaded .hdr__contact-ico { opacity: 1; }
 
