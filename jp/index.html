@@ -38,6 +38,8 @@ document.documentElement.classList.add('js');
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 </script>
+<script>try{if(/[?&]notrack\b/.test(location.search))localStorage.setItem("umami.disabled","1")}catch(e){}</script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="4b6847ef-c313-40c4-b8d0-cdfa24a520af" data-domains="rsix-ai.com"></script>
 </head>
 <body>
 <a class="skip" href="#top" data-skip>本文へスキップ</a>
